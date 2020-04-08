@@ -72,7 +72,7 @@ develop, test, tune, and deploy both CNN and RNN based deep learning systems usi
             </div>
               <div class="skills-item">
                   <img src="../../assets/images/icons/python_nltk.png" width="30" alt="Natural Language Toolkit icon" title="Natural Language Toolkit">
-                  Natural Language Toolkit
+                  Natural Language Kit
               </div>
 
         </div>
