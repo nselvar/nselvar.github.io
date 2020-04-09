@@ -16,6 +16,21 @@ active: about
 </div>
 
 
+    <div class="avatar">
+     <div>
+        <a href="/about">
+           {% include avatar.html %}
+         </a>
+       </div>
+      <div class="avatar-txt">
+           A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
+            Innovative, Detailed Oriented and a reliable team player  with strong business acumen.
+            Recently focused on Machine Learning and Deep learning projects.
+            Hungry to learn new technologies to create state of the art intelligent data systems.
+      </div>
+    </div>
+
+
 <h2 class='about-h2'>Data Science</h2>
 
 Passionate about data analysis, data science, machine learning and deep learning, very keen to learn new things,
