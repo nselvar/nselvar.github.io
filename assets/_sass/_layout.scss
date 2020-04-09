@@ -15,7 +15,6 @@ a {
 * ========================================================================== */
 .nav-main a:not(.blog-logo) {
   display: none;
-  color: #FFFFFF;
 }
 
 #menu-checkbox {
@@ -110,7 +109,7 @@ a {
     order: 1;
     line-height: 50px;
     margin: auto;
-    color: #333;
+    color: #FFFFFF;
     text-decoration: none;
     &:hover,
     &:focus,
