@@ -8,27 +8,32 @@ summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
 
-<div class="intro">
- <div class="avatar">
-     <div>
-        <a href="/about">
-           {% include avatar.html %}
-         </a>
-       </div>
-      <div class="avatar-txt">
-           A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
-            Innovative, Detailed Oriented and a reliable team player  with strong business acumen.
-            Recently focused on Machine Learning and Deep learning projects.
-            Hungry to learn new technologies to create state of the art intelligent data systems.
-      </div>
-    </div>
-    A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
-    Innovative, Detailed Oriented and a reliable team player  with strong business acumen.
-    Recently focused on Machine Learning and Deep learning projects.
-    Hungry to learn new technologies to create state of the art intelligent data systems.
-</div>
 
 
+		<div class="intro">
+
+				<!-- Section -->
+					<section class="wrapper style1">
+						<div class="inner">
+							<!-- 2 Columns -->
+								<div class="flex flex-2">
+									<div class="col col1">
+										<div class="image round fit">
+											<a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" /></a>
+										</div>
+									</div>
+									<div class="col col2">
+											<p> A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
+                                                       Innovative, Detailed Oriented and a reliable team player  with strong business acumen.
+                                                       Recently focused on Machine Learning and Deep learning projects.
+                                                       Hungry to learn new technologies to create state of the art intelligent data systems. </p>
+										<a href="#" class="button">Learn More</a>
+									</div>
+								</div>
+						</div>
+					</section>
+
+			</div>
 
 
 
