@@ -9,7 +9,7 @@ active: about
 ---
 <div class="bd">
     <div class="circle">
-     <a href="generic.html" class="link"><img src="../../assets/images/pic09.jpg" alt="" /></a>
+     <a href="generic.html" class="link"><img src="../../assets/images/pic09.png" alt="" /></a>
     </div>
     <p>Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
         longer limited to the box model defining the shape around the image to be wrapped. As you can see the text wraps
