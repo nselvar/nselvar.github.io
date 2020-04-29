@@ -7,40 +7,9 @@ permalink: /about/
 summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
-
-<! ––
-<div class="intro">
- <div class="avatar">
-  	<!-- Section -->
-  					<section class="wrapper style1">
-  						<div class="inner">
-  							<!-- 2 Columns -->
-  								<div class="flex flex-2">
-  									<div class="col col1">
-  										<div class="image round fit">
-  											<a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" /></a>
-  										</div>
-  									</div>
-  									<div class="col col2">
-  											<p> A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
-                                                         Innovative, Detailed Oriented and a reliable team player  with strong business acumen.
-                                                         Recently focused on Machine Learning and Deep learning projects.
-                                                         Hungry to learn new technologies to create state of the art intelligent data systems. </p>
-  										<a href="#" class="button">Learn More</a>
-  									</div>
-  								</div>
-  						</div>
-  					</section>
-    </div>
-
-</div>
-
- ––>
-
- 
 <div class="bd">
     <div class="circle">
-     <a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" />text</a>
+     <a href="generic.html" class="link"><img src="../../assets/images/pic09.jpg" alt="" /></a>
     </div>
     <p>Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
         longer limited to the box model defining the shape around the image to be wrapped. As you can see the text wraps
