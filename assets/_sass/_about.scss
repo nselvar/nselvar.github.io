@@ -371,3 +371,19 @@
 
 
 
+
+.bd{
+    width: 500px;
+}
+
+.circle {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    background-color: #7db9e8;
+    margin: 0 25px 5px 0;
+    float: left;
+    -webkit-shape-outside: circle();
+    shape-outside: circle();
+}
+
