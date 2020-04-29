@@ -8,7 +8,7 @@ summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
 
-
+<! ––
 <div class="intro">
  <div class="avatar">
   	<!-- Section -->
@@ -35,11 +35,12 @@ active: about
 
 </div>
 
+ ––>
 
+ 
 <div class="bd">
     <div class="circle">
-      											<a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" /></a>
-
+     <a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" />text</a>
     </div>
     <p>Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
         longer limited to the box model defining the shape around the image to be wrapped. As you can see the text wraps
