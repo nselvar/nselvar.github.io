@@ -7,6 +7,7 @@ permalink: /about/
 summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
+<div class="intro">
 <div class="bd">
 
     <div class="circle">
@@ -18,13 +19,13 @@ active: about
     </div>
 
       </div>
-    <p>Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
+    Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
         longer limited to the box model defining the shape around the image to be wrapped. As you can see the text wraps
         around the circle flowing around it using a shape similar to the image. This can be accomplished by using the new
-    CSS property shape-outside.</p>
+    CSS property shape-outside.
 
-   
 
+</div>
 
 <h2 class='about-h2'>Data Science</h2>
 
