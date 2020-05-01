@@ -6,15 +6,21 @@
     width: 500px;
 }
 
-.circle {
-    width: 200px;
-    border-radius: 50%;
-    margin: 0 25px 5px 0;
-    float: left;
-    -webkit-shape-outside: circle();
-    shape-outside: circle();
+.container1 {
+    border: 3px solid blue;
+    padding: 20px 40px 40px;
+    max-width: 640px;
+    display: flex;
+    &__image {
+        margin: 20px 30px 0 0;
+        width: 200px;
+        object-fit: contain;
+        align-self: flex-start;
+    }
+    &__text {
+        flex: 1 1 auto;
+    }
 }
-
 
 
 .intro {

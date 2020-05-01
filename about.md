@@ -8,24 +8,21 @@ summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
 <div class="intro">
-<div class="bd">
-
-    <div class="circle">
-     <a href="generic.html" class="link">
-       <img class="avatar-img" src="../../assets/images/09.png" width="110px" alt="avatar" title="Nisha Selvarajan" height="150px">
-     </a>
 
 
+<div class="container1">
+    <img class="container__image" src="../../assets/images/09.png">
+    <div class="container__text">
+        <p>A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
+            Innovative, Detailed Oriented and a reliable team player  with strong business acumen.Recently focused on Machine Learning
+            and Deep learning projects.Hungry to learn new technologies to create state of the art intelligent data systems.</p>
     </div>
-
-      </div>
-
- A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
- Innovative, Detailed Oriented and a reliable team player  with strong business acumen.Recently focused on Machine Learning
- and Deep learning projects.Hungry to learn new technologies to create state of the art intelligent data systems.
+</div>
 
 </div>
-<br>
+
+
+
 <h2 class='about-h2'>Data Science</h2>
 
 Passionate about data analysis, data science, machine learning and deep learning, very keen to learn new things,
