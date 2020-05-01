@@ -19,12 +19,11 @@ active: about
     </div>
 
       </div>
-    Using a new CSS property called shape-outside, we can easily wrap text to match the shape of the image. We are no
-        longer limited to the box model defining the shape around the image to be wrapped. As you can see the text wraps
-        around the circle flowing around it using a shape similar to the image. This can be accomplished by using the new
-    CSS property shape-outside.
 
-
+ A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
+ Innovative, Detailed Oriented and a reliable team player  with strong business acumen.Recently focused on Machine Learning
+ and Deep learning projects.Hungry to learn new technologies to create state of the art intelligent data systems.
+ 
 </div>
 
 <h2 class='about-h2'>Data Science</h2>
