@@ -7,7 +7,6 @@ permalink: /about/
 summary: "Nisha Selvarajan <br>Machine learning enthusiast <br> California, US"
 active: about
 ---
-<div class="intro">
 
 
 <div class="container1">
@@ -19,7 +18,7 @@ active: about
     </div>
 </div>
 
-</div>
+
 
 
 
