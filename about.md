@@ -12,7 +12,7 @@ active: about
 
     <div class="circle">
      <a href="generic.html" class="link">
-     <img class="avatar-img" src="../../assets/images/09.png" width="200px" alt="avatar" title="Nisha Selvarajan">
+       <img class="avatar-img" src="../../assets/images/09.png" width="110px" alt="avatar" title="Nisha Selvarajan" height="150px">
      </a>
 
 
