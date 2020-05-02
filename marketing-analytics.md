@@ -1,8 +1,8 @@
 ---
 bg: "twitter.jpg"
 layout: page
-title: "marketing-analytics"
-crawlertitle: "marketing-analytics"
+title: "Twitter Sentimental Analysis"
+crawlertitle: "Twitter Sentimental Analysis"
 permalink: /marketing-analytics/
 summary: ""
 ---
