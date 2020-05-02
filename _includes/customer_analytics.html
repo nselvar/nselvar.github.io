@@ -1,15 +1,126 @@
-<div class="grid-container">
-    <a href="/posts/Human_Activity_Recognization/">
-        <div class="card-post">
-            <div class="card-post-in">
-                <p class="card-title">
-                    Human Activity Recognition Using Smartphones
-                </p>
+<div>
 
-                <img src="../../assets/images/Human_Recognization_Smartphones.jpg" width="400" alt="Human Activity Recognition Using Smartphones" title="Human Activity Recognition Using Smartphones">
-            </div>
-        </div>
-    </a>
+    <h1>Analysis of Video Game Sales</h1>
+
+
+
+
+    <h4>Introduction</h4>
+
+
+    <p>
+    In this project, we propose to build a model that can predict video games sales based on
+    features from dataset. Emphasis is placed on video game publishers like play station which
+    will helpi them predict which games will be best sellers before they are released. The data
+    we used identifies games based on genre, publisher, platform, etc. giving us multiple factors
+    useful for predicting a game’s success.
+    The main work that we have done includes: analyzing the features of data set via datavisualization, processing the data set, using four regression model to predict the model.
+    Firstly, we read in data from the data set and explore the data, getting a brief recognition of
+    features in this data set. After that, we modified the data set in following ways including
+    renaming, processing the missing values and integrating significant features.
+    Then, we select 4 different machine learning models as candidates including linear
+    regression, ridge regression, random forest regression and KNN. We use them to make
+    predictions and evaluate their performance to decide which models are appropriate to be
+    used for further modification.
+    </p>
+
+
+    <h4>Requirements</h4>
+    You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/COMPSCIX433.7-003-Machine-Learning-with-TensorFlow/tree/master/Project" rel="noopener noreferrer" target="_blank">Github repo</a>
+
+    <div class='card-section'>
+        import pandas as pd
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        from datetime import datetime
+        from pandas import Series
+        import seaborn as sns
+        import numpy as np
+        from sklearn.metrics import precision_recall_fscore_support
+        from sklearn.linear_model import LinearRegression
+        from sklearn.ensemble import RandomForestRegressor
+        from sklearn.linear_model import Ridge
+        from sklearn.preprocessing import LabelEncoder
+        from sklearn.model_selection import train_test_split
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.metrics import classification_report, f1_score, accuracy_score, confusion_matrix
+        from sklearn import svm
+        from sklearn.metrics import roc_auc_score
+        from sklearn.metrics import roc_curve
+        from sklearn.metrics import auc
+        from sklearn.model_selection import learning_curve
+        from sklearn.neighbors import KNeighborsClassifier
+    </div>
+
+
+    <h4>Data Source</h4>
+
+    <p>
+    The original dataset has games ranging from 1980 to 2020 with 11,493 different game titles.
+    There are 579 publishers with 31 platforms. Games are broken down into 12 unique
+    categories as follows: Sports, Platform, Racing, Role-playing, Puzzle, Misc, Shooter,
+    Simulation, Action, Fighting, Adventure,and Strategy. The dataset was taken off of Kaggle,
+    but originates from VGChartz, a business intelligence and research firm. Additional data has
+    been provided by Metacritic which has critics’ scores, user scores, developer name, and rating
+    for recommended maturity of player. The shape of dataset is (16719, 16)
+    </p>
+
+
+    <h4>Glimpse of the data</h4>
+
+    <img src="../../assets/images/301.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+    <h4>Data Cleaning</h4>
+
+    <p>
+        <b>CHANGING DATA TYPE</b> From the overall review of our data set, we can see that the
+    data are in different data type. Some of them are numerical data, like user score,
+    user counts, critic score and critic counts. While some of them are text data, like
+    Name of game, publisher and platform. We must change the data type for our
+    further work.</p>
+
+    <p>
+        <b>PROCESSING THE MISSING DATA</b> We can see that lots of game do not have the
+    feature critic score and user score, which will make a vital impact on our project.
+    According to this poor data set, we must fill the missing values with some rational
+    data. Below figure shows missing data in the corresponding data columns.
+
+    </p>
+
+    <img src="../../assets/images/302.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+
+    <ul>
+        <li>Textual data: If the original data type is text, we need to fill the missing data with
+            appropriate value or general text “TBD/ Unknown”.</li>
+        <li>Numerical data If the original data type is numerical, we need to fill the missing data
+            with this column’s mean value.</li>
+        <li>Outlier: Outlier is an observation that lies an abnormal distance from other values in
+            a random sample from a population. there are outliers in sales columns. They might
+            be useful for training as they indicate bestseller games, but for now we are going to
+            remove them and maybe add them later</li>
+    </ul>
+
+    Below figure shows the data frames after data clean up.
+
+    <img src="../../assets/images/303.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+
+
+    <h4>Data Analysis</h4>
+
+    <p>Below are few of the analytic questions which the dataset can answer </p>
+
+    <img src="../../assets/images/304.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+    <img src="../../assets/images/305.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+    <h4>Data Correlation</h4>
+
+    <img src="../../assets/images/306.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+
 
 
 </div>
