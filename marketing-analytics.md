@@ -1,5 +1,5 @@
 ---
-bg: "customer-data.jpg"
+bg: "FreeVector-Twitter-Seamless-Pattern.jpg"
 layout: page
 title: "marketing-analytics"
 crawlertitle: "marketing-analytics"
