@@ -3,7 +3,7 @@ bg: "twitter.jpg"
 layout: page
 title: "Twitter Sentimental Analysis"
 crawlertitle: "Twitter Sentimental Analysis"
-permalink: /marketing-analytics/
+permalink: /twitter-sentimental-analytics/
 summary: ""
 ---
 
