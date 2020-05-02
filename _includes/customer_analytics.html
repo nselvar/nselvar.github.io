@@ -2,9 +2,6 @@
 
     <h1>Analysis of Video Game Sales</h1>
 
-
-
-
     <h4>Introduction</h4>
 
 
@@ -120,7 +117,119 @@
 
     <img src="../../assets/images/306.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
 
+    <h4>ML Problems</h4>
 
+
+    <p>
+    1. How Global Sales Gets affected with Critic_Score_x', 'Critic_Count_x', 'User_Score_x',
+    'User_Count_x', 'year_after_release_x'
+    X: Critic_Score_x', 'Critic_Count_x', 'User_Score_x', 'User_Count_x','year_after_release_x'
+    Y: Global_Sales_Log
+    </p>
+
+    <p>
+    MODELING:
+    We use 1/2 of all data in the data set as training data and the left 1/2 data as testing
+    data. we will evaluate the model performance by Mean Absolute Error(MAE). At the
+    meanwhile, we will make plot graph of each models for visualized assessment of their
+    performance.
+    </p>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Linear Regression</th>
+            <th>Ridge Regression</th>
+            <th>Random Forest Regression</th>
+        </tr>
+
+        <tr>
+            <td>mean_absolute_error/td>
+            <td>0.09902835743695935</td>
+            <td>0.09908128080265304</td>
+            <td>0.09884309984717227</td>
+        </tr>
+        <tr>
+            <td>mean_squared_error</td>
+            <td>0.02286022063308966</td>
+            <td>0.022863384030535606</td>
+            <td>0.02510867527810916</td>
+        </tr>
+        <tr>
+            <td>accuracy</td>
+            <td>0.8523184660252421</td>
+             <td>0.8522980298538295</td>
+            <td>0.8379337860864112</td>
+        </tr>
+    </table>
+
+    <h4>Scatter Plot Comparision for Linear Regression,Ridge Regression,Random Forest Regression</h4>
+
+    <img src="../../assets/images/307.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data">
+
+
+    <h4>Second ML Problem:</h4>
+
+    <p>
+        Does a game hit gets affected by Year_of_Release Critic_Score
+        X: Year_of_Release ,Critic_Score
+        Y: Hit
+    </p>
+
+
+    <p>
+    Modeling:
+    We use 1/2 of all data in the data set as training data and the left 1/2 data as testing
+    data. we
+
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Random Forest Classifier</th>
+            <th>Logistic Regression</th>
+        </tr>
+
+        <tr>
+            <td>mean_absolute_error/td>
+            <td>0.18015534953645704</td>
+            <td>0.16612377850162866</td>
+        </tr>
+        <tr>
+            <td>mean_squared_error</td>
+            <td>0.18015534953645704</td>
+            <td>0.16612377850162866</td>
+        </tr>
+        <tr>
+            <td>accuracy</td>
+            <td>0.8198446504635429</td>
+            <td>0.8338762214983714</td>
+        </tr>
+    <tr>
+        <td>variance_score</td>
+        <td>0.20697724448893373</td>
+        <td>0.014201230193749192</td>
+    </tr>
+    </table>
+
+
+    <h4>Confusion Matrix</h4>
+
+    <img src="../../assets/images/308.png" width="1000" alt="Confusion Matrix" title="Confusion Matrix">
+
+
+    <h4>Classification Report</h4>
+
+    <img src="../../assets/images/309.png" width="1000" alt="Confusion Matrix" title="Confusion Matrix">
+
+
+    <h4> Receiver Operating Characteristic curve</h4>
+
+    <p>This type of graph is called a Receiver Operating Characteristic curve (or ROC curve.) It is
+        a plot of the true positive rate against the false positive rate for the different possible
+        cutpoints of a diagnostic test.Roc area curve for this example is 0.54</p>
+
+    <img src="../../assets/images/310.png" width="1000" alt="Receiver Operating Characteristic curve" title="Receiver Operating Characteristic curve">
 
 
 </div>
