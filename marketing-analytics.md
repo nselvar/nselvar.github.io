@@ -7,5 +7,4 @@ permalink: /marketing-analytics/
 summary: ""
 ---
 
-Series of Project on Marketing
 {% include marketing_analytics.html %}
