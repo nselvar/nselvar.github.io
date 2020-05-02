@@ -9,7 +9,11 @@
 
 
     <div class="cover-text">
+      {% if page.url == "/about/" %}
       <img src="{{ site.baseurl }}/assets/images/09.png" alt="github" />
+      {% endif %}
+
+      {{page.url}}
 
       <div class="heading">
 
