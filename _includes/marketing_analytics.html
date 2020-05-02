@@ -78,6 +78,7 @@
 
                 <h4>Phases Of The Project</h4>
 
+                <img src="../../assets/images/200.png" width="500" alt="Code Structure" title="Code Structure">
 
                 <ul>
                     <li>Preparing the data</li>
@@ -107,6 +108,7 @@
                 The create_word_dict function starts by reading the CSV file and split the lines to get only the sentences. The sentences go through the word_tokenizer function from the NLTK library, and generate a list of words to which the lemmatize function is applied.With all the words in their standard form, count their occurrences in the data set to remove the ones that occur too much (usually some words such as a, which have no useful meaning in a sentiment analysis) and the ones with small occurrences, which means that they make no difference in the model. In this example, we use the Counter function from the collection library, which generates a dictionary with each word as a key and its respective count as a value. Then, we save a list with one occurrence of each word as our dictionary of words into the word_dict.pickle file as a list.
 
                 </p>
+
 
 
                 <h4>Preparing the sentences</h4>
@@ -178,6 +180,9 @@
 
                 </p>
 
+                <img src="../../assets/images/201.png" width="500" alt="Data preparation flow" title="Data preparation flow">
+
+
                 <h4>Using the model</h4>
 
                 <p>
@@ -194,6 +199,9 @@
                 positive sentence; if it is 1, then it is a negative sentence.
 
                 </p>
+
+                <img src="../../assets/images/202.png" width="500" alt="Architecture of Neural Networks" title="Architecture of Neural Networks">
+
 
             </div>
         </div>
