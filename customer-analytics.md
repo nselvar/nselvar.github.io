@@ -7,5 +7,4 @@ permalink: /customer-analytics/
 summary: ""
 ---
 
-Series of Project on Customer
 {% include customer_analytics.html %}
