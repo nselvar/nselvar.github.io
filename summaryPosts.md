@@ -4,7 +4,6 @@ layout: page
 title: "All posts"
 crawlertitle: "All posts"
 permalink: /posts/
-active: All posts
 mathjax: true
 ---
 
