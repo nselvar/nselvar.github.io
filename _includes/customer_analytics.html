@@ -8,47 +8,43 @@
     <p>
     In this project, we propose to build a model that can predict video games sales based on
     features from dataset. Emphasis is placed on video game publishers like play station which
-    will helpi them predict which games will be best sellers before they are released. The data
+    will help them predict which games will be best sellers before they are released. The data
     we used identifies games based on genre, publisher, platform, etc. giving us multiple factors
     useful for predicting a game’s success.
-    The main work that we have done includes: analyzing the features of data set via datavisualization, processing the data set, using four regression model to predict the model.
-    Firstly, we read in data from the data set and explore the data, getting a brief recognition of
-    features in this data set. After that, we modified the data set in following ways including
-    renaming, processing the missing values and integrating significant features.
-    Then, we select 4 different machine learning models as candidates including linear
-    regression, ridge regression, random forest regression and KNN. We use them to make
-    predictions and evaluate their performance to decide which models are appropriate to be
-    used for further modification.
+    The main work that we have done includes: analyzing the features of data set via datavisualization,
+        processing the data set, using four regression model to predict the model.
+    We selectes 4 different machine learning models as candidates including linear
+    regression, ridge regression, random forest regression and KNN.
     </p>
 
 
     <h4>Requirements</h4>
-    You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/COMPSCIX433.7-003-Machine-Learning-with-TensorFlow/tree/master/Project" rel="noopener noreferrer" target="_blank">Github repo</a>
+    You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/COMPSCIX433.6-007-Introduction-to-Machine-Learning-Using-Python" rel="noopener noreferrer" target="_blank">Github repo</a>
 
     <div class='card-section'>
-        import pandas as pd
-        import numpy as np
-        import matplotlib.pyplot as plt
-        import seaborn as sns
-        from datetime import datetime
-        from pandas import Series
-        import seaborn as sns
-        import numpy as np
-        from sklearn.metrics import precision_recall_fscore_support
-        from sklearn.linear_model import LinearRegression
-        from sklearn.ensemble import RandomForestRegressor
-        from sklearn.linear_model import Ridge
-        from sklearn.preprocessing import LabelEncoder
-        from sklearn.model_selection import train_test_split
-        from sklearn.ensemble import RandomForestClassifier
-        from sklearn.linear_model import LogisticRegression
-        from sklearn.metrics import classification_report, f1_score, accuracy_score, confusion_matrix
-        from sklearn import svm
-        from sklearn.metrics import roc_auc_score
-        from sklearn.metrics import roc_curve
-        from sklearn.metrics import auc
-        from sklearn.model_selection import learning_curve
-        from sklearn.neighbors import KNeighborsClassifier
+        import pandas as pd <br>
+        import numpy as np <br>
+        import matplotlib.pyplot as plt <br>
+        import seaborn as sns <br>
+        from datetime import datetime <br>
+        from pandas import Series <br>
+        import seaborn as sns <br>
+        import numpy as np <br>
+        from sklearn.metrics import precision_recall_fscore_support <br>
+        from sklearn.linear_model import LinearRegression <br>
+        from sklearn.ensemble import RandomForestRegressor <br>
+        from sklearn.linear_model import Ridge <br>
+        from sklearn.preprocessing import LabelEncoder <br>
+        from sklearn.model_selection import train_test_split <br>
+        from sklearn.ensemble import RandomForestClassifier <br>
+        from sklearn.linear_model import LogisticRegression <br>
+        from sklearn.metrics import classification_report, f1_score, accuracy_score, confusion_matrix <br>
+        from sklearn import svm <br>
+        from sklearn.metrics import roc_auc_score <br>
+        from sklearn.metrics import roc_curve <br>
+        from sklearn.metrics import auc <br>
+        from sklearn.model_selection import learning_curve <br>
+        from sklearn.neighbors import KNeighborsClassifier <br>
     </div>
 
 
@@ -72,14 +68,14 @@
     <h4>Data Cleaning</h4>
 
     <p>
-        <b>CHANGING DATA TYPE</b> From the overall review of our data set, we can see that the
+        <b>Changing data type:</b> From the overall review of our data set, we can see that the
     data are in different data type. Some of them are numerical data, like user score,
     user counts, critic score and critic counts. While some of them are text data, like
     Name of game, publisher and platform. We must change the data type for our
     further work.</p>
 
     <p>
-        <b>PROCESSING THE MISSING DATA</b> We can see that lots of game do not have the
+        <b>Processing missing data:</b> We can see that lots of game do not have the
     feature critic score and user score, which will make a vital impact on our project.
     According to this poor data set, we must fill the missing values with some rational
     data. Below figure shows missing data in the corresponding data columns.
