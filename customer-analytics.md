@@ -1,9 +1,9 @@
 ---
-bg: "customer-data.jpg"
+bg: "vd.jpg"
 layout: page
-title: "customer-analytics"
-crawlertitle: "customer-analytics"
-permalink: /customer-analytics/
+title: "video-game-analysis"
+crawlertitle: "video-game-analysis"
+permalink: /video-game-analysis/
 summary: ""
 ---
 
