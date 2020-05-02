@@ -3,27 +3,149 @@
         <div class="card-post">
             <div class="card-post-in">
                 <p class="card-title">
-                    Churn Analysis
+                   TensorFlow Sentimental Analysis Using Tweets
                 </p>
 
-                <img src="../../assets/images/churn_analysis.jpg" width="400" alt="Churn Analysis" title="Churn Analysis">
+                <h4>Data set</h4>
+
+                <p>
+                The data set that is used is from a Stanford project called Sentiment140. This is also where the data set can be downloaded from,and it contains 1.6 million rows with positive and negative sentences
+
+                The data set contains two CSV files with six fields each, one for training data and a smaller one for testing. Both files are structured according to the following format (taken from the project website):
+
+                0 The polarity of the tweet (0 = negative, 2 = neutral, 4 = positive).
+                1 The ID of the tweet (2087).
+                2 The date of the tweet (Sat May 16 23:58:44 Coordinated Universal
+                Time 2009).
+                3 The query (lyx). If there is no query, then this value is NO_QUERY.
+                4 The user that tweeted (robotickilldozr).
+                5 The text of the tweet (Lyx is cool).
+
+                </p>
+
+
+                <h4>Phases Of The Project</h4>
+
+
+                <ul>
+                    <li>Preparing the data</li>
+                    <li>Creating the FFNN model</li>
+                    <li>Using the created and trained model</li>
+
+                </ul>
+
+
+                <h4>Data preparation</h4>
+
+                    <h4>Cleaning the data set</h4>
+
+                <p>
+
+                The first thing that you must do is to remove the unnecessary columns, such as the Twitter ID, date, and others, and keep only the sentiment and the Twitter text. To do this task, use the clean_dataset function.Shuffle the generated data set to ensure that the neural network is
+                trained properly. For this example, weuse the Pandas library and then write to the output file that is provided for the ods parameter.
+                </p>
+
+                <h4>Generating the dictionary of words</h4>
+
+                <p>With the cleaned data set generated, the next step is to create the dictionary of words (knownas a lexicon).
+
+                In this phase, we go sentence by sentence, extracting all words from it by using the word_tokenize function from the NLTK library, and then passing each one of the words through either stemming or lemmatization, which removes the words that are not needed andthen generates a new list with one occurrence for each word. This is necessary to generate the sentence vector for each one of the sentences in the next step of the flow.
+
+
+                The create_word_dict function starts by reading the CSV file and split the lines to get only the sentences. The sentences go through the word_tokenizer function from the NLTK library, and generate a list of words to which the lemmatize function is applied.With all the words in their standard form, count their occurrences in the data set to remove the ones that occur too much (usually some words such as a, which have no useful meaning in a sentiment analysis) and the ones with small occurrences, which means that they make no difference in the model. In this example, we use the Counter function from the collection library, which generates a dictionary with each word as a key and its respective count as a value. Then, we save a list with one occurrence of each word as our dictionary of words into the word_dict.pickle file as a list.
+
+                </p>
+
+
+                <h4>Preparing the sentences</h4>
+
+                <p>The last phase of the process is to read each sentence and transform it into a numeric vector.In this process, each sentence becomes a vector of zeros with the same size as the dictionary of words. This vector contains the number of each word in the dictionary of words.This number is in the same index position as the word is in the dictionary of words vector.For example, assume that the data set contains two sentences:I want to drink water with you.They like to drink coffee with me at home.From the data set, we create a dictionary of words (do not apply any kind of process or exclude words for simplicity). The result can be the following list, assuming that you start from the first sentence:[I, want, to, drink, water, with, you, they, like, coffee, me, at, home]Next, transform the first sentence into a hot vector. Create a list (or vector) with the same size as the word dictionary, in this case a list of size 13 filled with zeros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+
+                Then, iterate through the sentence word by word and check whether it exists in the dictionary of words. If so, add 1 to the new sentence vector in the same index position
+                it is in the dictionary list.The letter I exists in the dictionary and is on index 0, so add 1 to the sentence vector in position 0:[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]Continue repeating the process until you reach the end of the sentence and have thenprocessed the second sentence. By the end of the process, you have the following two vectors:Sentence 1: [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]Sentence 2: [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1]
+                The code reads the sentence training data set and the word dictionary file as input, takes the
+                sentences and passes them through the word tokenization function, lemmatizes the words,
+                and starts creating the vector. The code also gets sentiment labels and transforms them into
+                a list of size two because there are positive and negative sentiments. The sentence vector
+                and sentiment vector are put into a list and saved into a binary file to be read by the model in
+                the following step.
+                </p>
+
+
+                <h4>Model creation</h4>
+
+                <p>
+                Now, we must build the example TensorFlow-based model. In the data preparation phase, we
+                saved some information about the dictionary of word’s list size and how many lines there are
+                in the vector files that were generated. That information is going to be used in this phase.
+
+                The ff_neural_net function receives the data as input (a TensorFlow placeholder) and then
+                start defining some characteristics of the neural network. Define the number of neurons and
+                layers for the architecture.When talking about how many hidden layers and how many neurons each layer must have,the answer is never an exact one, and most of the time it is defined empirically through testingwith different options. This case uses an FFNN with two hidden layers. The input layer and the hidden layers have 1500 neurons each, and an output layer with two neurons because there are two values to classify (positive and negative).
+
+
+
+
+                Define the weights and biases for each one of the layers by creating TensorFlow variables
+                and specifying their sizes. Each variable is a matrix, and the shape of the first matrix is the
+                size of the sentence vector by how many neurons the first layer has. The second layer has a
+                matrix with the shape of the first layer size by the second layer size, the same for the third
+                layer and the output layer matrix has the shape of the third layer size by the output layer size.
+                The column size of the matrix in the first layer must be the same as the row size of the matrix
+                in the second layer because the neural network performs several matrix multiplication
+                operations.
+
+
+                This is all that you must do to create the feed-forward architecture. TensorFlow knows to
+                adjust the variables that are created in its graph through the training iterations.The function starts by calling the neural network model and creates a saver object so that the
+                graph and its variables can be saved later.
+
+
+                Calculate the cost or error that is generated between the model output and the correct labels.
+                During the calculation of the cost (error), an optimizer that is called Adam is applied, which is
+                a stochastic gradient descent (SGD) approach that is used to reduce the cost by updating all
+                the weights and biases in the neural network by using a back-propagation algorithm.
+                So far, this process just builds the TensorFlow objects and links them with each other. Now,
+                the process creates a TensorFlow session where the graph is run and imports data. Before
+                the session.run function is called, the process reads the data from the vectorized sentences,
+                and every time the temporary buffer that is defined reaches the batch size, which is also
+                defined by us, the code calls TensorFlow and runs the optimizer, which then runs the whole
+                model.
+
+                We also have a buffer list for the label because we must provide the sentence with its
+                respective label so that the network is trained correctly. We also run the cost function to know
+                the total cost that is generated for that specific epoch.The training phase happens several times, which are the number of times that is defined in the epochs variable. The code is using 10, although you can change it and check whether you achieve better results. Basically, the training data set is submitted in batches to the
+                TensorFlow model, and the error is calculated and then adjusted by the Adam optimizer. The
+                process repeats for epoch times.After the training loop is done, add to the graph the correct tensor, where it uses the tf.argmax function, which is the index position with the maximum value from the network output and the correct label. The tf.equal function is 1 if both are the same or 0 if they do not match. Using the correct tensor, the accuracy is calculated as the mean of the correct tensor.
+
+                Now, we read the test data set file that is vectorized through the same batch process, this
+                time without the epochs. We submit the testing data to be evaluated against our model by
+                using the eval function and passing the data set and its label to the placeholders. When
+                completed, the model is saved by the saver.save function.
+
+                </p>
+
+                <h4>Using the model</h4>
+
+                <p>
+                With the trained model saved and ready to use, a function that is called get_sentiment is
+                created, which receives a sentence as input and prints whether it is positive or negative
+
+
+                Start the function by defining the placeholder, which receives our sentence, loads our model,
+                and creates a saver object to load our trained model later. We also open the dictionary of
+                words file.We then create a TensorFlow session and restore the saved model. Restoring is basically reading the values from the variables that are saved in the model.ckpt file and assigning them to the variables that are created when running the model with the ff_neural_net function.
+                Using sess.run, we run our model by passing hot_vector and then by using the tf.argmax
+                function, and we get the neural network answer. We know that [1, 0] is positive and [0, 1]
+                is negative, so if argmax returns 0, meaning that the index position 0 is the biggest and it is a
+                positive sentence; if it is 1, then it is a negative sentence.
+
+                </p>
+
             </div>
         </div>
     </a>
-	
-	
-	<a href="/posts/Marketing_Attribution/">
-        <div class="card-post">
-            <div class="card-post-in">
-                <p class="card-title">
-                    Marketing Attribution
-                </p>
-
-                <img src="../../assets/images/marketing_attribution.jpg" width="400" alt="Marketing Attribution" title="Marketing Attribution">
-            </div>
-        </div>
-    </a>
-
 
 </div>
 
