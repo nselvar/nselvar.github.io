@@ -1,5 +1,5 @@
 ---
-bg: "twitter.jpg"
+bg: "spotifybg.jpg"
 layout: page
 title: "Spotify Data  Analysis"
 crawlertitle: "Spotify Data  Analysis"
