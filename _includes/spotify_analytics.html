@@ -224,6 +224,9 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
                                 <li>KNN algorithm is applied to the training data set and the results are verified on the test data set.</li>
                                 <li>I used 25% to test data and 75% to train the data.</li>
                                 <li>After obtaining training and testing data sets, then we will create a separate data frame from testing data set which has values to be compared with actual final values</li>
+                                <li>Predictor variables are acousticness ,danceability
+                                    ,energy,instrumentalness,liveness,
+                                    loudness,speechiness,tempo and valence,. Target variable is popularity.</li>
                             </ul></li>
                     </ul>
                     <ul>
@@ -244,7 +247,7 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
                             <ul>
                                 <li>To control parameters for train, trainControl function is used.</li>
                                 <li>“trainControl” allows  estimation of parameter coefficients through resampling methods like cross validation, repeatedcv,boosting etc.</li>
-                                <li>The option “repeatedcv” method controls the number of repetitions for resampling used in repeated K-fold cross-validation.</li>
+                                <li>The option “repeatedcv” method which we used in traincontrol method controls the number of repetitions for resampling used in repeated K-fold cross-validation.</li>
                             </ul></li>
                     </ul>
 
