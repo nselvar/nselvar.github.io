@@ -293,32 +293,24 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-                <div id="performance-improvement-techniques-and-improved-accuracy-achieved." class="section level3">
                     <ul>
-                        <li><strong><em>Step 7: Making predictions</em></strong></li>
-                        <li>We build knn by using training &amp; test data sets. After building the model, then we can check the accuracy of forecasting using confusion matrix.</li>
+                        <li><strong><em>Step 7: Making predictions</em></strong>
+                            <ul>
+                                <li>We build knn by using training &amp; test data sets. After building the model, then we can check the accuracy of forecasting using confusion matrix.</li>
+                            </ul></li>
                     </ul>
-                </div>
-                <div id="interpretation-of-the-results-and-prediction-accuracy-achieved" class="section level3">
-                    <h3>Interpretation of the results and prediction accuracy achieved</h3>
+
+
+
+
                     <ul>
-                        <li>The accuracy of our model on the testing set is 88%.</li>
-                        <li>We can visualise the model’s performance using a confusion matrix.</li>
-                        <li>We can also evaluvate the accuracy, precision and recall on the training and validation sets in confusion matrix
-                            to evaluate the performance of knn algorithm.</li>
+                        <li><strong><em>Step 8: Interpretation of the results and prediction accuracy achieved.</em></strong>
+                            <ul>
+                                <li>The accuracy of our model on the testing set is 88%.</li>
+                                <li>We can visualise the model’s performance using a confusion matrix.</li>
+                                <li>We can also evaluvate the accuracy, precision and recall on the training and validation sets in confusion matrix
+                                    to evaluate the performance of knn algorithm.</li>
+                            </ul></li>
                     </ul>
                     <pre><code>Confusion Matrix and Statistics
 
@@ -352,7 +344,17 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
  Balanced Accuracy     0.69809   0.500000   0.6975
                     </code></pre>
                     <pre class="r"><code>mean(knnPredict == testing$popularity)  0.8793628</code></pre>
+
+
+
+
+
+
+
                 </div>
+
+
+                
                 <div id="overall-insights-obtained-from-the-implemented-project" class="section level3">
                     <h3>Overall insights obtained from the implemented project</h3>
                     <ul>
