@@ -195,9 +195,12 @@
                         <li><strong><em>Step 1: Import the dataset from kaggle</em></strong></li>
                     </ul>
                     <ul>
-                        <li><strong><em>Step 2: Clean the data to include only the subset of the features which
-                            will help in predicting popularity of song.Convert popularity (numeric data) to categorical value.
-                        </em></strong></li>
+                        <li><strong><em>Step 2: Clean the dataset </em></strong>
+                            <ul>
+                                <li>Clean the dataset to include only the subset of the features which
+                                    will help in predicting popularity of song.</li>
+                                <li>Convert popularity (numeric data) to categorical value.</li>
+                            </ul></li>
                     </ul>
                     <pre class="r"><code>spotify&lt;-subset(spotify,select = c(acousticness ,danceability
                                    ,energy,instrumentalness,liveness,
@@ -240,12 +243,12 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
                     </ul>
 
                     <ul>
-                        <li><p><strong><em>Step 6:How to choose value for K to improve performance</em></strong></p></li>
+                        <li><p><strong><em>Step 6:How to choose value for K to improve performance</em></strong></p>
                             <ul>
-                                <li><p>Time to fit a knn model using caret with preprocessed values.</p></li>
-                                <li><p>From the output of the knn model ,maximum accuracy(0.8842111) is achieved by k = 27.</p></li>
-                                <li><p>We can observe accuracy for different types of k.</p></li>
-                            </ul>
+                                <li>Time to fit a knn model using caret with preprocessed values.</li>
+                                <li>From the output of the knn model ,maximum accuracy(0.8842111) is achieved by k = 27.</li>
+                                <li>We can observe accuracy for different types of k.</li>
+                            </ul><li>
                         <pre><code> k-Nearest Neighbors
  20716 samples
      9 predictor
