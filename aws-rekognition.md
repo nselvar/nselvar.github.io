@@ -1,5 +1,5 @@
 ---
-bg: "aws.png"
+bg: "aws.jpg"
 layout: page
 title: "AWS Rekognition"
 crawlertitle: "AWS Rekognition"
