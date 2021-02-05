@@ -13,6 +13,40 @@
                 It  uses machine deep learning to identify objects in an image. Amazon Rekognition is a highly scalable solution capable of quickly analyzing the image and identifying the objects in the image or video.
             It requires no knowledge of machine learning to use, and behind the scenes Amazon’s computer vision scientists are constantly analyzing new images and videos, improving upon the deep learning model and adding new features to the service.</p>
 
+            <p></p>
+
+            <p><strong><em> Let's Start!</em></strong></p>
+
+
+            <p>
+            When working with the AWS Java SDK, there’s a basic pattern that you’ll follow. It goes like this:
+
+
+            <ul>Get a copy of the client that’s making a connection to the service you want to use. </ul>
+            <ul>Create a “request” object.</ul>
+            <ul>Fill the “request” object with the parameters (or other objects) you need to supply.</ul>
+            <ul>Tell the client to make the request.</ul>
+            <ul>Get back a “response” object.</ul>
+
+            This was the case when working with Rekognition.
+
+            Here are the steps to detecting the labels (objects, locations, activities) in an image:
+
+            <ul>Get a copy of the Rekognition AWS client we created in the first part of this series.</ul>
+                <ul>Create a “DetectLabelsRequest” object.</ul>
+                    <ul> Create an “Image” object in the Rekognition service to work with.</ul>
+            <ul> Set the Image object into the DetectLabelsRequest.</ul>
+            <ul> Run the DetectLabelsRequest.</ul>
+            <ul> Get back a DetectLabelsResult object.</ul>
+
+            </p>
+
+            <img src="../../assets/images/Code1.png" alt="Glimse Of Data" title="Glimse Of Data"/>
+            <img src="../../assets/images/Code2.png" alt="Glimse Of Data" title="Glimse Of Data"/>
+
+
+
+
             <p> I have tried giving you a brief overview of Amazon Rekognition through below video tutorial which includes output
                 from predefined & custom trained models.</p>
             <p><iframe width="420" height="375" src="https://www.youtube.com/embed/FLuarhxQSNk"  allowfullscreen></iframe></p>
