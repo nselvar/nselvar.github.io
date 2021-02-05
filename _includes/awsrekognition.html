@@ -38,7 +38,7 @@
             <p>
             Here are the steps to detecting the labels (objects, locations, activities) in an image:
 
-            <li>Get a copy of the Rekognition AWS client we created in the first part of this series.</li>
+            <li>Get a copy of the Rekognition AWS client.</li>
             <li>Create a “DetectLabelsRequest / DetectTextRequest / DetectCustomLabelsRequest” object.</li>
             <li> Create an “Image” object in the Rekognition service to work with.</li>
             <li> Set the Image object into the DetectLabelsRequest / DetectTextRequest / DetectCustomLabelsRequest.</li>
@@ -49,8 +49,22 @@
 
             <br>
 
+            <p> Amazon Rekognition Custom Labels lets you extend the detection and classification capabilities of the Amazon Rekognition pre-trained APIs by using data to train a custom CV model specific to your business needs. With the latest update to support single object training, Amazon Rekognition Custom Labels now lets you create a custom object detection model with single object classes.
+  To create our custom model, we follow these steps:
 
-            <p> I have translated the above steps into code:</p>
+            <li>Create a project in Amazon Rekognition Custom Labels.</li>
+            <li>Create a dataset with images containing one or more images related to your business needs.</li>
+            <li>Label the images by applying bounding boxes on all pizzas in the images using the user interface provided by Amazon Rekognition Custom Labels.</li>
+            <li>Train the model and evaluate the performance.</li>
+            <li>Test the new custom model using the automatically generated API endpoint.</li>
+            <li> Amazon Rekognition Custom Labels lets you manage the ML model training process on the Amazon Rekognition console, which simplifies the end-to-end process.</li>
+            <li> Use DetectCustomLabelsRequest to create request for querying custom model. </li>
+
+            </p>
+
+            <br>
+
+            <p> Above Steps are translated into code below :</p>
 
 
             <img src="../../assets/images/Code3.png" alt="Glimse Of Data" title="Glimse Of Data"/>
