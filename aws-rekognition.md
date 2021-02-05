@@ -1,8 +1,8 @@
 ---
 bg: "aws.png"
 layout: page
-title: "video game analysis"
-crawlertitle: "video-game-analysis"
+title: "AWS Rekognition"
+crawlertitle: "AWS Rekognition"
 permalink: /aws-rekognition/
 summary: ""
 ---
