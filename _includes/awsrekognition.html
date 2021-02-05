@@ -22,33 +22,31 @@
             When working with the AWS Java SDK, there’s a basic pattern that you’ll follow. It goes like this:
 
 
-            <ul>Get a copy of the client that’s making a connection to the service you want to use. </ul>
-            <ul>Create a “request” object.</ul>
-            <ul>Fill the “request” object with the parameters (or other objects) you need to supply.</ul>
-            <ul>Tell the client to make the request.</ul>
-            <ul>Get back a “response” object.</ul>
+            <li>Get a copy of the client that’s making a connection to the service you want to use. </li>
+            <li>Create a “request” object.</li>
+            <li>Fill the “request” object with the parameters (or other objects) you need to supply.</li>
+            <li>Tell the client to make the request.</li>
+            <li>Get back a “response” object.</li>
 
             This was the case when working with Rekognition.
 
             Here are the steps to detecting the labels (objects, locations, activities) in an image:
 
-            <ul>Get a copy of the Rekognition AWS client we created in the first part of this series.</ul>
-                <ul>Create a “DetectLabelsRequest” object.</ul>
-                    <ul> Create an “Image” object in the Rekognition service to work with.</ul>
-            <ul> Set the Image object into the DetectLabelsRequest.</ul>
-            <ul> Run the DetectLabelsRequest.</ul>
-            <ul> Get back a DetectLabelsResult object.</ul>
-
+            <li>Get a copy of the Rekognition AWS client we created in the first part of this series.</li>
+            <li>Create a “DetectLabelsRequest / DetectTextRequest / DetectCustomLabelsRequest” object.</li>
+            <li> Create an “Image” object in the Rekognition service to work with.</li>
+            <li> Set the Image object into the DetectLabelsRequest / DetectTextRequest / DetectCustomLabelsRequest.</li>
+            <li> Run the DetectLabelsRequest.</li>
+            <li> Get back a DetectLabelsResult object.</li>
             </p>
+
+            I have translated the above steps into code:
 
             <img src="../../assets/images/Code1.png" alt="Glimse Of Data" title="Glimse Of Data"/>
             <img src="../../assets/images/Code2.png" alt="Glimse Of Data" title="Glimse Of Data"/>
 
 
-
-
-            <p> I have tried giving you a brief overview of Amazon Rekognition through below video tutorial which includes output
-                from predefined & custom trained models.</p>
+            <p> I have recorded the output from Amazon Rekognition using predefined & custom trained models.</p>
             <p><iframe width="420" height="375" src="https://www.youtube.com/embed/FLuarhxQSNk"  allowfullscreen></iframe></p>
             </div>
 
