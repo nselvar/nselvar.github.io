@@ -1,5 +1,5 @@
 ---
-bg: "yelpbgn.jpg"
+bg: "naivebayes.jpg"
 layout: page
 title: "Yelp Data  Analysis"
 crawlertitle: "Yelp Data  Analysis"
