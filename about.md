@@ -14,6 +14,10 @@ A distinguished back end software engineer with deep interest in  distributed an
 Innovative, Detailed Oriented and a reliable team player  with strong business acumen.Recently focused on Machine Learning
 and Deep learning projects.Hungry to learn new technologies to create state of the art intelligent data systems.
 
+<div class='image'>
+<img src="../../assets/images/myphoto.jpeg" width="100%" alt="Nisha Selvarjan icon" title="Python">
+</div>
+
 <h2 class='about-h2'>Data Science</h2>
 
 Passionate about data analysis, data science, machine learning and deep learning, very keen to learn new things,
@@ -21,12 +25,6 @@ I used <img class="inline-icon" src="../../assets/images/icons/python.png" width
 to analyse behavioral data, text analytics and create vizualisations. My recent interest is to
 develop, test, tune, and deploy both CNN and RNN based deep learning systems using <img class="inline-icon" src="../../assets/images/icons/tf.png" width="25" alt="python icon" title="Python">
 <span class='salient'>TensorFlow</span>.
-
-<div class='image'>
-
-<img src="../../assets/images/myphoto.jpeg" width="80%" alt="python icon" title="Python">
-
-</div>
 
 <div class='card-section'>
     <div class='skills'>
