@@ -10,9 +10,15 @@ active: about
 
 <h2 class='about-h2'>About Me</h2>
 
-A distinguished back end software engineer with deep interest in  distributed and concurrent software architectures.
-Innovative, Detailed Oriented and a reliable team player  with strong business acumen.Recently focused on Machine Learning
-and Deep learning projects.Hungry to learn new technologies to create state of the art intelligent data systems.
+I am a software developer with a passion for solving complex technical problems and to build high performing software.
+First and foremost, I love writing code. Ever since writing my first program in Java and manipulating it to produce a
+desired output, I have been obsessed with the idea of using software to solve practical problems. Software engineering is
+a never-ending puzzle that I am passionately engaged in solving. I believe in the power of programming to transform and
+improve the lives of people around the world.
+
+I’m a quick-learning, curious developer that is confident in both machine learning and back-end programming. I love tackling
+tough problems and I pride myself on my ability to come up with creative solutions and communicate effectively.
+
 
 <div class='image'>
 <img src="../../assets/images/myphoto.jpeg" width="100%" alt="Nisha Selvarjan icon" title="Python">
@@ -34,6 +40,10 @@ develop, test, tune, and deploy both CNN and RNN based deep learning systems usi
                 <img src="../../assets/images/icons/python.png" width="30" alt="python icon" title="Python">
                 Python
             </div>
+              <div class="skills-item">
+                   <img src="../../assets/images/icons/R.png" width="30" alt="python icon" title="R">
+                            R
+                        </div>
         </div>
         <div class='skills-col'>
             <div class="skills-cat">Visualization</div>
