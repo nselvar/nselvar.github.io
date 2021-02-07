@@ -22,6 +22,11 @@ to analyse behavioral data, text analytics and create vizualisations. My recent 
 develop, test, tune, and deploy both CNN and RNN based deep learning systems using <img class="inline-icon" src="../../assets/images/icons/tf.png" width="25" alt="python icon" title="Python">
 <span class='salient'>TensorFlow</span>.
 
+<div class='image'>
+
+<img src="../../assets/images/myphoto.jpeg" width="80%" alt="python icon" title="Python">
+
+</div>
 
 <div class='card-section'>
     <div class='skills'>
