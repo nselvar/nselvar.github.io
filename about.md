@@ -16,7 +16,7 @@ desired output, I have been obsessed with the idea of using software to solve pr
 a never-ending puzzle that I am passionately engaged in solving. I believe in the power of programming to transform and
 improve the lives of people around the world.
 
-I’m a quick-learning, curious developer that is confident in both machine learning and back-end programming. I love tackling
+I’m a quick-learning, curious developer who is confident in both machine learning and back-end programming. I love tackling
 tough problems and I pride myself on my ability to come up with creative solutions and communicate effectively.
 
 
@@ -26,7 +26,7 @@ tough problems and I pride myself on my ability to come up with creative solutio
 
 <h2 class='about-h2'>Data Science</h2>
 
-Passionate about data analysis, data science, machine learning and deep learning, very keen to learn new things,
+Passionate about data analysis, data science, machine learning and deep learning.
 I used <img class="inline-icon" src="../../assets/images/icons/python.png" width="25" alt="python icon" title="Python"><span class='salient'>Python</span>
 to analyse behavioral data, text analytics and create vizualisations. My recent interest is to
 develop, test, tune, and deploy both CNN and RNN based deep learning systems using <img class="inline-icon" src="../../assets/images/icons/tf.png" width="25" alt="python icon" title="Python">
@@ -41,7 +41,7 @@ develop, test, tune, and deploy both CNN and RNN based deep learning systems usi
                 Python
             </div>
               <div class="skills-item">
-                   <img src="../../assets/images/icons/R.png" width="30" alt="python icon" title="R">
+                   <img src="../../assets/images/icons/r.png" width="30" alt="python icon" title="R">
                             R
                         </div>
         </div>
