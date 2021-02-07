@@ -1,8 +1,8 @@
 ---
-bg: "vd.jpg"
+bg: "scvbn.jpg"
 layout: page
-title: "video game analysis"
-crawlertitle: "video-game-analysis"
+title: "Stock Market Analysis"
+crawlertitle: "Stock Market Analysis"
 permalink: /stockprice/
 summary: ""
 ---
