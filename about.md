@@ -29,7 +29,8 @@ tough problems and I pride myself on my ability to come up with creative solutio
 Passionate about data analysis, data science, machine learning and deep learning.
 I used <img class="inline-icon" src="../../assets/images/icons/python.png" width="25" alt="python icon" title="Python"><span class='salient'>Python</span>
 to analyse behavioral data, text analytics and create vizualisations. My recent interest is to
-develop, test, tune, and deploy both CNN and RNN based deep learning systems using <img class="inline-icon" src="../../assets/images/icons/tf.png" width="25" alt="python icon" title="Python">
+develop, test, tune, and deploy both CNN and RNN based deep learning systems using
+<img class="inline-icon" src="../../assets/images/icons/tf.png" width="25" alt="python icon" title="Python">
 <span class='salient'>TensorFlow</span>.
 
 <div class='card-section'>
