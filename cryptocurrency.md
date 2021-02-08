@@ -1,5 +1,5 @@
 ---
-bg: "vd.jpg"
+bg: "bitcoins.jpg"
 layout: page
 title: "Regression CryptoCurrency Analysis"
 crawlertitle: "cryptocurrency"
