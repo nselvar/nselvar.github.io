@@ -2,7 +2,7 @@
 bg: "gh.jpg"
 layout: page
 title: "Black Friday Sales Analysis"
-crawlertitle: "video-game-analysis"
+crawlertitle: "Black Friday Sales Analysis"
 permalink: /blackfriday/
 summary: ""
 ---
