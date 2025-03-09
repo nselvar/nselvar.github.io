@@ -30,11 +30,12 @@
     "com.google.cloudcode.ide_session_index": "20250309_0000",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/nselvarajan/nselvar.github.io"
+    "last_opened_file_path": "/Users/nselvarajan/nselvar.github.io/assets/images"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
