@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Student Helper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2, h4 {
+            color: #333;
+        }
+        .card-section {
+            background: #eef;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .skills-col {
+            flex: 1;
+            padding: 10px;
+        }
+        .skills-item {
+            background: #ddd;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>AI Student Helper</h2>
+    <h4>Introduction</h4>
+    <p>AI Student Helper is a <strong>multi-agent automation system</strong> built with <strong>LangGraph</strong> to assist students and professionals in automating academic and career-related tasks. It follows a <strong>graph-based workflow execution model</strong>, ensuring efficient <strong>task routing and execution</strong>.</p>
+
+    <h4>System Architecture</h4>
+    <img src="image.png" alt="Architecture Diagram">
+    <p>The AI Student Helper follows a <strong>modular multi-agent architecture</strong>, where:</p>
+    <ul>
+        <li>A <strong>Supervisor Agent</strong> acts as a <strong>task router</strong>.</li>
+        <li><strong>Specialized Agents</strong> execute specific tasks based on <strong>user input</strong>.</li>
+        <li>A <strong>graph-based workflow</strong> dynamically determines <strong>execution paths</strong>.</li>
+    </ul>
+
+    <h4>Key Components</h4>
+    <h4>Supervisor Agent</h4>
+    <p>Routes user requests to the correct specialized agent, analyzes user input using an LLM, triggers corresponding agents, and returns processed results.</p>
+
+    <h4>Specialized Agents</h4>
+    <ul>
+        <li><strong>PDF Summarizer</strong>: Extracts text from PDFs and summarizes content.</li>
+        <li><strong>YouTube Summarizer</strong>: Downloads and transcribes YouTube videos.</li>
+        <li><strong>Job Application Assistant</strong>: Extracts resume data and applies for jobs automatically.</li>
+        <li><strong>Homework Helper</strong>: Provides step-by-step problem-solving assistance.</li>
+    </ul>
+
+    <h4>Technologies Used</h4>
+    <div class="card-section">
+        <div class='skills'>
+            <div class='skills-col'>
+                <div class="skills-item">Python</div>
+                <div class="skills-item">LangGraph</div>
+            </div>
+            <div class='skills-col'>
+                <div class="skills-item">ChatOpenAI</div>
+                <div class="skills-item">Streamlit</div>
+            </div>
+            <div class='skills-col'>
+                <div class="skills-item">Selenium</div>
+                <div class="skills-item">pytube</div>
+            </div>
+            <div class='skills-col'>
+                <div class="skills-item">PyMuPDF</div>
+                <div class="skills-item">LangChain</div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Workflow Execution</h4>
+    <ul>
+        <li>User enters a request (e.g., "summarize a PDF").</li>
+        <li>Supervisor Agent extracts intent and activates the relevant agent.</li>
+        <li>Task is processed and results are returned to the user.</li>
+    </ul>
+
+    <h4>Deployment</h4>
+    <p>To install and run:</p>
+    <pre>
+        git clone https://github.com/your-repo/ai-student-helper.git
+        cd ai-student-helper
+        pip install -r requirements.txt
+        python3 SupervisorLangGraph.py
+        </pre>
+
+    <h4>Demo Videos</h4>
+    <p>Demo videos are available <a href="https://github.com/nselvar/AIStudentHelper/tree/main/demo">here</a>.</p>
+</div>
+</body>
+</html>
