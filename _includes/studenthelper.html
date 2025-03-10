@@ -135,14 +135,14 @@ MODEL = "gpt-4o-mini"
 ANALYSIS_MODEL = "o1-mini"
 TEST_PAGES = 160
         </code></pre>
-                    <h4>5. Class Breakdown</h4>
-                    <h4>5.1 PageContent</h4>
+                    <h5>5. Class Breakdown</h5>
+                    <h5>5.1 PageContent</h5>
                     <pre><code>
 class PageContent(BaseModel):
     has_content: bool
     knowledge: list[str]
         </code></pre>
-                    <h4>5.2 PDFAnalyzer</h4>
+                    <h5>5.2 PDFAnalyzer</h5>
                     <pre><code>
 class PDFAnalyzer:
     def __init__(self, pdf_name: str, test_pages: int = TEST_PAGES):
@@ -160,8 +160,8 @@ class PDFAnalyzer:
                         <li>Summarization is performed using OpenAI's GPT model.</li>
                         <li>Summarized insights are stored and displayed.</li>
                     </ol>
-                    <h4>7. Key Methods</h4>
-                    <h4>7.1 Setting Up Directories</h4>
+                    <h5>7. Key Methods</h5>
+                    <h5>7.1 Setting Up Directories</h5>
                     <pre><code>
 def setup_directories(self):
     """Ensure necessary directories exist and check the PDF file."""
@@ -170,7 +170,7 @@ def setup_directories(self):
     if not self.PDF_PATH.exists():
         raise FileNotFoundError(f"PDF file '{self.PDF_PATH}' not found")
         </code></pre>
-                    <h4>7.2 Extracting Knowledge</h4>
+                    <h5>7.2 Extracting Knowledge</h5>
                     <pre><code>
 def process_page(self, page_text: str, current_knowledge: list[str], page_num: int) -> list[str]:
     """Process a single page using OpenAI to extract knowledge."""
@@ -185,7 +185,7 @@ def process_page(self, page_text: str, current_knowledge: list[str], page_num: i
     result = completion.choices[0].message.parsed
     return result.knowledge if result.has_content else []
         </code></pre>
-                    <h4>7.3 Analyzing Extracted Knowledge</h4>
+                    <h5>7.3 Analyzing Extracted Knowledge</h5>
                     <pre><code>
 def analyze_knowledge_base(self, knowledge_base: list[str]) -> str:
     """Generate a final book analysis from extracted knowledge."""
@@ -198,7 +198,7 @@ def analyze_knowledge_base(self, knowledge_base: list[str]) -> str:
     )
     return completion.choices[0].message.content
         </code></pre>
-                    <h4>7.4 Saving Summarized Content</h4>
+                    <h5>7.4 Saving Summarized Content</h5>
                     <pre><code>
 def save_summary(self, summary: str, is_final: bool = False):
     """Save the generated summary as a Markdown file."""
@@ -207,18 +207,12 @@ def save_summary(self, summary: str, is_final: bool = False):
         f.write(summary)
     print(f"✅ Summary saved to: {summary_path}")
         </code></pre>
-                    <h4>8. Deployment & Setup</h4>
-                    <h4>Installation</h4>
+                    <h5>8. Deployment & Setup</h5>
+                    <h5>Installation</h5>
                     <pre><code>pip install -r requirements.txt</code></pre>
-                    <h4>Running the Application</h4>
+                    <h5>Running the Application</h5>
                     <pre><code>python PDFAnalyzer.py</code></pre>
-                    <h4>9. Future Enhancements</h4>
-                    <ul>
-                        <li>Integrate additional NLP models for knowledge extraction.</li>
-                        <li>Enhance performance using parallel processing.</li>
-                        <li>Develop a GUI-based interface for user interaction.</li>
-                    </ul>
-                    <h4>10. Conclusion</h4>
+                    <h5>10. Conclusion</h5>
                     <p>The PDF Analyzer is an AI-driven tool designed to extract meaningful insights from books and research
                         papers. It efficiently integrates OpenAI's models, NLP processing, and structured knowledge extraction
                         to streamline the analysis of complex PDFs.
