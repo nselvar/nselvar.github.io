@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35ae15b5-55a1-4b65-b5fc-2847f5b44cb1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/videos/flowise_full.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_includes/interviewquestions.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/interviewquestions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/videos/flowise.mov" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/videos/flowise_full.mov" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/videos/flowise-full.mp4" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
