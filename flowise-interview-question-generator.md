@@ -1,5 +1,5 @@
 ---
-bg: "flows.jpeg"
+bg: "ais.png"
 layout: page
 title: "Flowise Interview Question Generator"
 crawlertitle: "Flowise "
