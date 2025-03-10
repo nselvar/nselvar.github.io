@@ -71,25 +71,46 @@
 <!--        <li><strong>Job Application Assistant</strong>: Extracts resume data and applies for jobs automatically.</li>-->
 <!--        <li><strong>Homework Helper</strong>: Provides step-by-step problem-solving assistance.</li>-->
 <!--    </ul>-->
-    <details>
-        <summary><b><strong>YouTube Summarizer</strong>- Downloads and transcribes YouTube videos.Click to know in detail architecture.</b></summary>
-        <div class="container">
-            <h3>Technical Documentation: Downloads and transcribes YouTube videos</h3>
-            <h4>1. Overview</h4>
-            <p>The Video Summarizer System is an AI-powered solution that extracts, processes, and summarizes spoken
-                content from YouTube videos. It leverages speech-to-text transcription, natural language processing
-                (NLP), and LLM-based summarization for efficient video content analysis.
-            </p>
-            <h4>2. System Architecture</h4>
+
+    <div class="container">
+        <h2>🚀 AI Specialized Agents</h2>
+
+        <div class="agent">
+            <h3>📄 PDF Summarizer (<code>pdf_agent</code>)</h3>
             <ul>
-                <li>SourceConfig – Handles video source configurations and settings.</li>
-                <li>Transcriber – Extracts and processes audio from YouTube videos.</li>
-                <li>Summarizer – Sends transcriptions to OpenAI's GPT model for summarization.</li>
-                <li>Concurrency Handling – Implements multi-threaded processing for efficiency.</li>
-                <li>File Management – Stores transcription and summary outputs.</li>
+                <li><strong>Prompts</strong> the user for a PDF file path.</li>
+                <li><strong>Extracts text content</strong> using <code>PyMuPDF</code> or <code>pdfplumber</code>.</li>
+                <li>Uses an <strong>LLM-based summarization function</strong> to generate key points.</li>
+                <li><strong>Returns a structured summary</strong>.</li>
             </ul>
-            <h4>3. Dependencies</h4>
-            <pre><code>
+        </div>
+
+        <div class="agent">
+            <h3>🎥 YouTube Video Summarizer (<code>youtube_agent</code>)</h3>
+            <ul>
+                <li>Uses <code>pytube</code> to <strong>download transcripts</strong> (if available).</li>
+                <li>If no transcript is available, leverages <strong>Whisper for speech-to-text conversion</strong>.</li>
+                <li>Summarizes content using a <strong>LangGraph-based AI model</strong>.</li>
+            </ul>
+            <details>
+                <summary><b><strong>YouTube Summarizer</strong>- Downloads and transcribes YouTube videos.Click to know in detail architecture.</b></summary>
+                <div class="container">
+                    <h3>Technical Documentation: Downloads and transcribes YouTube videos</h3>
+                    <h4>1. Overview</h4>
+                    <p>The Video Summarizer System is an AI-powered solution that extracts, processes, and summarizes spoken
+                        content from YouTube videos. It leverages speech-to-text transcription, natural language processing
+                        (NLP), and LLM-based summarization for efficient video content analysis.
+                    </p>
+                    <h4>2. System Architecture</h4>
+                    <ul>
+                        <li>SourceConfig – Handles video source configurations and settings.</li>
+                        <li>Transcriber – Extracts and processes audio from YouTube videos.</li>
+                        <li>Summarizer – Sends transcriptions to OpenAI's GPT model for summarization.</li>
+                        <li>Concurrency Handling – Implements multi-threaded processing for efficiency.</li>
+                        <li>File Management – Stores transcription and summary outputs.</li>
+                    </ul>
+                    <h4>3. Dependencies</h4>
+                    <pre><code>
 subprocess - Executes system commands
 re - Performs regex-based text parsing and cleaning
 os - Handles file operations and environment variable management
@@ -101,9 +122,9 @@ pytubefix - Downloads YouTube videos/audio streams
 concurrent.futures - Manages multi-threaded execution
 time - Handles execution delays and error handling
         </code></pre>
-            <h4>4. Class Breakdown</h4>
-            <h4>4.1 SourceConfig</h4>
-            <pre><code>
+                    <h4>4. Class Breakdown</h4>
+                    <h4>4.1 SourceConfig</h4>
+                    <pre><code>
 class SourceConfig:
     def __init__(self, source_type="YouTube Video", source_url=""):
         self.type = source_type
@@ -112,63 +133,86 @@ class SourceConfig:
         self.language = "auto"
         self.transcription_method = "Cloud Whisper"
         </code></pre>
-            <h3>4.2 Transcriber</h3>
-            <pre><code>
+                    <h3>4.2 Transcriber</h3>
+                    <pre><code>
 class Transcriber:
     def __init__(self, source_config: SourceConfig):
         self.source_config = source_config
         self.transcription_text = ""
         self.transcript_file_name = ""
         </code></pre>
-            <h3>4.3 Summarizer</h3>
-            <pre><code>
+                    <h3>4.3 Summarizer</h3>
+                    <pre><code>
 class Summarizer:
     def __init__(self, transcriber: Transcriber, model="gpt-4o-mini"):
         self.transcriber = transcriber
         self.model = model
         self.client = openai.OpenAI(api_key=self.transcriber.get_api_key())
         </code></pre>
-            <h4>5. Workflow Execution</h4>
-            <ol>
-                <li>User inputs a YouTube video URL.</li>
-                <li>Supervisor module initializes SourceConfig.</li>
-                <li>Transcriber processes video/audio.</li>
-                <li>Text is pre-processed and split into chunks.</li>
-                <li>Summarizer sends text to OpenAI API.</li>
-                <li>Summarized text is saved to a file.</li>
-            </ol>
-            <h4>6. Deployment & Setup</h4>
-            <h4>Installation</h4>
-            <pre><code>pip install -r requirements.txt</code></pre>
-            <h4>Running the Application</h4>
-            <pre><code>python VideoSummarizer.py</code></pre>
-            <h4>Required Environment Variables</h4>
-            <pre><code>export OPENAI_API_KEY="your_openai_api_key"</code></pre>
-            <h4>7. Performance Optimization</h4>
-            <h4>Concurrency with Multi-threading</h4>
-            <pre><code>
+                    <h4>5. Workflow Execution</h4>
+                    <ol>
+                        <li>User inputs a YouTube video URL.</li>
+                        <li>Supervisor module initializes SourceConfig.</li>
+                        <li>Transcriber processes video/audio.</li>
+                        <li>Text is pre-processed and split into chunks.</li>
+                        <li>Summarizer sends text to OpenAI API.</li>
+                        <li>Summarized text is saved to a file.</li>
+                    </ol>
+                    <h4>6. Deployment & Setup</h4>
+                    <h4>Installation</h4>
+                    <pre><code>pip install -r requirements.txt</code></pre>
+                    <h4>Running the Application</h4>
+                    <pre><code>python VideoSummarizer.py</code></pre>
+                    <h4>Required Environment Variables</h4>
+                    <pre><code>export OPENAI_API_KEY="your_openai_api_key"</code></pre>
+                    <h4>7. Performance Optimization</h4>
+                    <h4>Concurrency with Multi-threading</h4>
+                    <pre><code>
 with concurrent.futures.ThreadPoolExecutor(max_workers=self.parallel_api_calls) as executor:
     future_to_chunk = {executor.submit(self.summarize, text_chunk): idx for idx, text_chunk in enumerate(cleaned_texts)}
         </code></pre>
-            <h4>8. Error Handling</h4>
-            <pre><code>
+                    <h4>8. Error Handling</h4>
+                    <pre><code>
 except FileNotFoundError:
     print("⚠️ Error: prompts.json file not found. Using default prompt.")
         </code></pre>
-            <h4>9. Future Enhancements</h4>
-            <ul>
-                <li>Support for multilingual transcription.</li>
-                <li>Advanced NLP summarization using fine-tuned LLMs.</li>
-                <li>Integration with cloud storage (AWS S3, Google Drive).</li>
-            </ul>
-            <h4>10. Conclusion</h4>
-            <p>The Video Summarizer System is a powerful AI-driven tool that automates video-to-text summarization. With
-                multi-threaded execution, optimized processing pipelines, and LLM integration, it efficiently extracts
-                and summarizes content, making it ideal for content creators, researchers, and students.
-            </p>
-            <p>🚀 Optimized for speed, accuracy, and scalability! 🚀</p>
+                    <h4>9. Future Enhancements</h4>
+                    <ul>
+                        <li>Support for multilingual transcription.</li>
+                        <li>Advanced NLP summarization using fine-tuned LLMs.</li>
+                        <li>Integration with cloud storage (AWS S3, Google Drive).</li>
+                    </ul>
+                    <h4>10. Conclusion</h4>
+                    <p>The Video Summarizer System is a powerful AI-driven tool that automates video-to-text summarization. With
+                        multi-threaded execution, optimized processing pipelines, and LLM integration, it efficiently extracts
+                        and summarizes content, making it ideal for content creators, researchers, and students.
+                    </p>
+                    <p>🚀 Optimized for speed, accuracy, and scalability! 🚀</p>
+                </div>
+            </details>
+
         </div>
-    </details>
+
+        <div class="agent">
+            <h3>💼 Job Application Assistant (<code>job_agent</code>)</h3>
+            <ul>
+                <li>Extracts <strong>resume information</strong>.</li>
+                <li>Uses <code>Selenium</code> or <code>LinkedIn API</code> to <strong>automate job applications</strong>.</li>
+                <li>Matches jobs based on <strong>LLM-powered profile analysis</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="agent">
+            <h3>📚 Homework Helper (<code>homework_agent</code>)</h3>
+            <ul>
+                <li>Uses <strong>Streamlit</strong> for an <strong>interactive UI</strong>.</li>
+                <li>Implements <strong>LLM-based step-by-step problem-solving</strong>.</li>
+                <li>Provides <strong>explainable responses</strong> for better understanding.</li>
+            </ul>
+        </div>
+    </div>
+
+
     <details>
         <summary><b><strong>PDF Summarizer </strong>- Extracts text from PDFs and summarizes content.Click to know in detail architecture.</b></summary>
         <div class="container">
