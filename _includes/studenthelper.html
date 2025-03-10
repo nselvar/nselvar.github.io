@@ -215,6 +215,144 @@ except FileNotFoundError:
         </div>
 
     </details>
+    <details>
+        <summary><b>PDF Summarizer</b></summary>
+        <div class="container">
+            <h1>Technical Documentation: PDF Analyzer</h1>
+
+            <h2>1. Overview</h2>
+            <p>The PDF Analyzer is an AI-powered system that extracts text from PDF documents and analyzes its content using OpenAI's GPT-based models. It creates structured knowledge bases and provides summarized insights.</p>
+
+            <h2>2. System Architecture</h2>
+            <ul>
+                <li>Uses OpenAI's LLM models for text analysis.</li>
+                <li>Extracts content using PyMuPDF (fitz) for efficient PDF text parsing.</li>
+                <li>Stores extracted knowledge in structured JSON format.</li>
+                <li>Summarizes processed text using OpenAI-based summarization.</li>
+            </ul>
+
+            <h2>3. Dependencies</h2>
+            <pre><code>
+from pathlib import Path
+from pydantic import BaseModel
+import json
+from openai import OpenAI
+import fitz  # PyMuPDF
+from termcolor import colored
+        </code></pre>
+
+            <h2>4. Configuration Constants</h2>
+            <pre><code>
+BASE_DIR = Path("book_analysis")
+PDF_DIR = BASE_DIR / "pdfs"
+KNOWLEDGE_DIR = BASE_DIR / "knowledge_bases"
+SUMMARIES_DIR = BASE_DIR / "summaries"
+ANALYSIS_INTERVAL = 1
+MODEL = "gpt-4o-mini"
+ANALYSIS_MODEL = "o1-mini"
+TEST_PAGES = 160
+        </code></pre>
+
+            <h2>5. Class Breakdown</h2>
+
+            <h3>5.1 PageContent</h3>
+            <pre><code>
+class PageContent(BaseModel):
+    has_content: bool
+    knowledge: list[str]
+        </code></pre>
+
+            <h3>5.2 PDFAnalyzer</h3>
+            <pre><code>
+class PDFAnalyzer:
+    def __init__(self, pdf_name: str, test_pages: int = TEST_PAGES):
+        self.PDF_NAME = pdf_name
+        self.PDF_PATH = Path(pdf_name) if Path(pdf_name).is_absolute() else PDF_DIR / pdf_name
+        self.OUTPUT_PATH = KNOWLEDGE_DIR / f"{self.PDF_NAME.replace('.pdf', '_knowledge.json')}"
+        self.TEST_PAGES = test_pages
+        self.client = OpenAI()
+        </code></pre>
+
+            <h2>6. Workflow Execution</h2>
+            <ol>
+                <li>User provides a PDF file for processing.</li>
+                <li>PDFAnalyzer extracts text using PyMuPDF.</li>
+                <li>Content is analyzed and converted into structured knowledge.</li>
+                <li>Summarization is performed using OpenAI's GPT model.</li>
+                <li>Summarized insights are stored and displayed.</li>
+            </ol>
+
+            <h2>7. Key Methods</h2>
+
+            <h3>7.1 Setting Up Directories</h3>
+            <pre><code>
+def setup_directories(self):
+    """Ensure necessary directories exist and check the PDF file."""
+    for directory in [PDF_DIR, KNOWLEDGE_DIR, SUMMARIES_DIR]:
+        directory.mkdir(parents=True, exist_ok=True)
+    if not self.PDF_PATH.exists():
+        raise FileNotFoundError(f"PDF file '{self.PDF_PATH}' not found")
+        </code></pre>
+
+            <h3>7.2 Extracting Knowledge</h3>
+            <pre><code>
+def process_page(self, page_text: str, current_knowledge: list[str], page_num: int) -> list[str]:
+    """Process a single page using OpenAI to extract knowledge."""
+    completion = self.client.beta.chat.completions.parse(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": "Analyze this page as if you're studying from a book."},
+            {"role": "user", "content": f"Page text: {page_text}"}
+        ],
+        response_format=PageContent
+    )
+    result = completion.choices[0].message.parsed
+    return result.knowledge if result.has_content else []
+        </code></pre>
+
+            <h3>7.3 Analyzing Extracted Knowledge</h3>
+            <pre><code>
+def analyze_knowledge_base(self, knowledge_base: list[str]) -> str:
+    """Generate a final book analysis from extracted knowledge."""
+    completion = self.client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": "Summarize the extracted knowledge in markdown format"},
+            {"role": "user", "content": "\n".join(knowledge_base)}
+        ]
+    )
+    return completion.choices[0].message.content
+        </code></pre>
+
+            <h3>7.4 Saving Summarized Content</h3>
+            <pre><code>
+def save_summary(self, summary: str, is_final: bool = False):
+    """Save the generated summary as a Markdown file."""
+    summary_path = SUMMARIES_DIR / f"{self.PDF_NAME.replace('.pdf', '')}_{'final' if is_final else 'interval'}.md"
+    with open(summary_path, 'w', encoding='utf-8') as f:
+        f.write(summary)
+    print(f"✅ Summary saved to: {summary_path}")
+        </code></pre>
+
+            <h2>8. Deployment & Setup</h2>
+            <h3>Installation</h3>
+            <pre><code>pip install -r requirements.txt</code></pre>
+            <h3>Running the Application</h3>
+            <pre><code>python PDFAnalyzer.py</code></pre>
+
+            <h2>9. Future Enhancements</h2>
+            <ul>
+                <li>Integrate additional NLP models for knowledge extraction.</li>
+                <li>Enhance performance using parallel processing.</li>
+                <li>Develop a GUI-based interface for user interaction.</li>
+            </ul>
+
+            <h2>10. Conclusion</h2>
+            <p>The PDF Analyzer is an AI-driven tool designed to extract meaningful insights from books and research papers. It efficiently integrates OpenAI's models, NLP processing, and structured knowledge extraction to streamline the analysis of complex PDFs.</p>
+
+            <p>🚀 Optimized for accuracy, efficiency, and automation! 🚀</p>
+        </div>
+    </details>
 
     <h4>Deployment</h4>
     <p>To install and run:</p>
