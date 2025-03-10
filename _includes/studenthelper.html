@@ -111,7 +111,7 @@ class Summarizer:
         self.model = model
         self.client = openai.OpenAI(api_key=self.transcriber.get_api_key())
         </code></pre>
-            <h2>5. Workflow Execution</h2>
+            <h4>5. Workflow Execution</h4>
             <ol>
                 <li>User inputs a YouTube video URL.</li>
                 <li>Supervisor module initializes SourceConfig.</li>
@@ -120,31 +120,31 @@ class Summarizer:
                 <li>Summarizer sends text to OpenAI API.</li>
                 <li>Summarized text is saved to a file.</li>
             </ol>
-            <h2>6. Deployment & Setup</h2>
-            <h3>Installation</h3>
+            <h4>6. Deployment & Setup</h4>
+            <h4>Installation</h4>
             <pre><code>pip install -r requirements.txt</code></pre>
-            <h3>Running the Application</h3>
+            <h4>Running the Application</h4>
             <pre><code>python VideoSummarizer.py</code></pre>
-            <h3>Required Environment Variables</h3>
+            <h4>Required Environment Variables</h4>
             <pre><code>export OPENAI_API_KEY="your_openai_api_key"</code></pre>
-            <h2>7. Performance Optimization</h2>
-            <h3>Concurrency with Multi-threading</h3>
+            <h4>7. Performance Optimization</h4>
+            <h4>Concurrency with Multi-threading</h4>
             <pre><code>
 with concurrent.futures.ThreadPoolExecutor(max_workers=self.parallel_api_calls) as executor:
     future_to_chunk = {executor.submit(self.summarize, text_chunk): idx for idx, text_chunk in enumerate(cleaned_texts)}
         </code></pre>
-            <h2>8. Error Handling</h2>
+            <h4>8. Error Handling</h4>
             <pre><code>
 except FileNotFoundError:
     print("⚠️ Error: prompts.json file not found. Using default prompt.")
         </code></pre>
-            <h2>9. Future Enhancements</h2>
+            <h4>9. Future Enhancements</h4>
             <ul>
                 <li>Support for multilingual transcription.</li>
                 <li>Advanced NLP summarization using fine-tuned LLMs.</li>
                 <li>Integration with cloud storage (AWS S3, Google Drive).</li>
             </ul>
-            <h2>10. Conclusion</h2>
+            <h4>10. Conclusion</h4>
             <p>The Video Summarizer System is a powerful AI-driven tool that automates video-to-text summarization. With
                 multi-threaded execution, optimized processing pipelines, and LLM integration, it efficiently extracts
                 and summarizes content, making it ideal for content creators, researchers, and students.
