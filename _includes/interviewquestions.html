@@ -53,52 +53,6 @@
         <li>Supervisor validates the output and returns it to the user.</li>
     </ol>
 
-    <h3>📡 AI Model Integration</h3>
-    <p>The system uses OpenAI’s LLM models (e.g., gpt-4o, gpt-3.5-turbo) to:</p>
-    <ul>
-        <li>Generate logically sound questions.</li>
-        <li>Validate and refine worker responses.</li>
-        <li>Optimize test case selection.</li>
-        <li>Provide explanations and feedback.</li>
-    </ul>
-
-    <h3>🔗 AI Model Configuration</h3>
-    <pre><code>
-{
-  "id": "chatOpenAI_0",
-  "type": "ChatOpenAI",
-  "inputs": {
-    "modelName": "gpt-4o",
-    "temperature": 0.4,
-    "maxTokens": 1500
-  }
-}
-    </code></pre>
-
-    <h3>🕵️‍♂️ Supervisor Agent Configuration</h3>
-    <pre><code>
-{
-  "id": "supervisor_0",
-  "type": "Supervisor",
-  "inputs": {
-    "supervisorName": "Interview Question Generator",
-    "supervisorPrompt": "Manage a conversation between the following workers: {team_members}. Minimize steps.",
-    "recursionLimit": 100
-  }
-}
-    </code></pre>
-
-    <h3>🔄 Execution Flow & Connectivity</h3>
-    <pre><code>
-{
-  "edges": [
-    {"source": "supervisor_0", "target": "worker_0"},
-    {"source": "worker_0", "target": "worker_1"},
-    {"source": "worker_1", "target": "worker_2"},
-    {"source": "worker_2", "target": "worker_3"}
-  ]
-}
-    </code></pre>
 
     <h3>🔎 Deployment & Execution</h3>
     <h4>🔹 Install Dependencies</h4>
@@ -243,6 +197,54 @@ python start_chatflow.py
             <li>⚡ **Connect APIs & Databases** - Integrate **external services for knowledge base retrieval**.</li>
             <li>🤖 **Deploy & Scale** - Host your chatbot on **Docker, AWS, or Kubernetes**.</li>
         </ol>
+
+
+        <h3>📡 AI Model Integration</h3>
+        <p>The system uses OpenAI’s LLM models (e.g., gpt-4o, gpt-3.5-turbo) to:</p>
+        <ul>
+            <li>Generate logically sound questions.</li>
+            <li>Validate and refine worker responses.</li>
+            <li>Optimize test case selection.</li>
+            <li>Provide explanations and feedback.</li>
+        </ul>
+
+        <h3>🔗 AI Model Configuration</h3>
+        <pre><code>
+{
+  "id": "chatOpenAI_0",
+  "type": "ChatOpenAI",
+  "inputs": {
+    "modelName": "gpt-4o",
+    "temperature": 0.4,
+    "maxTokens": 1500
+  }
+}
+    </code></pre>
+
+        <h3>🕵️‍♂️ Supervisor Agent Configuration</h3>
+        <pre><code>
+{
+  "id": "supervisor_0",
+  "type": "Supervisor",
+  "inputs": {
+    "supervisorName": "Interview Question Generator",
+    "supervisorPrompt": "Manage a conversation between the following workers: {team_members}. Minimize steps.",
+    "recursionLimit": 100
+  }
+}
+    </code></pre>
+
+        <h3>🔄 Execution Flow & Connectivity</h3>
+        <pre><code>
+{
+  "edges": [
+    {"source": "supervisor_0", "target": "worker_0"},
+    {"source": "worker_0", "target": "worker_1"},
+    {"source": "worker_1", "target": "worker_2"},
+    {"source": "worker_2", "target": "worker_3"}
+  ]
+}
+    </code></pre>
 
         <h3>🚀 Final Thoughts</h3>
         <p>The **Interview Question Generator Agents** project optimizes Java interview question generation using Flowise AI’s **multi-agent workflow**. With **no-code orchestration**, **LLM-powered decision-making**, and **scalable chatbot building**, Flowise enhances **AI-driven automation**.</p>
