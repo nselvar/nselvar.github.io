@@ -349,24 +349,24 @@ except FileNotFoundError:
             <details>
                 <summary><b> Provides step-by-step problem-solving assistance.Click to know in detail architecture.</b></summary>
                 <div class="container">
-                    <h1>Technical Documentation: AI Homework Helper</h1>
-                    <h4>1. Overview</h4>
+                    <h5>Technical Documentation: AI Homework Helper</h5>
+                    <h5>1. Overview</h5>
                     <p>The AI Homework Helper is a web-based application that uses OpenAI's GPT models to assist students with homework. It provides clarification, detailed solutions, quality assurance, and concise answers to academic questions.</p>
-                    <h4>2. System Architecture</h4>
+                    <h5>2. System Architecture</h5>
                     <ul>
                         <li>Uses OpenAI API for AI-powered responses.</li>
                         <li>Built with Streamlit for an interactive user interface.</li>
                         <li>Modular architecture with separate agents for different tasks.</li>
                         <li>Custom styling for an intuitive UI experience.</li>
                     </ul>
-                    <h4>3. Dependencies</h4>
+                    <h5>3. Dependencies</h5>
                     <pre><code>
 import os
 import openai
 import streamlit as st
         </code></pre>
-                    <h4>4. Agents Module (agents.py)</h4>
-                    <h4>4.1 Clarification Agent</h4>
+                    <h5>4. Agents Module (agents.py)</h5>
+                    <h5>4.1 Clarification Agent</h5>
                     <p>Asks the student to clarify their question before providing a solution.</p>
                     <pre><code>
 def clarification_agent(question):
@@ -379,7 +379,7 @@ def clarification_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-                    <h4>4.2 Solution Agent</h4>
+                    <h5>4.2 Solution Agent</h5>
                     <p>Provides a detailed explanation for the given question.</p>
                     <pre><code>
 def solution_agent(question):
@@ -392,7 +392,7 @@ def solution_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-                    <h4>4.3 Quality Assurance Agent</h4>
+                    <h5>4.3 Quality Assurance Agent</h5>
                     <p>Checks the accuracy and clarity of a generated solution.</p>
                     <pre><code>
 def quality_assurance_agent(solution_text):
@@ -405,7 +405,7 @@ def quality_assurance_agent(solution_text):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-                    <h4>4.4 Concise Answer Agent</h4>
+                    <h5>4.4 Concise Answer Agent</h5>
                     <p>Generates a short, to-the-point answer for quick reference.</p>
                     <pre><code>
 def concise_answer_agent(question):
@@ -418,8 +418,8 @@ def concise_answer_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-                    <h4>5. Streamlit Application (streamlit_app.py)</h4>
-                    <h4>5.1 Application UI</h4>
+                    <h5>5. Streamlit Application (streamlit_app.py)</h5>
+                    <h5>5.1 Application UI</h5>
                     <p>Streamlit is used to build a user-friendly interface with interactive buttons and text areas.</p>
                     <pre><code>
 import streamlit as st
@@ -443,7 +443,7 @@ def main():
 if __name__ == "__main__":
     main()
         </code></pre>
-                    <h4>5.2 Custom Styling</h4>
+                    <h5>5.2 Custom Styling</h5>
                     <p>Enhances the UI experience with Streamlit's markdown styling.</p>
                     <pre><code>
 st.markdown("""
@@ -464,12 +464,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
         </code></pre>
-                    <h4>6. Deployment Instructions</h4>
-                    <h4>Installation</h4>
+                    <h5>6. Deployment Instructions</h5>
+                    <h5>Installation</h5>
                     <pre><code>pip install -r requirements.txt</code></pre>
-                    <h4>Run Application</h4>
+                    <h5>Run Application</h5>
                     <pre><code>streamlit run streamlit_app.py</code></pre>
-                    <h4>7. Conclusion</h4>
+                    <h5>7. Conclusion</h5>
                     <p>The AI Homework Helper efficiently uses OpenAI's models to assist students with homework by providing clear, structured, and verified answers. The modular design ensures maintainability and scalability for future enhancements.</p>
                     <p>🚀 Optimized for speed, accuracy, and user-friendly experience! 🚀</p>
                 </div>
