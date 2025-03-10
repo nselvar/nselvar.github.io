@@ -53,12 +53,32 @@
             </table>
         </div>
 
-    <h4>Workflow Execution</h4>
-    <ul>
-        <li>User enters a request (e.g., "summarize a PDF").</li>
-        <li>Supervisor Agent extracts intent and activates the relevant agent.</li>
-        <li>Task is processed and results are returned to the user.</li>
-    </ul>
+    <div class="container">
+        <h4>🚀 5. Workflow Execution</h4>
+
+        <div class="workflow-step">
+            <h4>📌 5.1 Request Handling Flow</h4>
+            <ul>
+                <li><strong>User enters a request</strong> (e.g., "summarize a PDF").</li>
+                <li><strong>Supervisor Agent extracts intent</strong>.</li>
+                <li><strong>Relevant agent is activated</strong>.</li>
+                <li><strong>Task is processed, and output is generated</strong>.</li>
+                <li><strong>Response is returned to the user</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="workflow-step">
+            <h4>🔄 5.2 Graph Execution with LangGraph</h4>
+            <ul>
+                <li>Each <strong>node in the graph</strong> represents an <strong>agent</strong>.</li>
+                <li>The <strong>edges define execution logic</strong> based on user input.</li>
+                <li>This structure allows <strong>dynamic branching without unnecessary processing</strong>.</li>
+            </ul>
+        </div>
+
+    </div>
+
+
     <h4>Key Components</h4>
     <h4>Supervisor Agent</h4>
     <p>Routes user requests to the correct specialized agent, analyzes user input using an LLM, triggers corresponding
