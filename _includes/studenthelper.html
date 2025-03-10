@@ -65,12 +65,7 @@
         agents, and returns processed results.
     </p>
     <h4>Specialized Agents</h4>
-<!--    <ul>-->
-<!--        <li><strong>PDF Summarizer</strong>: Extracts text from PDFs and summarizes content.</li>-->
-<!--        <li><strong>YouTube Summarizer</strong>: Downloads and transcribes YouTube videos.</li>-->
-<!--        <li><strong>Job Application Assistant</strong>: Extracts resume data and applies for jobs automatically.</li>-->
-<!--        <li><strong>Homework Helper</strong>: Provides step-by-step problem-solving assistance.</li>-->
-<!--    </ul>-->
+
 
     <div class="container">
         <h2>🚀 AI Specialized Agents</h2>
@@ -84,7 +79,7 @@
                 <li><strong>Returns a structured summary</strong>.</li>
             </ul>
             <details>
-                <summary><b><strong>PDF Summarizer </strong>- Extracts text from PDFs and summarizes content.Click to know in detail architecture.</b></summary>
+                <summary><b>Click to know in detail architecture.</b></summary>
                 <div class="container">
                     <h3>Technical Documentation: PDF Analyzer</h3>
                     <h4>1. Overview</h4>
@@ -220,7 +215,7 @@ def save_summary(self, summary: str, is_final: bool = False):
                 <li>Summarizes content using a <strong>LangGraph-based AI model</strong>.</li>
             </ul>
             <details>
-                <summary><b><strong>YouTube Summarizer</strong>- Downloads and transcribes YouTube videos.Click to know in detail architecture.</b></summary>
+                <summary><b>Click to know in detail architecture.</b></summary>
                 <div class="container">
                     <h3>Technical Documentation: Downloads and transcribes YouTube videos</h3>
                     <h4>1. Overview</h4>
@@ -336,34 +331,29 @@ except FileNotFoundError:
                 <li>Implements <strong>LLM-based step-by-step problem-solving</strong>.</li>
                 <li>Provides <strong>explainable responses</strong> for better understanding.</li>
             </ul>
-        </div>
-    </div>
-
-
-
-    <details>
-        <summary><b><strong>Homework Helper</strong> Provides step-by-step problem-solving assistance.Click to know in detail architecture.</b></summary>
-        <div class="container">
-            <h1>Technical Documentation: AI Homework Helper</h1>
-            <h2>1. Overview</h2>
-            <p>The AI Homework Helper is a web-based application that uses OpenAI's GPT models to assist students with homework. It provides clarification, detailed solutions, quality assurance, and concise answers to academic questions.</p>
-            <h2>2. System Architecture</h2>
-            <ul>
-                <li>Uses OpenAI API for AI-powered responses.</li>
-                <li>Built with Streamlit for an interactive user interface.</li>
-                <li>Modular architecture with separate agents for different tasks.</li>
-                <li>Custom styling for an intuitive UI experience.</li>
-            </ul>
-            <h2>3. Dependencies</h2>
-            <pre><code>
+            <details>
+                <summary><b> Provides step-by-step problem-solving assistance.Click to know in detail architecture.</b></summary>
+                <div class="container">
+                    <h1>Technical Documentation: AI Homework Helper</h1>
+                    <h2>1. Overview</h2>
+                    <p>The AI Homework Helper is a web-based application that uses OpenAI's GPT models to assist students with homework. It provides clarification, detailed solutions, quality assurance, and concise answers to academic questions.</p>
+                    <h2>2. System Architecture</h2>
+                    <ul>
+                        <li>Uses OpenAI API for AI-powered responses.</li>
+                        <li>Built with Streamlit for an interactive user interface.</li>
+                        <li>Modular architecture with separate agents for different tasks.</li>
+                        <li>Custom styling for an intuitive UI experience.</li>
+                    </ul>
+                    <h2>3. Dependencies</h2>
+                    <pre><code>
 import os
 import openai
 import streamlit as st
         </code></pre>
-            <h2>4. Agents Module (agents.py)</h2>
-            <h3>4.1 Clarification Agent</h3>
-            <p>Asks the student to clarify their question before providing a solution.</p>
-            <pre><code>
+                    <h2>4. Agents Module (agents.py)</h2>
+                    <h3>4.1 Clarification Agent</h3>
+                    <p>Asks the student to clarify their question before providing a solution.</p>
+                    <pre><code>
 def clarification_agent(question):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -374,9 +364,9 @@ def clarification_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-            <h3>4.2 Solution Agent</h3>
-            <p>Provides a detailed explanation for the given question.</p>
-            <pre><code>
+                    <h3>4.2 Solution Agent</h3>
+                    <p>Provides a detailed explanation for the given question.</p>
+                    <pre><code>
 def solution_agent(question):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -387,9 +377,9 @@ def solution_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-            <h3>4.3 Quality Assurance Agent</h3>
-            <p>Checks the accuracy and clarity of a generated solution.</p>
-            <pre><code>
+                    <h3>4.3 Quality Assurance Agent</h3>
+                    <p>Checks the accuracy and clarity of a generated solution.</p>
+                    <pre><code>
 def quality_assurance_agent(solution_text):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -400,9 +390,9 @@ def quality_assurance_agent(solution_text):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-            <h3>4.4 Concise Answer Agent</h3>
-            <p>Generates a short, to-the-point answer for quick reference.</p>
-            <pre><code>
+                    <h3>4.4 Concise Answer Agent</h3>
+                    <p>Generates a short, to-the-point answer for quick reference.</p>
+                    <pre><code>
 def concise_answer_agent(question):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -413,10 +403,10 @@ def concise_answer_agent(question):
     )
     return response.choices[0].message.content.strip()
         </code></pre>
-            <h2>5. Streamlit Application (streamlit_app.py)</h2>
-            <h3>5.1 Application UI</h3>
-            <p>Streamlit is used to build a user-friendly interface with interactive buttons and text areas.</p>
-            <pre><code>
+                    <h2>5. Streamlit Application (streamlit_app.py)</h2>
+                    <h3>5.1 Application UI</h3>
+                    <p>Streamlit is used to build a user-friendly interface with interactive buttons and text areas.</p>
+                    <pre><code>
 import streamlit as st
 from agents import clarification_agent, solution_agent, quality_assurance_agent, concise_answer_agent
 
@@ -438,9 +428,9 @@ def main():
 if __name__ == "__main__":
     main()
         </code></pre>
-            <h3>5.2 Custom Styling</h3>
-            <p>Enhances the UI experience with Streamlit's markdown styling.</p>
-            <pre><code>
+                    <h3>5.2 Custom Styling</h3>
+                    <p>Enhances the UI experience with Streamlit's markdown styling.</p>
+                    <pre><code>
 st.markdown("""
     <style>
         .main {
@@ -459,16 +449,22 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
         </code></pre>
-            <h2>6. Deployment Instructions</h2>
-            <h3>Installation</h3>
-            <pre><code>pip install -r requirements.txt</code></pre>
-            <h3>Run Application</h3>
-            <pre><code>streamlit run streamlit_app.py</code></pre>
-            <h2>7. Conclusion</h2>
-            <p>The AI Homework Helper efficiently uses OpenAI's models to assist students with homework by providing clear, structured, and verified answers. The modular design ensures maintainability and scalability for future enhancements.</p>
-            <p>🚀 Optimized for speed, accuracy, and user-friendly experience! 🚀</p>
+                    <h2>6. Deployment Instructions</h2>
+                    <h3>Installation</h3>
+                    <pre><code>pip install -r requirements.txt</code></pre>
+                    <h3>Run Application</h3>
+                    <pre><code>streamlit run streamlit_app.py</code></pre>
+                    <h2>7. Conclusion</h2>
+                    <p>The AI Homework Helper efficiently uses OpenAI's models to assist students with homework by providing clear, structured, and verified answers. The modular design ensures maintainability and scalability for future enhancements.</p>
+                    <p>🚀 Optimized for speed, accuracy, and user-friendly experience! 🚀</p>
+                </div>
+            </details>
         </div>
-    </details>
+    </div>
+
+
+
+
     <h4>Deployment</h4>
     <p>To install and run:</p>
     <pre>
