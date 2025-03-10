@@ -155,20 +155,20 @@ except FileNotFoundError:
     <details>
         <summary><b><strong>PDF Summarizer </strong>- Extracts text from PDFs and summarizes content.Click to know in detail architecture.</b></summary>
         <div class="container">
-            <h1>Technical Documentation: PDF Analyzer</h1>
-            <h2>1. Overview</h2>
+            <h3>Technical Documentation: PDF Analyzer</h3>
+            <h4>1. Overview</h4>
             <p>The PDF Analyzer is an AI-powered system that extracts text from PDF documents and analyzes its content
                 using OpenAI's GPT-based models. It creates structured knowledge bases and provides summarized
                 insights.
             </p>
-            <h2>2. System Architecture</h2>
+            <h4>2. System Architecture</h4>
             <ul>
                 <li>Uses OpenAI's LLM models for text analysis.</li>
                 <li>Extracts content using PyMuPDF (fitz) for efficient PDF text parsing.</li>
                 <li>Stores extracted knowledge in structured JSON format.</li>
                 <li>Summarizes processed text using OpenAI-based summarization.</li>
             </ul>
-            <h2>3. Dependencies</h2>
+            <h4>3. Dependencies</h4>
             <pre><code>
 from pathlib import Path
 from pydantic import BaseModel
@@ -177,7 +177,7 @@ from openai import OpenAI
 import fitz  # PyMuPDF
 from termcolor import colored
         </code></pre>
-            <h2>4. Configuration Constants</h2>
+            <h4>4. Configuration Constants</h4>
             <pre><code>
 BASE_DIR = Path("book_analysis")
 PDF_DIR = BASE_DIR / "pdfs"
@@ -188,14 +188,14 @@ MODEL = "gpt-4o-mini"
 ANALYSIS_MODEL = "o1-mini"
 TEST_PAGES = 160
         </code></pre>
-            <h2>5. Class Breakdown</h2>
-            <h3>5.1 PageContent</h3>
+            <h4>5. Class Breakdown</h4>
+            <h4>5.1 PageContent</h4>
             <pre><code>
 class PageContent(BaseModel):
     has_content: bool
     knowledge: list[str]
         </code></pre>
-            <h3>5.2 PDFAnalyzer</h3>
+            <h4>5.2 PDFAnalyzer</h4>
             <pre><code>
 class PDFAnalyzer:
     def __init__(self, pdf_name: str, test_pages: int = TEST_PAGES):
@@ -251,7 +251,7 @@ def analyze_knowledge_base(self, knowledge_base: list[str]) -> str:
     )
     return completion.choices[0].message.content
         </code></pre>
-            <h3>7.4 Saving Summarized Content</h3>
+            <h4>7.4 Saving Summarized Content</h4>
             <pre><code>
 def save_summary(self, summary: str, is_final: bool = False):
     """Save the generated summary as a Markdown file."""
@@ -260,18 +260,18 @@ def save_summary(self, summary: str, is_final: bool = False):
         f.write(summary)
     print(f"✅ Summary saved to: {summary_path}")
         </code></pre>
-            <h2>8. Deployment & Setup</h2>
-            <h3>Installation</h3>
+            <h4>8. Deployment & Setup</h4>
+            <h4>Installation</h4>
             <pre><code>pip install -r requirements.txt</code></pre>
-            <h3>Running the Application</h3>
+            <h4>Running the Application</h4>
             <pre><code>python PDFAnalyzer.py</code></pre>
-            <h2>9. Future Enhancements</h2>
+            <h4>9. Future Enhancements</h4>
             <ul>
                 <li>Integrate additional NLP models for knowledge extraction.</li>
                 <li>Enhance performance using parallel processing.</li>
                 <li>Develop a GUI-based interface for user interaction.</li>
             </ul>
-            <h2>10. Conclusion</h2>
+            <h4>10. Conclusion</h4>
             <p>The PDF Analyzer is an AI-driven tool designed to extract meaningful insights from books and research
                 papers. It efficiently integrates OpenAI's models, NLP processing, and structured knowledge extraction
                 to streamline the analysis of complex PDFs.
