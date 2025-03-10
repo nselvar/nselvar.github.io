@@ -80,7 +80,7 @@
             <details>
                 <summary><b>Click to know in detail architecture.</b></summary>
                 <div class="container">
-                    <h3>Technical Documentation: PDF Analyzer</h3>
+                    <h4>Technical Documentation: PDF Analyzer</h4>
                     <h4>1. Overview</h4>
                     <p>The PDF Analyzer is an AI-powered system that extracts text from PDF documents and analyzes its content
                         using OpenAI's GPT-based models. It creates structured knowledge bases and provides summarized
@@ -130,7 +130,7 @@ class PDFAnalyzer:
         self.TEST_PAGES = test_pages
         self.client = OpenAI()
         </code></pre>
-                    <h2>6. Workflow Execution</h2>
+                    <h4>6. Workflow Execution</h4>
                     <ol>
                         <li>User provides a PDF file for processing.</li>
                         <li>PDFAnalyzer extracts text using PyMuPDF.</li>
@@ -138,8 +138,8 @@ class PDFAnalyzer:
                         <li>Summarization is performed using OpenAI's GPT model.</li>
                         <li>Summarized insights are stored and displayed.</li>
                     </ol>
-                    <h2>7. Key Methods</h2>
-                    <h3>7.1 Setting Up Directories</h3>
+                    <h4>7. Key Methods</h4>
+                    <h4>7.1 Setting Up Directories</h4>
                     <pre><code>
 def setup_directories(self):
     """Ensure necessary directories exist and check the PDF file."""
@@ -148,7 +148,7 @@ def setup_directories(self):
     if not self.PDF_PATH.exists():
         raise FileNotFoundError(f"PDF file '{self.PDF_PATH}' not found")
         </code></pre>
-                    <h3>7.2 Extracting Knowledge</h3>
+                    <h4>7.2 Extracting Knowledge</h4>
                     <pre><code>
 def process_page(self, page_text: str, current_knowledge: list[str], page_num: int) -> list[str]:
     """Process a single page using OpenAI to extract knowledge."""
@@ -163,7 +163,7 @@ def process_page(self, page_text: str, current_knowledge: list[str], page_num: i
     result = completion.choices[0].message.parsed
     return result.knowledge if result.has_content else []
         </code></pre>
-                    <h3>7.3 Analyzing Extracted Knowledge</h3>
+                    <h4>7.3 Analyzing Extracted Knowledge</h4>
                     <pre><code>
 def analyze_knowledge_base(self, knowledge_base: list[str]) -> str:
     """Generate a final book analysis from extracted knowledge."""
