@@ -1,6 +1,6 @@
 <div class="container">
     <h2>AI Student Helper</h2>
-    <h4>Introduction</h4>
+    <h4>🚀Introduction</h4>
     <p>AI Student Helper is a <strong>multi-agent automation system</strong> built with <strong>LangGraph</strong> to
         assist students and professionals in automating academic and career-related tasks. It follows a <strong>graph-based
             workflow execution model</strong>, ensuring efficient <strong>task routing and execution</strong>.
@@ -79,18 +79,18 @@
     </div>
 
 
-    <h4>Key Components</h4>
-    <h6>Supervisor Agent</h6>
+    <h4>🚀Key Components</h4>
+    <h5>Supervisor Agent</h5>
     <p>Routes user requests to the correct specialized agent, analyzes user input using an LLM, triggers corresponding
         agents, and returns processed results.
     </p>
-    <h6>Specialized Agents</h6>
+    <h5>Specialized Agents</h5>
 
 
     <div class="container">
 
         <div class="agent">
-            <h6>📄 PDF Summarizer (<code>pdf_agent</code>)</h6>
+            <h5>📄 PDF Summarizer (<code>pdf_agent</code>)</h5>
             <ul>
                 <li><strong>Prompts</strong> the user for a PDF file path.</li>
                 <li><strong>Extracts text content</strong> using <code>PyMuPDF</code> or <code>pdfplumber</code>.</li>
@@ -227,7 +227,7 @@ def save_summary(self, summary: str, is_final: bool = False):
         </div>
 
         <div class="agent">
-            <h6>🎥 YouTube Video Summarizer (<code>youtube_agent</code>)</h6>
+            <h5>🎥 YouTube Video Summarizer (<code>youtube_agent</code>)</h5>
             <ul>
                 <li>Uses <code>pytube</code> to <strong>download transcripts</strong> (if available).</li>
                 <li>If no transcript is available, leverages <strong>Whisper for speech-to-text conversion</strong>.</li>
@@ -335,7 +335,7 @@ except FileNotFoundError:
         </div>
 
         <div class="agent">
-            <h6>💼 Job Application Assistant (<code>job_agent</code>)</h6>
+            <h5>💼 Job Application Assistant (<code>job_agent</code>)</h5>
             <ul>
                 <li>Extracts <strong>resume information</strong>.</li>
                 <li>Uses <code>Selenium</code> or <code>LinkedIn API</code> to <strong>automate job applications</strong>.</li>
@@ -344,7 +344,7 @@ except FileNotFoundError:
         </div>
 
         <div class="agent">
-            <h6>📚 Homework Helper (<code>homework_agent</code>)</h6>
+            <h5>📚 Homework Helper (<code>homework_agent</code>)</h5>
             <ul>
                 <li>Uses <strong>Streamlit</strong> for an <strong>interactive UI</strong>.</li>
                 <li>Implements <strong>LLM-based step-by-step problem-solving</strong>.</li>
