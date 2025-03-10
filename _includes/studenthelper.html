@@ -337,6 +337,96 @@ except FileNotFoundError:
                 <li>Uses <code>Selenium</code> or <code>LinkedIn API</code> to <strong>automate job applications</strong>.</li>
                 <li>Matches jobs based on <strong>LLM-powered profile analysis</strong>.</li>
             </ul>
+            <details>
+                <summary><b>Click to know in detail architecture.</b></summary>
+                <div class="container">
+                    <h5>🛠️ Technical Documentation - LinkedIn Easy Apply Bot</h5>
+
+                    <h5>1️⃣ System Overview</h5>
+                    <p>This system is a **Python-based automated job application bot** that interfaces with LinkedIn's <code>Easy Apply</code> feature, executing **headless web automation** via **Selenium WebDriver** to dynamically interact with LinkedIn's web elements and apply for job listings based on pre-configured user preferences.</p>
+
+                    <h5>2️⃣ System Architecture</h5>
+                    <ul>
+                        <li>📜 <strong><code>config.yaml</code></strong>: Persistent configuration store defining **job search parameters**, **application filters**, and **user authentication details**.</li>
+                        <li>🔧 <strong><code>linkedineasyapply.py</code></strong>: Implements the **bot execution logic**, handling authentication, job filtering, and **automated form submission using XPath selectors**.</li>
+                        <li>🚀 <strong><code>main.py</code></strong>: Entry-point script responsible for **orchestration**, invoking the LinkedIn bot, and handling **execution flow**.</li>
+                    </ul>
+
+                    <h5>3️⃣ Configuration Management - <code>config.yaml</code></h5>
+                    <p>The **config.yaml** file is a structured **hierarchical data model** defining key operational parameters:</p>
+                    <pre><code>
+email: "user@example.com"
+password: "securepassword"
+remote: true
+jobTypes:
+  full-time: true
+  contract: true
+experienceLevel:
+  entry: true
+  mid-senior level: false
+uploads:
+  resume: "/path/to/resume.pdf"
+    </code></pre>
+
+                    <h5>4️⃣ Core Functionalities - <code>linkedineasyapply.py</code></h5>
+                    <p>This module is responsible for:</p>
+                    <ul>
+                        <li>🔐 **User Authentication** via Selenium, handling **2FA bypass mechanisms**.</li>
+                        <li>📡 **Web Scraping & DOM Navigation** using **XPath selectors** and **CSS locators**.</li>
+                        <li>🧠 **Job Relevance Filtering** based on configuration heuristics.</li>
+                        <li>🤖 **Automated Form Filling** leveraging **Selenium WebDriver**.</li>
+                        <li>📜 **Logging & Error Handling** using a **robust exception handling pipeline**.</li>
+                    </ul>
+
+                    <h5>5️⃣ Execution Workflow</h5>
+                    <p>The **execution flow** of the bot follows a **finite-state machine (FSM)** model:</p>
+                    <ol>
+                        <li>🛠️ **Initialization Phase** - Load user parameters, configure session settings.</li>
+                        <li>🔎 **Job Discovery Module** - Execute LinkedIn search queries using dynamic query formulation.</li>
+                        <li>📡 **Real-time Scraping & Job Filtering** - Parse job postings and validate criteria.</li>
+                        <li>🤖 **Automated Application Submission** - Simulate user actions via **Selenium WebDriver**.</li>
+                        <li>📊 **Logging & Post-Execution Analysis** - Record applied jobs, handle exceptions, generate reports.</li>
+                    </ol>
+
+                    <h5>6️⃣ Deployment Instructions</h5>
+                    <h5>💾 Install Dependencies</h5>
+                    <pre><code>
+pip install -r requirements.txt
+    </code></pre>
+
+                    <h5>🚀 Run the Bot</h5>
+                    <pre><code>
+python main.py
+    </code></pre>
+
+                    <h5>7️⃣ Key Technologies</h5>
+                    <ul>
+                        <li>🌐 **Selenium WebDriver**: Automates **browser interactions**.</li>
+                        <li>📊 **BeautifulSoup**: Parses and extracts job listing data.</li>
+                        <li>⚡ **PyYAML**: Handles structured configuration management.</li>
+                        <li>🚀 **Headless Chrome Execution**: Optimized for **performance and stealth**.</li>
+                        <li>📜 **XPath Selectors**: Enables **precision DOM element selection**.</li>
+                    </ul>
+
+                    <h5>8️⃣ Key Challenges & Solutions</h5>
+                    <ul>
+                        <li>🔐 **LinkedIn CAPTCHA Challenges** - Implemented **human-mimicking delays & randomized interaction timing**.</li>
+                        <li>🕵️ **Dynamic Page Structure Changes** - Utilized **XPath wildcard expressions & CSS selector fallback**.</li>
+                        <li>📡 **Asynchronous Job Loading Issues** - Deployed **wait-based strategies with implicit & explicit waits**.</li>
+                    </ul>
+
+                    <h5>9️⃣ Performance Optimization</h5>
+                    <ul>
+                        <li>🚀 **Parallel Execution** - Utilized **multi-threaded job searching**.</li>
+                        <li>🔄 **Memory Optimization** - Implemented **garbage collection & lazy evaluation**.</li>
+                        <li>📡 **Network Efficiency** - Enabled **cache-control for preloaded LinkedIn elements**.</li>
+                    </ul>
+
+                    <h5>🔟 Conclusion</h5>
+                    <p>The LinkedIn Easy Apply Bot streamlines job applications through **high-performance web automation**, allowing users to apply for relevant roles with **minimal manual intervention**. Advanced **error handling, job filtering, and AI-driven decision-making** ensure a smooth and effective application process.</p>
+
+                </div>
+            </details>
         </div>
 
         <div class="agent">
