@@ -57,13 +57,13 @@
     <details>
         <summary><b><strong>YouTube Summarizer</strong>- Downloads and transcribes YouTube videos.Click to know in detail architecture.</b></summary>
         <div class="container">
-            <h1>Technical Documentation: Downloads and transcribes YouTube videos</h1>
-            <h2>1. Overview</h2>
+            <h3>Technical Documentation: Downloads and transcribes YouTube videos</h3>
+            <h4>1. Overview</h4>
             <p>The Video Summarizer System is an AI-powered solution that extracts, processes, and summarizes spoken
                 content from YouTube videos. It leverages speech-to-text transcription, natural language processing
                 (NLP), and LLM-based summarization for efficient video content analysis.
             </p>
-            <h2>2. System Architecture</h2>
+            <h4>2. System Architecture</h4>
             <ul>
                 <li>SourceConfig – Handles video source configurations and settings.</li>
                 <li>Transcriber – Extracts and processes audio from YouTube videos.</li>
@@ -71,7 +71,7 @@
                 <li>Concurrency Handling – Implements multi-threaded processing for efficiency.</li>
                 <li>File Management – Stores transcription and summary outputs.</li>
             </ul>
-            <h2>3. Dependencies</h2>
+            <h4>3. Dependencies</h4>
             <pre><code>
 subprocess - Executes system commands
 re - Performs regex-based text parsing and cleaning
@@ -84,8 +84,8 @@ pytubefix - Downloads YouTube videos/audio streams
 concurrent.futures - Manages multi-threaded execution
 time - Handles execution delays and error handling
         </code></pre>
-            <h2>4. Class Breakdown</h2>
-            <h3>4.1 SourceConfig</h3>
+            <h4>4. Class Breakdown</h4>
+            <h4>4.1 SourceConfig</h4>
             <pre><code>
 class SourceConfig:
     def __init__(self, source_type="YouTube Video", source_url=""):
