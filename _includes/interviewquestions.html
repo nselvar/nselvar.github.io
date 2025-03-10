@@ -1,59 +1,6 @@
 <div class="container">
     <h2>📌 Project Overview: Interview Question Generator Agents</h2>
 
-    <h3>🚀 Project Description</h3>
-    <p>The Interview Question Generator Agents project is a multi-agent system designed to generate Java programming interview questions, create test cases, and provide solutions. It uses Flowise AI, which integrates supervisory AI models, worker agents, and LLM-based reasoning to automate the question-generation pipeline.</p>
-
-    <h3>🔧 System Components</h3>
-    <h4>📂 Supervisor Agent</h4>
-    <ul>
-        <li>Manages multi-agent coordination.</li>
-        <li>Assigns tasks to worker agents in an optimal sequence.</li>
-        <li>Ensures efficient execution of the pipeline.</li>
-        <li>Implements recursion limits to prevent infinite loops.</li>
-    </ul>
-
-    <h4>👨‍💻 Worker Agents</h4>
-    <table>
-        <tr>
-            <th>Worker Name</th>
-            <th>Function</th>
-        </tr>
-        <tr>
-            <td>DataStructure Inquiry Agent</td>
-            <td>Captures user-selected data structure (Arrays, Trees, etc.).</td>
-        </tr>
-        <tr>
-            <td>Java Question Generator Agent</td>
-            <td>Generates Java programming questions based on the selected data structure.</td>
-        </tr>
-        <tr>
-            <td>Test Case Creator Agent</td>
-            <td>Designs a robust set of test cases for the generated questions.</td>
-        </tr>
-        <tr>
-            <td>Solution Provider Agent</td>
-            <td>Produces optimized Java solutions for the generated questions.</td>
-        </tr>
-    </table>
-
-    <h3>⚙️ System Workflow</h3>
-    <ol>
-        <li>User selects a data structure (Arrays, Linked Lists, Trees, Graphs).</li>
-        <li>Supervisor Agent assigns the task to the DataStructure Inquiry Agent.</li>
-        <li>Java Question Generator produces a medium-level Java programming question.</li>
-        <li>Test Case Creator Agent designs multiple test cases covering:
-            <ul>
-                <li>Edge cases</li>
-                <li>Typical input scenarios</li>
-                <li>Expected outputs</li>
-            </ul>
-        </li>
-        <li>Solution Provider Agent writes a fully functional Java solution for the question.</li>
-        <li>Supervisor validates the output and returns it to the user.</li>
-    </ol>
-
-
     <h3>🔎 Deployment & Execution</h3>
     <h4>🔹 Install Dependencies</h4>
     <pre><code>
@@ -79,9 +26,6 @@ python start_chatflow.py
         <li>🕵️ Access Control: Restricts LLM prompt injections with role-based security.</li>
     </ul>
 
-
-    <h3>🚀 Final Thoughts</h3>
-    <p>The Interview Question Generator Agents project optimizes the creation of Java programming interview questions, ensuring a structured, logically consistent, and AI-validated output.</p>
     <div class="container">
         <h2>📌 Project Overview: Interview Question Generator Agents</h2>
 
