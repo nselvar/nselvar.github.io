@@ -102,20 +102,20 @@
             <details>
                 <p> <strong>Click to know in detail architecture.</strong>.</p>
                 <div class="container">
-                    <h4>Technical Documentation: PDF Analyzer</h4>
-                    <h4>1. Overview</h4>
+                    <h5>Technical Documentation: PDF Analyzer</h5>
+                    <h5>1. Overview</h5>
                     <p>The PDF Analyzer is an AI-powered system that extracts text from PDF documents and analyzes its content
                         using OpenAI's GPT-based models. It creates structured knowledge bases and provides summarized
                         insights.
                     </p>
-                    <h4>2. System Architecture</h4>
+                    <h5>2. System Architecture</h5>
                     <ul>
                         <li>Uses OpenAI's LLM models for text analysis.</li>
                         <li>Extracts content using PyMuPDF (fitz) for efficient PDF text parsing.</li>
                         <li>Stores extracted knowledge in structured JSON format.</li>
                         <li>Summarizes processed text using OpenAI-based summarization.</li>
                     </ul>
-                    <h4>3. Dependencies</h4>
+                    <h5>3. Dependencies</h5>
                     <pre><code>
 from pathlib import Path
 from pydantic import BaseModel
@@ -124,7 +124,7 @@ from openai import OpenAI
 import fitz  # PyMuPDF
 from termcolor import colored
         </code></pre>
-                    <h4>4. Configuration Constants</h4>
+                    <h5>4. Configuration Constants</h5>
                     <pre><code>
 BASE_DIR = Path("book_analysis")
 PDF_DIR = BASE_DIR / "pdfs"
