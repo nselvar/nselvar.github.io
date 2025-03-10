@@ -68,10 +68,9 @@
 
 
     <div class="container">
-        <h2>🚀 AI Specialized Agents</h2>
 
         <div class="agent">
-            <h3>📄 PDF Summarizer (<code>pdf_agent</code>)</h3>
+            <h4>📄 PDF Summarizer (<code>pdf_agent</code>)</h4>
             <ul>
                 <li><strong>Prompts</strong> the user for a PDF file path.</li>
                 <li><strong>Extracts text content</strong> using <code>PyMuPDF</code> or <code>pdfplumber</code>.</li>
@@ -208,7 +207,7 @@ def save_summary(self, summary: str, is_final: bool = False):
         </div>
 
         <div class="agent">
-            <h3>🎥 YouTube Video Summarizer (<code>youtube_agent</code>)</h3>
+            <h4>🎥 YouTube Video Summarizer (<code>youtube_agent</code>)</h4>
             <ul>
                 <li>Uses <code>pytube</code> to <strong>download transcripts</strong> (if available).</li>
                 <li>If no transcript is available, leverages <strong>Whisper for speech-to-text conversion</strong>.</li>
@@ -316,7 +315,7 @@ except FileNotFoundError:
         </div>
 
         <div class="agent">
-            <h3>💼 Job Application Assistant (<code>job_agent</code>)</h3>
+            <h4>💼 Job Application Assistant (<code>job_agent</code>)</h4>
             <ul>
                 <li>Extracts <strong>resume information</strong>.</li>
                 <li>Uses <code>Selenium</code> or <code>LinkedIn API</code> to <strong>automate job applications</strong>.</li>
@@ -325,7 +324,7 @@ except FileNotFoundError:
         </div>
 
         <div class="agent">
-            <h3>📚 Homework Helper (<code>homework_agent</code>)</h3>
+            <h4>📚 Homework Helper (<code>homework_agent</code>)</h4>
             <ul>
                 <li>Uses <strong>Streamlit</strong> for an <strong>interactive UI</strong>.</li>
                 <li>Implements <strong>LLM-based step-by-step problem-solving</strong>.</li>
