@@ -12,85 +12,65 @@
 
             <style>
                 .accordion { max-width: 1000px; margin: 0 auto; }
-                .acc-item { border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 0.75rem; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
-                .acc-header { cursor: pointer; padding: 0.9rem 1rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; }
-                .acc-header:hover { background: #fafafa; }
-                .acc-chevron { transition: transform 200ms ease; }
-                .acc-panel { max-height: 0; overflow: hidden; transition: max-height 250ms ease; border-top: 1px dashed #e5e7eb; padding: 0 1rem; }
-                .acc-item.active .acc-panel { padding: 0.75rem 1rem 1rem; }
-                .acc-item.active .acc-chevron { transform: rotate(90deg); }
+                .accordion details {
+                  border: 1px solid #e5e7eb;
+                  border-radius: 12px;
+                  padding: 0.5rem 1rem;
+                  margin-bottom: 0.75rem;
+                  background: #fff;
+                  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+                }
+                .accordion summary {
+                  cursor: pointer;
+                  list-style: none;
+                  font-weight: 600;
+                  font-size: 1.05rem;
+                  padding: 0.75rem 0.25rem;
+                  display: flex; align-items: center; justify-content: space-between;
+                }
+                .accordion summary::-webkit-details-marker { display: none; }
+                .accordion .chev { transition: transform 200ms ease; }
+                details[open] .chev { transform: rotate(90deg); }
+                .accordion .panel {
+                  padding: 0.5rem 0.25rem 1rem;
+                  border-top: 1px dashed #e5e7eb;
+                  margin-top: 0.5rem;
+                }
             </style>
 
-            <div class="accordion" id="course-accordion">
-
-                <div class="acc-item active">
-                    <div class="acc-header">
-                        <span>Day 1: From Predictive Models to Autonomous Agents</span>
-                        <span class="acc-chevron">›</span>
+            <div class="accordion">
+                <!-- Day 1 -->
+                <details open>
+                    <summary>
+                        Day 1: From Predictive Models to Autonomous Agents
+                        <span class="chev">›</span>
+                    </summary>
+                    <div class="panel">
+                        <!-- Paste your full Day 1 HTML here (the big <div> you sent). -->
+                        <!-- ... -->
                     </div>
-                    <div class="acc-panel">
-                        <!-- Paste your Day 1 HTML block here -->
-                        <p>…your full Day 1 section…</p>
-                    </div>
-                </div>
+                </details>
 
-                <div class="acc-item">
-                    <div class="acc-header">
-                        <span>Day 2: (title here)</span>
-                        <span class="acc-chevron">›</span>
-                    </div>
-                    <div class="acc-panel"><p>Coming soon…</p></div>
-                </div>
+                <details>
+                    <summary>Day 2: <span class="chev">›</span></summary>
+                    <div class="panel"><p>Coming soon…</p></div>
+                </details>
 
-                <div class="acc-item">
-                    <div class="acc-header">
-                        <span>Day 3: (title here)</span>
-                        <span class="acc-chevron">›</span>
-                    </div>
-                    <div class="acc-panel"><p>Coming soon…</p></div>
-                </div>
+                <details>
+                    <summary>Day 3: <span class="chev">›</span></summary>
+                    <div class="panel"><p>Coming soon…</p></div>
+                </details>
 
-                <div class="acc-item">
-                    <div class="acc-header">
-                        <span>Day 4: (title here)</span>
-                        <span class="acc-chevron">›</span>
-                    </div>
-                    <div class="acc-panel"><p>Coming soon…</p></div>
-                </div>
+                <details>
+                    <summary>Day 4: <span class="chev">›</span></summary>
+                    <div class="panel"><p>Coming soon…</p></div>
+                </details>
 
-                <div class="acc-item">
-                    <div class="acc-header">
-                        <span>Day 5: (title here)</span>
-                        <span class="acc-chevron">›</span>
-                    </div>
-                    <div class="acc-panel"><p>Coming soon…</p></div>
-                </div>
-
+                <details>
+                    <summary>Day 5: <span class="chev">›</span></summary>
+                    <div class="panel"><p>Coming soon…</p></div>
+                </details>
             </div>
-
-            <script>
-                const acc = document.getElementById('course-accordion');
-                const items = Array.from(acc.querySelectorAll('.acc-item'));
-                const setHeights = () => {
-                  items.forEach(it => {
-                    const panel = it.querySelector('.acc-panel');
-                    panel.style.maxHeight = it.classList.contains('active') ? panel.scrollHeight + 'px' : '0px';
-                  });
-                };
-                setHeights();
-                window.addEventListener('resize', setHeights);
-
-                acc.addEventListener('click', (e) => {
-                  const header = e.target.closest('.acc-header');
-                  if (!header) return;
-                  const item = header.parentElement;
-                  // close all others
-                  items.forEach(it => it.classList.remove('active'));
-                  // open clicked
-                  item.classList.add('active');
-                  setHeights();
-                });
-            </script>
 
 
 
