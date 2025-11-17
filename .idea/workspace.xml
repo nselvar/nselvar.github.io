@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35ae15b5-55a1-4b65-b5fc-2847f5b44cb1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_includes/google-3day-intensive.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/google-3day-intensive.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,13 +39,13 @@
     "com.google.cloudcode.ide_session_index": "20250309_0000",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/nselvarajan/tes/nselvar.github.io"
+    "last_opened_file_path": "/Users/nselvarajan/tes/nselvar.github.io/assets/images"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/assets/images" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/assets/videos" />
     </key>
   </component>
