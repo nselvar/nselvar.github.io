@@ -11,65 +11,148 @@
             <h4></h4>
 
             <style>
-                .accordion { max-width: 1000px; margin: 0 auto; }
-                .accordion details {
-                  border: 1px solid #e5e7eb;
-                  border-radius: 12px;
-                  padding: 0.5rem 1rem;
-                  margin-bottom: 0.75rem;
-                  background: #fff;
-                  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+                .rc-acc { max-width: 1000px; margin: 0 auto; }
+                .rc-item { border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 0.75rem; background: #fff;
+                           box-shadow: 0 1px 6px rgba(0,0,0,0.04); overflow: hidden; }
+                .rc-title { display: flex; justify-content: space-between; align-items: center;
+                            padding: 0.9rem 1rem; font-weight: 600; cursor: pointer; }
+                .rc-chevron { transition: transform 200ms ease; }
+                .rc-panel { max-height: 0; overflow: hidden; transition: max-height 250ms ease;
+                            border-top: 1px dashed #e5e7eb; padding: 0 1rem; }
+                input[name="rc-acc"] { display: none; }
+                input[name="rc-acc"]:checked + label + .rc-panel {
+                  max-height: 6000px; padding: 0.75rem 1rem 1rem;
                 }
-                .accordion summary {
-                  cursor: pointer;
-                  list-style: none;
-                  font-weight: 600;
-                  font-size: 1.05rem;
-                  padding: 0.75rem 0.25rem;
-                  display: flex; align-items: center; justify-content: space-between;
-                }
-                .accordion summary::-webkit-details-marker { display: none; }
-                .accordion .chev { transition: transform 200ms ease; }
-                details[open] .chev { transform: rotate(90deg); }
-                .accordion .panel {
-                  padding: 0.5rem 0.25rem 1rem;
-                  border-top: 1px dashed #e5e7eb;
-                  margin-top: 0.5rem;
-                }
+                input[name="rc-acc"]:checked + label .rc-chevron { transform: rotate(90deg); }
             </style>
 
-            <div class="accordion">
-                <!-- Day 1 -->
-                <details open>
-                    <summary>
-                        Day 1: From Predictive Models to Autonomous Agents
-                        <span class="chev">›</span>
-                    </summary>
-                    <div class="panel">
-                        <!-- Paste your full Day 1 HTML here (the big <div> you sent). -->
-                        <!-- ... -->
+            <div class="rc-acc">
+
+                <!-- ✅ Day 1 -->
+                <div class="rc-item">
+                    <input type="radio" id="rc-d1" name="rc-acc" checked>
+                    <label class="rc-title" for="rc-d1">
+                        <span>Day 1: From Predictive Models to Autonomous Agents</span>
+                        <span class="rc-chevron">›</span>
+                    </label>
+                    <div class="rc-panel">
+
+                        <!-- Begin Day 1 content -->
+                        <div>
+                            <div>
+                                <div>
+                                    <br>
+                                    <h2>5-Day AI Agents Intensive Course with Google</h2>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <br>
+                                                <h4>Day 1: From Predictive Models to Autonomous Agents — My Entry into the Agentic Era</h4>
+
+                                                <p>
+                                                    Today marked the kickoff of my 5-day deep dive into the world of
+                                                    <strong>AI Agents</strong> — and let’s just say, it was mind-expanding.
+                                                    We’re no longer talking about prompt-response LLMs that simply autocomplete text.
+                                                    This new paradigm is about <strong>autonomous, goal-oriented systems</strong>
+                                                    that can reason, plan, act, and learn in continuous feedback loops.
+                                                    The shift from predictive AI to agentic AI feels like moving from single-threaded
+                                                    functions to a distributed intelligence system.
+                                                    These agents aren’t static models — they’re
+                                                    <em>self-directed applications</em> that integrate cognition (via LLMs),
+                                                    execution (via API tools), and governance (through orchestration layers).
+                                                </p>
+
+                                                <p style="text-align:center;">
+                                                    <img src="images/day_1_1.png"
+                                                         alt="Agentic AI Think–Act–Observe feedback loop"
+                                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                                    <em>Figure 1 — The Agentic AI Problem-Solving Loop</em>
+                                                </p>
+
+                                                <h4>⚙️ Dissecting the Agent Stack — Brain, Hands, and Nervous System</h4>
+                                                <ul>
+                                                    <li><strong>The Model (Brain):</strong> a foundation LLM like Gemini 2.5 Pro or GPT-4o that handles reasoning, logic, and semantic planning.</li>
+                                                    <li><strong>Tools (Hands):</strong> APIs, databases, or code sandboxes that let the agent manipulate real-world data.</li>
+                                                    <li><strong>Orchestration Layer (Nervous System):</strong> manages the “Think → Act → Observe” loop, applies ReAct and Chain-of-Thought techniques, dynamically curates context windows, and injects runtime memory.</li>
+                                                </ul>
+
+                                                <p>
+                                                    We also explored <strong>context engineering</strong> — the next evolution of prompt engineering — where developers fine-tune
+                                                    what the model “pays attention to” by assembling system prompts, user intent, RAG-based memory, and API outputs into one cohesive thought stream.
+                                                </p>
+
+                                                <p style="text-align:center;">
+                                                    <img src="images/day_1_3.png"
+                                                         alt="Agent Architecture and Workflow Diagram"
+                                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                                    <em>Figure 3 — Agent Architecture and Workflow (from Day 1 Workshop)</em>
+                                                </p>
+
+                                                <h4>🧩 Levels of Intelligence — From Single Brain to Multi-Agent Ecosystems</h4>
+                                                <p>The session introduced a fascinating five-level taxonomy of agentic systems:</p>
+                                                <ul>
+                                                    <li><strong>Level 0 — Plain LLMs:</strong> isolated reasoning without real-world awareness.</li>
+                                                    <li><strong>Level 1 — Connected Problem Solvers:</strong> agents using APIs and RAG for grounding.</li>
+                                                    <li><strong>Level 2 — Strategic Planners:</strong> multi-step reasoners managing context and state.</li>
+                                                    <li><strong>Level 3 — Collaborative Multi-Agent Systems:</strong> a “team of specialists” communicating via A2A protocols.</li>
+                                                    <li><strong>Level 4 — Self-Evolving Systems:</strong> agents capable of autonomous tool creation and meta-reasoning.</li>
+                                                </ul>
+
+                                                <p style="text-align:center;">
+                                                    <img src="images/day_1_2.png"
+                                                         alt="Five Levels of Agentic Intelligence Pyramid"
+                                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                                    <em>Figure 2 — Five Levels of Agentic Intelligence</em>
+                                                </p>
+
+                                                <p>
+                                                    Examples like <strong>Google Co-Scientist</strong> (a research agent ecosystem that auto-generates and tests hypotheses) and
+                                                    <strong>AlphaEvolve</strong> (an evolutionary AI that iteratively evolves code) showed that this isn’t sci-fi anymore —
+                                                    it’s <strong>production-grade autonomy</strong>.
+                                                </p>
+
+                                                <h4>🧰 Developer Mindset 2.0 — AgentOps Is the New DevOps</h4>
+                                                <p>
+                                                    As a backend engineer, what hooked me was <strong>AgentOps</strong> — the operational discipline for managing non-deterministic systems.
+                                                    Traditional unit tests don’t cut it when responses are stochastic.
+                                                    Instead, we use LM-as-Judge evaluations, OpenTelemetry traces, and metrics-driven development to validate reasoning quality,
+                                                    cost efficiency, and latency profiles. Deployment happens via Vertex AI Agent Engine or containerized stacks like Cloud Run and GKE.
+                                                </p>
+
+                                                <p>
+                                                    The best part? We’re now <strong>architecting intelligence</strong>, not just writing logic.
+                                                    Agent design feels like orchestrating microservices with cognition — each component has observability, identity, memory, and even a persona.
+                                                </p>
+
+                                                <h4>💡 Day 1 Takeaway and Assignment</h4>
+                                                <p>
+                                                    Day 1 didn’t just teach me about agents — it reframed how I think about software itself.
+                                                    Developers are becoming system directors, managing fleets of autonomous reasoning entities.
+                                                    Our hands-on assignment was to build a simple agent loop using a language model, a mock API tool, and a basic orchestration layer to make the agent “think–act–observe” autonomously.
+                                                    I wired an LLM call with a pseudo-RAG component and live debug logging — essentially bootstrapping my first mini <strong>AgentOps</strong> pipeline.
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Day 1 content -->
+
                     </div>
-                </details>
+                </div>
 
-                <details>
-                    <summary>Day 2: <span class="chev">›</span></summary>
-                    <div class="panel"><p>Coming soon…</p></div>
-                </details>
+                <!-- Empty shells for Days 2–5 -->
+                <div class="rc-item">
+                    <input type="radio" id="rc-d2" name="rc-acc">
+                    <label class="rc-title" for="rc-d2"><span>Day 2</span><span class="rc-chevron">›</span></label>
+                    <div class="rc-panel"><p>Coming soon …</p></div>
+                </div>
+                <div class="rc-item"><input type="radio" id="rc-d3" name="rc-acc"><label class="rc-title" for="rc-d3"><span>Day 3</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
+                <div class="rc-item"><input type="radio" id="rc-d4" name="rc-acc"><label class="rc-title" for="rc-d4"><span>Day 4</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
+                <div class="rc-item"><input type="radio" id="rc-d5" name="rc-acc"><label class="rc-title" for="rc-d5"><span>Day 5</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
 
-                <details>
-                    <summary>Day 3: <span class="chev">›</span></summary>
-                    <div class="panel"><p>Coming soon…</p></div>
-                </details>
-
-                <details>
-                    <summary>Day 4: <span class="chev">›</span></summary>
-                    <div class="panel"><p>Coming soon…</p></div>
-                </details>
-
-                <details>
-                    <summary>Day 5: <span class="chev">›</span></summary>
-                    <div class="panel"><p>Coming soon…</p></div>
-                </details>
             </div>
 
 
