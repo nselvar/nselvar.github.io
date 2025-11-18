@@ -128,11 +128,128 @@
                 </div>
 
                 <!-- Empty shells for Days 2–5 -->
+                <!-- ✅ Day 2 -->
                 <div class="rc-item">
                     <input type="checkbox" id="rc-d2" name="rc-acc">
-                    <label class="rc-title" for="rc-d2"><span>Day 2</span><span class="rc-chevron">›</span></label>
-                    <div class="rc-panel"><p>Coming soon …</p></div>
+                    <label class="rc-title" for="rc-d2">
+                        <span>Day 2: Agent Tools & Interoperability with MCP — When AI Met APIs</span>
+                        <span class="rc-chevron">›</span>
+                    </label>
+                    <div class="rc-panel">
+
+                        <!-- Begin Day 2 content -->
+                        <br>
+                        <h4>Day 2: Agent Tools & Interoperability with MCP — When AI Met APIs</h4>
+
+                        <p>
+                            Day 2 was pure developer candy 🍬. After Day 1’s cognitive deep-dive, we dropped straight into the plumbing — the
+                            <strong>tooling stack</strong> that gives AI agents real-world powers. This session was the perfect mash-up of
+                            systems design, distributed computing, and protocol engineering — with enough JSON-RPC wizardry to make any backend nerd grin.
+                            The theme was clear: <strong>tools make agents useful</strong>. A model that can’t call an API is like a brain without hands.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_1.png"
+                                 alt="Weather Agent Tool Call example (MCP function call workflow)"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 1 — Weather Agent Tool Call example</em>
+                        </p>
+
+                        <h4>🧠 Tools 101 — The Model’s Hands and the World’s API</h4>
+                        <p>
+                            We started with the basics: a <strong>tool</strong> is a callable function or program that extends an LLM’s capabilities — its “hands.”
+                            Two major types exist — <em>knowledge tools</em> (for retrieving data) and <em>action tools</em> (for executing tasks).
+                            The Weather Agent diagram showed <code>get_weather()</code> and <code>convert_temperature_units()</code> wired through MCP’s function-calling interface —
+                            a clean cascade of JSON-RPC requests and responses.
+                        </p>
+
+                        <p>
+                            We explored three tool categories:
+                            <strong>Function Tools</strong>, <strong>Built-in Tools</strong>, and <strong>Agent Tools</strong>.
+                            Function Tools are simple Python functions wrapped in schemas. Built-in Tools are native to the model — Gemini includes Google Search,
+                            Code Execution, and Computer Use. Agent Tools are meta — one agent exposes itself as a tool to another, enabling
+                            <strong>Agent-to-Agent (A2A)</strong> composition. It’s literally “AI as a function.”
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_2.png"
+                                 alt="MCP Host–Client–Server architecture diagram"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 2 — MCP Host–Client–Server Architecture</em>
+                        </p>
+
+                        <h4>🔌 From Chaos to Protocol — Enter the Model Context Protocol (MCP)</h4>
+                        <p>
+                            Without a standard interface, connecting LLMs to tools is an N×M nightmare.
+                            <strong>Model Context Protocol (MCP)</strong> fixes this by acting as a universal contract for AI-to-tool communication —
+                            a kind of HTTP for Agents. It defines a clean three-tier architecture:
+                        </p>
+                        <ul>
+                            <li><strong>Host —</strong> manages agent sessions and policy enforcement.</li>
+                            <li><strong>Client —</strong> bridges LLM calls to MCP servers.</li>
+                            <li><strong>Server —</strong> provides tools and capabilities (APIs, databases, services).</li>
+                        </ul>
+                        <p>
+                            Each call flows as a JSON-RPC session (<code>tools/call</code> requests/responses) — green hosts, blue servers, connected by structured RPC pipes.
+                        </p>
+
+                        <h4>🧩 Primitives and Schemas — The Data Contracts of AI</h4>
+                        <p>
+                            The MCP spec defines six primitives: <strong>Tools, Resources, Prompts, Sampling, Elicitation,</strong> and <strong>Roots</strong>.
+                            Tools dominate — each defined by a JSON schema with <code>inputSchema</code>, <code>outputSchema</code>, and annotations like
+                            <code>readOnlyHint</code> and <code>idempotentHint</code>.
+                            It’s like OpenAPI for AI Ops — finally some type safety for LLMs.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_3.png"
+                                 alt="MCP Transport Protocols diagram"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 3 — MCP Transport Protocols</em>
+                        </p>
+
+                        <h4>⚙️ Governance, Scalability & Security — The Enterprise Layer</h4>
+                        <p>
+                            MCP is powerful but risky: dynamic capability injection, tool shadowing, and the confused-deputy problem.
+                            We learned defensive patterns — explicit allowlists, mutual TLS, taint tracking, and Apigee gateways for policy enforcement.
+                        </p>
+
+
+                        <h4>🔬 Assignment — Building Our Own MCP Tool</h4>
+                        <p>
+                            Our assignment was hands-on: we built a mini MCP server exposing a custom tool (<code>get_stock_price</code>) with JSON schema validation.
+                            We wired a Gemini 2.5 Flash LLM client to discover and invoke it at runtime, tested mock data over Streamable HTTP, and validated outputs.
+                            In short, we built a mini API gateway that <em>thinks for itself</em> — and it worked like a charm.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_5.png"
+                                 alt="MCP Transport Protocols diagram"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_6.png"
+                                 alt="MCP Transport Protocols diagram"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                        </p>
+
+                        <h4>💡 Day 2 Takeaway</h4>
+                        <p>
+                            If Day 1 was about teaching AI to <em>think</em>, Day 2 was about teaching it to <em>act safely and at scale</em>.
+                            The Model Context Protocol felt like the missing bridge between APIs and intelligence — a proper contract for AI autonomy.
+                            It was nerdy, elegant, and beautifully engineered.
+                        </p>
+
+                        <p>
+                            You can find the assignment & code in my&nbsp;
+                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                        </p>
+                        <!-- End Day 2 content -->
+
+                    </div>
                 </div>
+
                 <div class="rc-item"><input type="checkbox" id="rc-d3" name="rc-acc"><label class="rc-title" for="rc-d3"><span>Day 3</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
                 <div class="rc-item"><input type="checkbox" id="rc-d4" name="rc-acc"><label class="rc-title" for="rc-d4"><span>Day 4</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
                 <div class="rc-item"><input type="checkbox" id="rc-d5" name="rc-acc"><label class="rc-title" for="rc-d5"><span>Day 5</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
