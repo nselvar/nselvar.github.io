@@ -250,7 +250,138 @@
                     </div>
                 </div>
 
-                <div class="rc-item"><input type="checkbox" id="rc-d3" name="rc-acc"><label class="rc-title" for="rc-d3"><span>Day 3</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
+                <!-- ✅ Day 3 -->
+                <div class="rc-item">
+                    <input type="checkbox" id="rc-d3" name="rc-acc">
+                    <label class="rc-title" for="rc-d3">
+                        <span>Day 3: Context Engineering, Sessions & Memory — Teaching Agents to Remember</span>
+                        <span class="rc-chevron">›</span>
+                    </label>
+                    <div class="rc-panel">
+
+                        <!-- Begin Day 3 content -->
+                        <br>
+                        <h4>🧠 Day 3: Context Engineering, Sessions & Memory — Teaching Agents to Remember Like Humans</h4>
+
+                        <p>
+                            If Day 1 gave agents a brain and Day 2 gave them hands, Day 3 gave them <strong>memory</strong> — the power to
+                            <em>remember, forget, and evolve</em>. This session felt like digital neuroscience: how large language models transition
+                            from stateless text predictors to stateful, context-aware entities.
+                            The core idea was <strong>Context Engineering</strong> — dynamically assembling the perfect mix of conversation history,
+                            system prompts, user memories, and retrieved data so that the agent always “knows” what matters right now.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_1.png"
+                                 alt="Flow of Context Management for Agents"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 1 — Flow of Context Management for Agents</em>
+                        </p>
+
+                        <h4>🧩 Context Engineering — From Prompting to State Management</h4>
+                        <p>
+                            LLMs are inherently <strong>stateless</strong>. Out of the box they forget everything between calls.
+                            Context Engineering fixes that by orchestrating <em>sessions</em>, <em>memory managers</em>, and
+                            <em>retrieval pipelines</em> to curate what sits inside the model’s context window at every step.
+                            Think of it as replacing static prompts with a dynamic orchestration layer that selects relevant instructions,
+                            examples, user memories, and RAG results in real time.
+                            Prompt engineering is the recipe; <strong>context engineering is the mise en place</strong> — the prep work that makes
+                            intelligent reasoning possible.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_2.png"
+                                 alt="Context Fetch → Prepare → Invoke → Upload Cycle"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 2 — Context Fetch → Prepare → Invoke → Upload Cycle</em>
+                        </p>
+
+                        <h4>⚙️ Sessions — The Short-Term Memory of the AI Mind</h4>
+                        <p>
+                            A <strong>Session</strong> is the agent’s working desk — a mutable space that holds conversation
+                            <em>events</em> (user queries, model replies, tool calls) and state data.
+                            Frameworks implement this differently:
+                        <ul>
+                            <li><strong>ADK</strong> — explicit <code>Session</code> and <code>Event</code> objects (log-based, append-only).</li>
+                            <li><strong>LangGraph</strong> — treats the entire state as a compacted session object.</li>
+                            <li><strong>Multi-Agent Systems</strong> — share session logs via A2A protocols without losing isolation.</li>
+                        </ul>
+                        Sessions act like short-term memory — cleared when projects end, summarized into long-term storage afterward.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_3.png"
+                                 alt="Session and Event Object Lifecycle"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 3 — Session and Event Object Lifecycle</em>
+                        </p>
+
+                        <h4>💾 Memory — Turning Conversations into Long-Term Knowledge</h4>
+                        <p>
+                            Then came <strong>Memory</strong> — the long-term knowledge layer that transforms raw chats into structured facts.
+                            It’s not “save history” — it’s an <em>LLM-powered ETL pipeline</em> that extracts key information,
+                            resolves conflicts, deduplicates entities, and stores them in vector databases or knowledge graphs for semantic retrieval.
+                            The memory loop is essentially self-curation for AI knowledge.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_4.png"
+                                 alt="Memory Generation and Consolidation Pipeline"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 4 — Memory Generation and Consolidation Pipeline</em>
+                        </p>
+
+                        <h4>🧠 Declarative vs Procedural Memory — Facts and Workflows</h4>
+                        <p>
+                            Memories split into two types:
+                            <strong>Declarative</strong> (facts and preferences) and <strong>Procedural</strong> (workflows and skills).
+                            Declarative memory lets agents know you; procedural memory lets them help you efficiently.
+                            Together, they mirror the human hippocampus and prefrontal cortex — data plus process.
+                            Stored across vector DBs and knowledge graphs, they enable hybrid semantic-graph reasoning.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_5.png"
+                                 alt="Memory Provenance and Lineage"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 5 — Memory Provenance and Lineage</em>
+                        </p>
+
+                        <h4>🔬 Assignment — Building a Memory-Enabled Agent</h4>
+                        <p>
+                            For the assignment, we implemented a <em>Memory-as-a-Tool</em> pattern using Google’s ADK.
+                            We built a custom tool <code>generate_memories()</code> to extract facts from chat sessions and persist them in the Agent Engine Memory Bank.
+                            The memory manager handled deduplication and provenance tracking before storing them in a vector database.
+                            Retrieval hooks then let the agent pre-load context or fetch relevant memories mid-conversation.
+                            Watching an agent recall something from two sessions ago felt like seeing synthetic cognition come alive.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_3_6.png"
+                                 alt="ADK Memory Tool Implementation"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 6 — ADK Memory Tool Implementation</em>
+                        </p>
+
+                        <h4>💡 Day 3 Takeaway</h4>
+                        <p>
+                            If Day 1 was about teaching AI to <em>think</em> and Day 2 was about teaching it to <em>act</em>, Day 3 was about teaching it to <em>remember</em>.
+                            <strong>Context Engineering</strong> isn’t prompt tuning — it’s AI systems design.
+                            Sessions provide short-term workspace; memory adds history and continuity.
+                            Together, they form the cognitive backbone of agentic AI.
+                            We’re no longer just coding logic; we’re building digital minds with memory hierarchies and self-curation pipelines.
+                        </p>
+
+                        <p>
+                            You can find the assignment & code in my&nbsp;
+                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                        </p>
+                        <!-- End Day 3 content -->
+
+                    </div>
+                </div>
+
+
                 <div class="rc-item"><input type="checkbox" id="rc-d4" name="rc-acc"><label class="rc-title" for="rc-d4"><span>Day 4</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
                 <div class="rc-item"><input type="checkbox" id="rc-d5" name="rc-acc"><label class="rc-title" for="rc-d5"><span>Day 5</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
 
