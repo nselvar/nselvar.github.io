@@ -551,6 +551,29 @@
                             <em>Figure 7 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>
                         </p>
 
+                        <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>
+                        <p>
+                            Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.
+                            We built an <strong>ADK-based agent</strong> that streamed telemetry to
+                            <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.
+                            Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.
+                            We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —
+                            turning raw reasoning into a living system graph.
+                        </p>
+
+                        <p>
+                            In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.
+                            Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.
+                            This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)
+                            represented the holy grail of cognitive telemetry.
+                            The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —
+                            the perfect visualization of intelligence under observation.
+                        </p>
+                        <p>
+                            You can find the assignment & code in my&nbsp;
+                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                        </p>
+
                     </div>
                 </div>
 
