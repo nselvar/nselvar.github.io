@@ -178,12 +178,7 @@
                             The theme was clear: <strong>tools make agents useful</strong>. A model that can’t call an API is like a brain without hands.
                         </p>
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_1.png"
-                                 alt="Weather Agent Tool Call example (MCP function call workflow)"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 1 — Weather Agent Tool Call example</em>
-                        </p>
+
 
                         <h4>🧠 Tools 101 — The Model’s Hands and the World’s API</h4>
                         <p>
@@ -191,6 +186,13 @@
                             Two major types exist — <em>knowledge tools</em> (for retrieving data) and <em>action tools</em> (for executing tasks).
                             The Weather Agent diagram showed <code>get_weather()</code> and <code>convert_temperature_units()</code> wired through MCP’s function-calling interface —
                             a clean cascade of JSON-RPC requests and responses.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_1.png"
+                                 alt="Weather Agent Tool Call example (MCP function call workflow)"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 1 — Weather Agent Tool Call example</em>
                         </p>
 
                         <p>
@@ -201,12 +203,7 @@
                             <strong>Agent-to-Agent (A2A)</strong> composition. It’s literally “AI as a function.”
                         </p>
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_2.png"
-                                 alt="MCP Host–Client–Server architecture diagram"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — MCP Host–Client–Server Architecture</em>
-                        </p>
+
 
                         <h4>🔌 From Chaos to Protocol — Enter the Model Context Protocol (MCP)</h4>
                         <p>
@@ -221,6 +218,13 @@
                         </ul>
                         <p>
                             Each call flows as a JSON-RPC session (<code>tools/call</code> requests/responses) — green hosts, blue servers, connected by structured RPC pipes.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_2_2.png"
+                                 alt="MCP Host–Client–Server architecture diagram"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 2 — MCP Host–Client–Server Architecture</em>
                         </p>
 
                         <h4>🧩 Primitives and Schemas — The Data Contracts of AI</h4>
