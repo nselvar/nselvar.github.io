@@ -428,7 +428,138 @@
                 </div>
 
 
-                <div class="rc-item"><input type="checkbox" id="rc-d4" name="rc-acc"><label class="rc-title" for="rc-d4"><span>Day 4</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
+                <!-- ✅ Day 4 -->
+                <div class="rc-item">
+                    <input type="checkbox" id="rc-d4" name="rc-acc">
+                    <label class="rc-title" for="rc-d4">
+                        <span>Day 4: Observability & Evaluation — Peering Inside the AI Mind</span>
+                        <span class="rc-chevron">›</span>
+                    </label>
+
+                    <div class="rc-panel">
+
+                        <p>
+                            If Day 3 was about giving agents memory, Day 4 was about giving them <strong>self-awareness</strong>.
+                            We dove deep into <strong>Agent Observability and Evaluation</strong> — essentially, the DevOps backbone of the agentic world.
+                            In classical systems, debugging meant chasing logs and metrics. But here, we’re not debugging code — we’re debugging
+                            <em>thought</em>. The discipline now revolves around understanding <em>how</em> an agent thinks, acts, and learns in real time.
+                            Think of this as moving from <strong>monitoring</strong> to <strong>true cognitive observability</strong>,
+                            where we don’t just ask “Is it running?” but “Is it reasoning correctly?”
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_4_1.png"
+                                 alt="Three Pillars of Agent Observability"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                            <em>Figure 1 — The Three Pillars of Agent Observability</em>
+                        </p>
+
+                        <h4>🍳 The Kitchen Analogy — From Line Cook to Gourmet Chef</h4>
+                        <p>
+                            The instructors used the <strong>Kitchen Analogy</strong> to nail the concept.
+                            Traditional software is like a <em>line cook</em> — rigid recipe, predictable output, easy to monitor.
+                            But an AI agent is a <em>gourmet chef</em>: given random ingredients and a creative challenge, it must improvise.
+                            Observability, then, becomes the food critic’s job — understanding each decision and reasoning step.
+                            We’re no longer checking recipes; we’re <strong>critiquing cognition</strong>.
+                        </p>
+
+
+
+                        <h4>📊 The Three Pillars — Logs, Traces, and Metrics</h4>
+                        <p>
+                            Observability for AI agents stands on three core pillars:
+                        <ul>
+                            <li><strong>Logs:</strong> The agent’s diary — every prompt, tool call, and context update captured in structured JSON.</li>
+                            <li><strong>Traces:</strong> The agent’s footsteps — a narrative chain showing cause and effect between reasoning steps.</li>
+                            <li><strong>Metrics:</strong> The agent’s health report — latency, token cost, and reasoning quality visualized over time.</li>
+                        </ul>
+                        These together transform an opaque black box into a <strong>glass box of cognition</strong>.
+                        We configured <strong>OpenTelemetry</strong> to stitch logs and traces into a unified reasoning timeline.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_4_3.png"
+                                 alt="OpenTelemetry Tracing Visualization"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 3 — Distributed Tracing and Observability Visualization</em>
+                        </p>
+
+                        <h4>⚙️ Logging Deep Dive — The Agent’s Diary</h4>
+                        <p>
+                            Using the <strong>Agent Development Kit (ADK)</strong>, we built contextual, structured logs that record every LLM action,
+                            tool call, and context mutation. Each log contains IDs, token usage, latency, and reasoning stage.
+                            The challenge was balancing <em>verbosity vs. performance</em> — detailed enough to debug, lightweight enough for scale.
+                        </p>
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_4_4.png"
+                                 alt="A structured log entry capturing a single LLM request"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 4 — A structured log entry capturing a single LLM request</em>
+                        </p>
+
+                        <h4>🔗 Tracing — The Detective’s Red String Board</h4>
+                        <p>
+                            Tracing links events together into a cohesive story.
+                            Every request becomes a <strong>trace</strong>, each reasoning step a <strong>span</strong>, annotated with metadata like latency,
+                            model ID, and API cost.
+                            When something breaks, logs tell you <em>what</em> happened — but traces show <em>why</em>.
+                            It’s cognitive forensics at runtime.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_4_3.png"
+                                 alt="Sample OpenTelemetry Trace Timeline"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 5 — End-to-End Trace for an Agentic Request</em>
+                        </p>
+
+                        <h4>📈 Metrics — Quantifying Agent Health</h4>
+                        <p>
+                            Metrics act as the vital signs of an agent’s mind:
+                        <ul>
+                            <li><strong>System Metrics:</strong> Latency, token count, error rates, and API cost.</li>
+                            <li><strong>Quality Metrics:</strong> Helpfulness, accuracy, and safety — often evaluated using LLM-as-a-Judge.</li>
+                        </ul>
+                        We built dashboards to visualize both operational and qualitative metrics, giving a full 360° view of agent performance.
+                        </p>
+
+
+
+                        <h4>🧩 Assignment — Building an Observability Pipeline</h4>
+                        <p>
+                            For our hands-on, we instrumented an <strong>ADK-based agent</strong> with complete observability —
+                            emitting logs, traces, and metrics through <strong>OpenTelemetry</strong> and <strong>Google Cloud Monitoring</strong>.
+                            We added a <strong>custom “helpfulness” metric</strong> using an LLM-as-a-Judge model, linking response quality with trace data.
+                            The result? A live dashboard showing latency spikes, reasoning chains, and quality scores — pure
+                            <em>AgentOps meets Cognitive Analytics</em>.
+                        </p>
+
+
+
+                        <h4>💡 Takeaway — Quality Is Architecture, Not QA</h4>
+                        <p>
+                            Day 4 fundamentally changed how I think about AI reliability.
+                            We don’t test agents after deployment — we <strong>design them for visibility</strong> from the ground up.
+                            Logs, traces, and metrics together form the nervous system of intelligent systems,
+                            enabling debugging, evaluation, and trust at scale.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_4_8.png"
+                                 alt="The Agent Quality Flywheel"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 7 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>
+                        </p>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
                 <div class="rc-item"><input type="checkbox" id="rc-d5" name="rc-acc"><label class="rc-title" for="rc-d5"><span>Day 5</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
 
             </div>
