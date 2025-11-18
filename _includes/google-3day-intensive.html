@@ -48,7 +48,7 @@
                         </p>
 
                         <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_3.png"
+                            <img src="../../assets/images/day_1_2.png"
                                  alt="Agentic AI Think–Act–Observe feedback loop"
                                  style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
                             <em>Figure 1 — The Agentic AI Problem-Solving Loop</em>
@@ -66,12 +66,6 @@
                             what the model “pays attention to” by assembling system prompts, user intent, RAG-based memory, and API outputs into one cohesive thought stream.
                         </p>
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_3.png"
-                                 alt="Agent Architecture and Workflow Diagram"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — Agent Architecture and Workflow (from Day 1 Workshop)</em>
-                        </p>
 
                         <h4>🧩 Levels of Intelligence — From Single Brain to Multi-Agent Ecosystems</h4>
                         <p>The session introduced a fascinating five-level taxonomy of agentic systems:</p>
@@ -96,12 +90,56 @@
                             it’s <strong>production-grade autonomy</strong>.
                         </p>
 
+
+                        <h4>🧩 Multi-Agent Systems and Design Patterns</h4>
+                        <p>
+                            As problems scale in complexity, the idea of building a single, all-knowing “super-agent” quickly becomes impractical.
+                            Instead, the modern approach mirrors human organizations — a <strong>team of specialist agents</strong>, each mastering a focused domain.
+                            This modular architecture forms the backbone of a <strong>multi-agent system</strong>, where a large goal is decomposed into smaller,
+                            discrete subtasks executed by specialized AI agents.
+                            This design isn’t just elegant — it’s scalable, debuggable, and easier to evolve over time.
+                        </p>
+
+                        <p>
+                            In this ecosystem, developers rely on <strong>agentic design patterns</strong>, much like system architects use distributed computing patterns.
+                            For dynamic, branching workflows, the <strong>Coordinator pattern</strong> acts like a project manager, decomposing complex goals,
+                            routing subtasks to expert agents (a researcher, a writer, a coder), and synthesizing the results.
+                            For more structured pipelines, the <strong>Sequential pattern</strong> works like a digital assembly line — the output of one agent becomes
+                            the input of the next.
+                            When quality assurance is critical, the <strong>Iterative Refinement pattern</strong> pairs a “generator” agent with a “critic” agent to form
+                            a self-improving feedback loop.
+                            And in safety-sensitive applications, the <strong>Human-in-the-Loop (HITL)</strong> pattern ensures that a person remains in control —
+                            introducing deliberate checkpoints before an agent executes high-impact decisions.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_1_3.png"
+                                 alt="Common Multi-Agent Design Patterns: Coordinator, Sequential, Refinement, and HITL"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25); margin-top:10px;">
+                            <em>Figure 8 — Common Multi-Agent Design Patterns: Coordinator, Sequential, Iterative Refinement, and HITL</em>
+                        </p>
+
+                        <p>
+                            Together, these blueprints define the emerging <strong>agent engineering discipline</strong> — blending cognitive autonomy with
+                            classical software design thinking.
+                            They represent how agents can be structured, governed, and interconnected to operate like intelligent, collaborative microservices.
+                        </p>
+
+
+
                         <h4>🧰 Developer Mindset 2.0 — AgentOps Is the New DevOps</h4>
                         <p>
                             As a backend engineer, what hooked me was <strong>AgentOps</strong> — the operational discipline for managing non-deterministic systems.
                             Traditional unit tests don’t cut it when responses are stochastic.
                             Instead, we use LM-as-Judge evaluations, OpenTelemetry traces, and metrics-driven development to validate reasoning quality,
                             cost efficiency, and latency profiles. Deployment happens via Vertex AI Agent Engine or containerized stacks like Cloud Run and GKE.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_1_1.png"
+                                 alt="Five Levels of Agentic Intelligence Pyramid"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 4 —  Relationships between the operational domains of DevOps, MLOps, and GenAIOps</em>
                         </p>
 
                         <p>
