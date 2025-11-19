@@ -87,6 +87,141 @@
                             <strong>agentic architectures</strong> differ from traditional LLM applications—laying the groundwork for
                             building intelligent, autonomous systems.
                         </p>
+                        <!-- ✅ Day 1 -->
+                        <div class="rc-item">
+                            <input type="checkbox" id="rc-d1" name="rc-acc">
+                            <label class="rc-title" for="rc-d1">
+                                <span>Day 1: From Predictive Models to Autonomous Agents</span>
+                                <span class="rc-chevron">›</span>
+                            </label>
+                            <div class="rc-panel">
+                                <!-- Begin Day 1 content -->
+                                <p>
+                                    Today marked the kickoff of my 5-day deep dive into the world of
+                                    <strong>AI Agents</strong> — and let’s just say, it was mind-expanding.
+                                    We’re no longer talking about prompt-response LLMs that simply autocomplete text.
+                                    This new paradigm is about <strong>autonomous, goal-oriented systems</strong>
+                                    that can reason, plan, act, and learn in continuous feedback loops.
+                                    The shift from predictive AI to agentic AI feels like moving from single-threaded
+                                    functions to a distributed intelligence system.
+                                    These agents aren’t static models — they’re
+                                    <em>self-directed applications</em> that integrate cognition (via LLMs),
+                                    execution (via API tools), and governance (through orchestration layers).
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_1_2.png"
+                                         alt="Agentic AI Think–Act–Observe feedback loop"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 1 — The Agentic AI Problem-Solving Loop</em>
+                                </p>
+
+                                <h4>⚙️ Dissecting the Agent Stack — Brain, Hands, and Nervous System</h4>
+                                <ul>
+                                    <li><strong>The Model (Brain):</strong> a foundation LLM like Gemini 2.5 Pro or GPT-4o that handles reasoning, logic, and semantic planning.</li>
+                                    <li><strong>Tools (Hands):</strong> APIs, databases, or code sandboxes that let the agent manipulate real-world data.</li>
+                                    <li><strong>Orchestration Layer (Nervous System):</strong> manages the “Think → Act → Observe” loop, applies ReAct and Chain-of-Thought techniques, dynamically curates context windows, and injects runtime memory.</li>
+                                </ul>
+
+                                <p>
+                                    We also explored <strong>context engineering</strong> — the next evolution of prompt engineering — where developers fine-tune
+                                    what the model “pays attention to” by assembling system prompts, user intent, RAG-based memory, and API outputs into one cohesive thought stream.
+                                </p>
+
+
+                                <h4>🧩 Levels of Intelligence — From Single Brain to Multi-Agent Ecosystems</h4>
+                                <p>The session introduced a fascinating five-level taxonomy of agentic systems:</p>
+                                <ul>
+                                    <li><strong>Level 0 — Plain LLMs:</strong> isolated reasoning without real-world awareness.</li>
+                                    <li><strong>Level 1 — Connected Problem Solvers:</strong> agents using APIs and RAG for grounding.</li>
+                                    <li><strong>Level 2 — Strategic Planners:</strong> multi-step reasoners managing context and state.</li>
+                                    <li><strong>Level 3 — Collaborative Multi-Agent Systems:</strong> a “team of specialists” communicating via A2A protocols.</li>
+                                    <li><strong>Level 4 — Self-Evolving Systems:</strong> agents capable of autonomous tool creation and meta-reasoning.</li>
+                                </ul>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_1_1.png"
+                                         alt="Five Levels of Agentic Intelligence Pyramid"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 3 — Five Levels of Agentic Intelligence</em>
+                                </p>
+
+                                <p>
+                                    Examples like <strong>Google Co-Scientist</strong> (a research agent ecosystem that auto-generates and tests hypotheses) and
+                                    <strong>AlphaEvolve</strong> (an evolutionary AI that iteratively evolves code) showed that this isn’t sci-fi anymore —
+                                    it’s <strong>production-grade autonomy</strong>.
+                                </p>
+
+
+                                <h4>🧩 Multi-Agent Systems and Design Patterns</h4>
+                                <p>
+                                    As problems scale in complexity, the idea of building a single, all-knowing “super-agent” quickly becomes impractical.
+                                    Instead, the modern approach mirrors human organizations — a <strong>team of specialist agents</strong>, each mastering a focused domain.
+                                    This modular architecture forms the backbone of a <strong>multi-agent system</strong>, where a large goal is decomposed into smaller,
+                                    discrete subtasks executed by specialized AI agents.
+                                    This design isn’t just elegant — it’s scalable, debuggable, and easier to evolve over time.
+                                </p>
+
+                                <p>
+                                    In this ecosystem, developers rely on <strong>agentic design patterns</strong>, much like system architects use distributed computing patterns.
+                                    For dynamic, branching workflows, the <strong>Coordinator pattern</strong> acts like a project manager, decomposing complex goals,
+                                    routing subtasks to expert agents (a researcher, a writer, a coder), and synthesizing the results.
+                                    For more structured pipelines, the <strong>Sequential pattern</strong> works like a digital assembly line — the output of one agent becomes
+                                    the input of the next.
+                                    When quality assurance is critical, the <strong>Iterative Refinement pattern</strong> pairs a “generator” agent with a “critic” agent to form
+                                    a self-improving feedback loop.
+                                    And in safety-sensitive applications, the <strong>Human-in-the-Loop (HITL)</strong> pattern ensures that a person remains in control —
+                                    introducing deliberate checkpoints before an agent executes high-impact decisions.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_1_3.png"
+                                         alt="Common Multi-Agent Design Patterns: Coordinator, Sequential, Refinement, and HITL"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25); margin-top:10px;">
+                                    <em>Figure 8 — Common Multi-Agent Design Patterns: Coordinator, Sequential, Iterative Refinement, and HITL</em>
+                                </p>
+
+                                <p>
+                                    Together, these blueprints define the emerging <strong>agent engineering discipline</strong> — blending cognitive autonomy with
+                                    classical software design thinking.
+                                    They represent how agents can be structured, governed, and interconnected to operate like intelligent, collaborative microservices.
+                                </p>
+
+
+
+                                <h4>🧰 Developer Mindset 2.0 — AgentOps Is the New DevOps</h4>
+                                <p>
+                                    As a backend engineer, what hooked me was <strong>AgentOps</strong> — the operational discipline for managing non-deterministic systems.
+                                    Traditional unit tests don’t cut it when responses are stochastic.
+                                    Instead, we use LM-as-Judge evaluations, OpenTelemetry traces, and metrics-driven development to validate reasoning quality,
+                                    cost efficiency, and latency profiles. Deployment happens via Vertex AI Agent Engine or containerized stacks like Cloud Run and GKE.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_1_10.png"
+                                         alt="Five Levels of Agentic Intelligence Pyramid"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 4 —  Relationships between the operational domains of DevOps, MLOps, and GenAIOps</em>
+                                </p>
+
+                                <p>
+                                    The best part? We’re now <strong>architecting intelligence</strong>, not just writing logic.
+                                    Agent design feels like orchestrating microservices with cognition — each component has observability, identity, memory, and even a persona.
+                                </p>
+
+                                <h4>💡 Day 1 Takeaway and Assignment</h4>
+                                <p>
+                                    Day 1 didn’t just teach me about agents — it reframed how I think about software itself.
+                                    Developers are becoming system directors, managing fleets of autonomous reasoning entities.
+                                    Our hands-on assignment was to build a simple agent loop using a language model, a mock API tool, and a basic orchestration layer to make the agent “think–act–observe” autonomously.
+                                    I wired an LLM call with a pseudo-RAG component and live debug logging — essentially bootstrapping my first mini <strong>AgentOps</strong> pipeline.
+                                </p>
+
+                                <p> You can find the assignment & whitepaper I used in my&nbsp;<a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">Github repo</a></p>
+                                <!-- End Day 1 content -->
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="day-block">
@@ -96,6 +231,128 @@
                             external functionalities and APIs. Explore the <strong>Model Context Protocol (MCP)</strong> to discover and
                             seamlessly use external tools and services with plug-and-play interoperability.
                         </p>
+                        <!-- Empty shells for Days 2–5 -->
+                        <!-- ✅ Day 2 -->
+                        <div class="rc-item">
+                            <input type="checkbox" id="rc-d2" name="rc-acc">
+                            <label class="rc-title" for="rc-d2">
+                                <span>Day 2: Agent Tools & Interoperability with MCP — When AI Met APIs</span>
+                                <span class="rc-chevron">›</span>
+                            </label>
+                            <div class="rc-panel">
+                                <!-- Begin Day 2 content -->
+                                <p>
+                                    Day 2 was pure developer candy 🍬. After Day 1’s cognitive deep-dive, we dropped straight into the plumbing — the
+                                    <strong>tooling stack</strong> that gives AI agents real-world powers. This session was the perfect mash-up of
+                                    systems design, distributed computing, and protocol engineering — with enough JSON-RPC wizardry to make any backend nerd grin.
+                                    The theme was clear: <strong>tools make agents useful</strong>. A model that can’t call an API is like a brain without hands.
+                                </p>
+
+
+
+                                <h4>🧠 Tools 101 — The Model’s Hands and the World’s API</h4>
+                                <p>
+                                    We started with the basics: a <strong>tool</strong> is a callable function or program that extends an LLM’s capabilities — its “hands.”
+                                    Two major types exist — <em>knowledge tools</em> (for retrieving data) and <em>action tools</em> (for executing tasks).
+                                    The Weather Agent diagram showed <code>get_weather()</code> and <code>convert_temperature_units()</code> wired through MCP’s function-calling interface —
+                                    a clean cascade of JSON-RPC requests and responses.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_2_1.png"
+                                         alt="Weather Agent Tool Call example (MCP function call workflow)"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 1 — Weather Agent Tool Call example</em>
+                                </p>
+
+                                <p>
+                                    We explored three tool categories:
+                                    <strong>Function Tools</strong>, <strong>Built-in Tools</strong>, and <strong>Agent Tools</strong>.
+                                    Function Tools are simple Python functions wrapped in schemas. Built-in Tools are native to the model — Gemini includes Google Search,
+                                    Code Execution, and Computer Use. Agent Tools are meta — one agent exposes itself as a tool to another, enabling
+                                    <strong>Agent-to-Agent (A2A)</strong> composition. It’s literally “AI as a function.”
+                                </p>
+
+
+
+                                <h4>🔌 From Chaos to Protocol — Enter the Model Context Protocol (MCP)</h4>
+                                <p>
+                                    Without a standard interface, connecting LLMs to tools is an N×M nightmare.
+                                    <strong>Model Context Protocol (MCP)</strong> fixes this by acting as a universal contract for AI-to-tool communication —
+                                    a kind of HTTP for Agents. It defines a clean three-tier architecture:
+                                </p>
+                                <ul>
+                                    <li><strong>Host —</strong> manages agent sessions and policy enforcement.</li>
+                                    <li><strong>Client —</strong> bridges LLM calls to MCP servers.</li>
+                                    <li><strong>Server —</strong> provides tools and capabilities (APIs, databases, services).</li>
+                                </ul>
+                                <p>
+                                    Each call flows as a JSON-RPC session (<code>tools/call</code> requests/responses) — green hosts, blue servers, connected by structured RPC pipes.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_2_2.png"
+                                         alt="MCP Host–Client–Server architecture diagram"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 2 — MCP Host–Client–Server Architecture</em>
+                                </p>
+
+                                <h4>🧩 Primitives and Schemas — The Data Contracts of AI</h4>
+                                <p>
+                                    The MCP spec defines six primitives: <strong>Tools, Resources, Prompts, Sampling, Elicitation,</strong> and <strong>Roots</strong>.
+                                    Tools dominate — each defined by a JSON schema with <code>inputSchema</code>, <code>outputSchema</code>, and annotations like
+                                    <code>readOnlyHint</code> and <code>idempotentHint</code>.
+                                    It’s like OpenAPI for AI Ops — finally some type safety for LLMs.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_2_3.png"
+                                         alt="MCP Transport Protocols diagram"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 3 — MCP Transport Protocols</em>
+                                </p>
+
+                                <h4>⚙️ Governance, Scalability & Security — The Enterprise Layer</h4>
+                                <p>
+                                    MCP is powerful but risky: dynamic capability injection, tool shadowing, and the confused-deputy problem.
+                                    We learned defensive patterns — explicit allowlists, mutual TLS, taint tracking, and Apigee gateways for policy enforcement.
+                                </p>
+
+
+                                <h4>🔬 Assignment — Building Our Own MCP Tool</h4>
+                                <p>
+                                    Our assignment was hands-on: we built a mini MCP server exposing a custom tool (<code>get_stock_price</code>) with JSON schema validation.
+                                    We wired a Gemini 2.5 Flash LLM client to discover and invoke it at runtime, tested mock data over Streamable HTTP, and validated outputs.
+                                    In short, we built a mini API gateway that <em>thinks for itself</em> — and it worked like a charm.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_2_5.png"
+                                         alt="MCP Transport Protocols diagram"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_2_6.png"
+                                         alt="MCP Transport Protocols diagram"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                </p>
+
+                                <h4>💡 Day 2 Takeaway</h4>
+                                <p>
+                                    If Day 1 was about teaching AI to <em>think</em>, Day 2 was about teaching it to <em>act safely and at scale</em>.
+                                    The Model Context Protocol felt like the missing bridge between APIs and intelligence — a proper contract for AI autonomy.
+                                    It was nerdy, elegant, and beautifully engineered.
+                                </p>
+
+                                <p>
+                                    You can find the assignment & code in my&nbsp;
+                                    <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                                </p>
+                                <!-- End Day 2 content -->
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="day-block">
@@ -105,6 +362,148 @@
                             <strong>short-term sessions</strong> and <strong>long-term memory</strong> to create adaptive, context-aware
                             systems capable of handling complex, multi-turn conversations.
                         </p>
+                        <!-- ✅ Day 3 -->
+                        <div class="rc-item">
+                            <input type="checkbox" id="rc-d3" name="rc-acc">
+                            <label class="rc-title" for="rc-d3">
+                                <span>Day 3: Context Engineering, Sessions & Memory — Teaching Agents to Remember</span>
+                                <span class="rc-chevron">›</span>
+                            </label>
+                            <div class="rc-panel">
+
+                                <p>
+                                    If Day 1 gave agents a brain and Day 2 gave them hands, Day 3 gave them <strong>memory</strong> — the power to
+                                    <em>remember, forget, and evolve</em>. This session felt like digital neuroscience: how large language models transition
+                                    from stateless text predictors to stateful, context-aware entities.
+                                    The core idea was <strong>Context Engineering</strong> — dynamically assembling the perfect mix of conversation history,
+                                    system prompts, user memories, and retrieved data so that the agent always “knows” what matters right now.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_1.png"
+                                         alt="Flow of Context Management for Agents"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 1 — Flow of Context Management for Agents</em>
+                                </p>
+
+                                <h4>🧩 Context Engineering — From Prompting to State Management</h4>
+                                <p>
+                                    LLMs are inherently <strong>stateless</strong>. Out of the box they forget everything between calls.
+                                    Context Engineering fixes that by orchestrating <em>sessions</em>, <em>memory managers</em>, and
+                                    <em>retrieval pipelines</em> to curate what sits inside the model’s context window at every step.
+                                    Think of it as replacing static prompts with a dynamic orchestration layer that selects relevant instructions,
+                                    examples, user memories, and RAG results in real time.
+                                    Prompt engineering is the recipe; <strong>context engineering is the mise en place</strong> — the prep work that makes
+                                    intelligent reasoning possible.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_9.png"
+                                         alt="Context Fetch → Prepare → Invoke → Upload Cycle"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 2 — Context Fetch → Prepare → Invoke → Upload Cycle</em>
+                                </p>
+
+                                <h4>🤝 Multi-Agent Architectures — From Solo Reasoners to Collaborative Systems</h4>
+                                <p>
+                                    One of the most fascinating visuals from Day 3 was the <strong>Multi-Agent Architecture Spectrum</strong>.
+                                    It breaks down how agents evolve from working solo to collaborating in complex networks.
+                                    A <strong>Single Agent</strong> setup is the simplest — one LLM paired with its tools, handling reasoning end-to-end.
+                                    In a <strong>Network</strong> pattern, multiple agents communicate symmetrically, sharing knowledge to solve problems collectively.
+                                    The <strong>Supervisor</strong> model introduces hierarchy — a central coordinator delegates tasks to sub-agents for parallel reasoning.
+                                    The <strong>Supervisor-as-Tools</strong> design flips that hierarchy, where one agent invokes others as callable APIs.
+                                    <strong>Hierarchical</strong> systems scale this idea further — layered supervisors manage specialized agent clusters, each responsible for sub-domains.
+                                    Finally, <strong>Custom Architectures</strong> combine multiple paradigms into flexible, graph-like ecosystems optimized for real-world, interdependent tasks.
+                                    Together, these designs mark the shift from isolated cognition to a fully <em>collaborative, context-aware agent ecosystem</em> capable of self-organization and adaptive problem-solving.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_2.png"
+                                         alt="Multi-Agent System Architectures: Single, Network, Supervisor, Hierarchical, and Custom"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25); margin-top:10px;">
+                                    <em>Figure 3 — Multi-Agent System Architectures: From Single Agent to Fully Networked Ecosystems</em>
+                                </p>
+
+
+                                <h4>⚙️ Sessions — The Short-Term Memory of the AI Mind</h4>
+                                <p>
+                                    A <strong>Session</strong> is the agent’s working desk — a mutable space that holds conversation
+                                    <em>events</em> (user queries, model replies, tool calls) and state data.
+                                    Frameworks implement this differently:
+                                <ul>
+                                    <li><strong>ADK</strong> — explicit <code>Session</code> and <code>Event</code> objects (log-based, append-only).</li>
+                                    <li><strong>LangGraph</strong> — treats the entire state as a compacted session object.</li>
+                                    <li><strong>Multi-Agent Systems</strong> — share session logs via A2A protocols without losing isolation.</li>
+                                </ul>
+                                Sessions act like short-term memory — cleared when projects end, summarized into long-term storage afterward.
+                                </p>
+
+
+
+                                <h4>💾 Memory — Turning Conversations into Long-Term Knowledge</h4>
+                                <p>
+                                    Then came <strong>Memory</strong> — the long-term knowledge layer that transforms raw chats into structured facts.
+                                    It’s not “save history” — it’s an <em>LLM-powered ETL pipeline</em> that extracts key information,
+                                    resolves conflicts, deduplicates entities, and stores them in vector databases or knowledge graphs for semantic retrieval.
+                                    The memory loop is essentially self-curation for AI knowledge.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_4.png"
+                                         alt="Memory Generation and Consolidation Pipeline"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 4 — Memory Generation and Consolidation Pipeline</em>
+                                </p>
+
+                                <h4>🧠 Declarative vs Procedural Memory — Facts and Workflows</h4>
+                                <p>
+                                    Memories split into two types:
+                                    <strong>Declarative</strong> (facts and preferences) and <strong>Procedural</strong> (workflows and skills).
+                                    Declarative memory lets agents know you; procedural memory lets them help you efficiently.
+                                    Together, they mirror the human hippocampus and prefrontal cortex — data plus process.
+                                    Stored across vector DBs and knowledge graphs, they enable hybrid semantic-graph reasoning.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_5.png"
+                                         alt="Memory Provenance and Lineage"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                    <em>Figure 5 — Memory Provenance and Lineage</em>
+                                </p>
+
+                                <h4>🔬 Assignment — Building a Memory-Enabled Agent</h4>
+                                <p>
+                                    For the assignment, we implemented a <em>Memory-as-a-Tool</em> pattern using Google’s ADK.
+                                    We built a custom tool <code>generate_memories()</code> to extract facts from chat sessions and persist them in the Agent Engine Memory Bank.
+                                    The memory manager handled deduplication and provenance tracking before storing them in a vector database.
+                                    Retrieval hooks then let the agent pre-load context or fetch relevant memories mid-conversation.
+                                    Watching an agent recall something from two sessions ago felt like seeing synthetic cognition come alive.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_3_6.png"
+                                         alt="ADK Memory Tool Implementation"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 6 — ADK Memory Tool Implementation</em>
+                                </p>
+
+                                <h4>💡 Day 3 Takeaway</h4>
+                                <p>
+                                    If Day 1 was about teaching AI to <em>think</em> and Day 2 was about teaching it to <em>act</em>, Day 3 was about teaching it to <em>remember</em>.
+                                    <strong>Context Engineering</strong> isn’t prompt tuning — it’s AI systems design.
+                                    Sessions provide short-term workspace; memory adds history and continuity.
+                                    Together, they form the cognitive backbone of agentic AI.
+                                    We’re no longer just coding logic; we’re building digital minds with memory hierarchies and self-curation pipelines.
+                                </p>
+
+                                <p>
+                                    You can find the assignment & code in my&nbsp;
+                                    <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                                </p>
+                                <!-- End Day 3 content -->
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="day-block">
@@ -476,759 +875,12 @@
                     </div>
                 </section>
 
-                <!-- ✅ Day 1 -->
-                <div class="rc-item">
-                    <input type="checkbox" id="rc-d1" name="rc-acc">
-                    <label class="rc-title" for="rc-d1">
-                        <span>Day 1: From Predictive Models to Autonomous Agents</span>
-                        <span class="rc-chevron">›</span>
-                    </label>
-                    <div class="rc-panel">
-                        <!-- Begin Day 1 content -->
-                        <p>
-                            Today marked the kickoff of my 5-day deep dive into the world of
-                            <strong>AI Agents</strong> — and let’s just say, it was mind-expanding.
-                            We’re no longer talking about prompt-response LLMs that simply autocomplete text.
-                            This new paradigm is about <strong>autonomous, goal-oriented systems</strong>
-                            that can reason, plan, act, and learn in continuous feedback loops.
-                            The shift from predictive AI to agentic AI feels like moving from single-threaded
-                            functions to a distributed intelligence system.
-                            These agents aren’t static models — they’re
-                            <em>self-directed applications</em> that integrate cognition (via LLMs),
-                            execution (via API tools), and governance (through orchestration layers).
-                        </p>
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_2.png"
-                                 alt="Agentic AI Think–Act–Observe feedback loop"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 1 — The Agentic AI Problem-Solving Loop</em>
-                        </p>
 
-                        <h4>⚙️ Dissecting the Agent Stack — Brain, Hands, and Nervous System</h4>
-                        <ul>
-                            <li><strong>The Model (Brain):</strong> a foundation LLM like Gemini 2.5 Pro or GPT-4o that handles reasoning, logic, and semantic planning.</li>
-                            <li><strong>Tools (Hands):</strong> APIs, databases, or code sandboxes that let the agent manipulate real-world data.</li>
-                            <li><strong>Orchestration Layer (Nervous System):</strong> manages the “Think → Act → Observe” loop, applies ReAct and Chain-of-Thought techniques, dynamically curates context windows, and injects runtime memory.</li>
-                        </ul>
 
-                        <p>
-                            We also explored <strong>context engineering</strong> — the next evolution of prompt engineering — where developers fine-tune
-                            what the model “pays attention to” by assembling system prompts, user intent, RAG-based memory, and API outputs into one cohesive thought stream.
-                        </p>
 
 
-                        <h4>🧩 Levels of Intelligence — From Single Brain to Multi-Agent Ecosystems</h4>
-                        <p>The session introduced a fascinating five-level taxonomy of agentic systems:</p>
-                        <ul>
-                            <li><strong>Level 0 — Plain LLMs:</strong> isolated reasoning without real-world awareness.</li>
-                            <li><strong>Level 1 — Connected Problem Solvers:</strong> agents using APIs and RAG for grounding.</li>
-                            <li><strong>Level 2 — Strategic Planners:</strong> multi-step reasoners managing context and state.</li>
-                            <li><strong>Level 3 — Collaborative Multi-Agent Systems:</strong> a “team of specialists” communicating via A2A protocols.</li>
-                            <li><strong>Level 4 — Self-Evolving Systems:</strong> agents capable of autonomous tool creation and meta-reasoning.</li>
-                        </ul>
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_1.png"
-                                 alt="Five Levels of Agentic Intelligence Pyramid"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 3 — Five Levels of Agentic Intelligence</em>
-                        </p>
-
-                        <p>
-                            Examples like <strong>Google Co-Scientist</strong> (a research agent ecosystem that auto-generates and tests hypotheses) and
-                            <strong>AlphaEvolve</strong> (an evolutionary AI that iteratively evolves code) showed that this isn’t sci-fi anymore —
-                            it’s <strong>production-grade autonomy</strong>.
-                        </p>
-
-
-                        <h4>🧩 Multi-Agent Systems and Design Patterns</h4>
-                        <p>
-                            As problems scale in complexity, the idea of building a single, all-knowing “super-agent” quickly becomes impractical.
-                            Instead, the modern approach mirrors human organizations — a <strong>team of specialist agents</strong>, each mastering a focused domain.
-                            This modular architecture forms the backbone of a <strong>multi-agent system</strong>, where a large goal is decomposed into smaller,
-                            discrete subtasks executed by specialized AI agents.
-                            This design isn’t just elegant — it’s scalable, debuggable, and easier to evolve over time.
-                        </p>
-
-                        <p>
-                            In this ecosystem, developers rely on <strong>agentic design patterns</strong>, much like system architects use distributed computing patterns.
-                            For dynamic, branching workflows, the <strong>Coordinator pattern</strong> acts like a project manager, decomposing complex goals,
-                            routing subtasks to expert agents (a researcher, a writer, a coder), and synthesizing the results.
-                            For more structured pipelines, the <strong>Sequential pattern</strong> works like a digital assembly line — the output of one agent becomes
-                            the input of the next.
-                            When quality assurance is critical, the <strong>Iterative Refinement pattern</strong> pairs a “generator” agent with a “critic” agent to form
-                            a self-improving feedback loop.
-                            And in safety-sensitive applications, the <strong>Human-in-the-Loop (HITL)</strong> pattern ensures that a person remains in control —
-                            introducing deliberate checkpoints before an agent executes high-impact decisions.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_3.png"
-                                 alt="Common Multi-Agent Design Patterns: Coordinator, Sequential, Refinement, and HITL"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25); margin-top:10px;">
-                            <em>Figure 8 — Common Multi-Agent Design Patterns: Coordinator, Sequential, Iterative Refinement, and HITL</em>
-                        </p>
-
-                        <p>
-                            Together, these blueprints define the emerging <strong>agent engineering discipline</strong> — blending cognitive autonomy with
-                            classical software design thinking.
-                            They represent how agents can be structured, governed, and interconnected to operate like intelligent, collaborative microservices.
-                        </p>
-
-
-
-                        <h4>🧰 Developer Mindset 2.0 — AgentOps Is the New DevOps</h4>
-                        <p>
-                            As a backend engineer, what hooked me was <strong>AgentOps</strong> — the operational discipline for managing non-deterministic systems.
-                            Traditional unit tests don’t cut it when responses are stochastic.
-                            Instead, we use LM-as-Judge evaluations, OpenTelemetry traces, and metrics-driven development to validate reasoning quality,
-                            cost efficiency, and latency profiles. Deployment happens via Vertex AI Agent Engine or containerized stacks like Cloud Run and GKE.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_1_10.png"
-                                 alt="Five Levels of Agentic Intelligence Pyramid"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 4 —  Relationships between the operational domains of DevOps, MLOps, and GenAIOps</em>
-                        </p>
-
-                        <p>
-                            The best part? We’re now <strong>architecting intelligence</strong>, not just writing logic.
-                            Agent design feels like orchestrating microservices with cognition — each component has observability, identity, memory, and even a persona.
-                        </p>
-
-                        <h4>💡 Day 1 Takeaway and Assignment</h4>
-                        <p>
-                            Day 1 didn’t just teach me about agents — it reframed how I think about software itself.
-                            Developers are becoming system directors, managing fleets of autonomous reasoning entities.
-                            Our hands-on assignment was to build a simple agent loop using a language model, a mock API tool, and a basic orchestration layer to make the agent “think–act–observe” autonomously.
-                            I wired an LLM call with a pseudo-RAG component and live debug logging — essentially bootstrapping my first mini <strong>AgentOps</strong> pipeline.
-                        </p>
-
-                        <p> You can find the assignment & whitepaper I used in my&nbsp;<a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">Github repo</a></p>
-                        <!-- End Day 1 content -->
-
-                    </div>
-                </div>
-
-                <!-- Empty shells for Days 2–5 -->
-                <!-- ✅ Day 2 -->
-                <div class="rc-item">
-                    <input type="checkbox" id="rc-d2" name="rc-acc">
-                    <label class="rc-title" for="rc-d2">
-                        <span>Day 2: Agent Tools & Interoperability with MCP — When AI Met APIs</span>
-                        <span class="rc-chevron">›</span>
-                    </label>
-                    <div class="rc-panel">
-                        <!-- Begin Day 2 content -->
-                        <p>
-                            Day 2 was pure developer candy 🍬. After Day 1’s cognitive deep-dive, we dropped straight into the plumbing — the
-                            <strong>tooling stack</strong> that gives AI agents real-world powers. This session was the perfect mash-up of
-                            systems design, distributed computing, and protocol engineering — with enough JSON-RPC wizardry to make any backend nerd grin.
-                            The theme was clear: <strong>tools make agents useful</strong>. A model that can’t call an API is like a brain without hands.
-                        </p>
-
-
-
-                        <h4>🧠 Tools 101 — The Model’s Hands and the World’s API</h4>
-                        <p>
-                            We started with the basics: a <strong>tool</strong> is a callable function or program that extends an LLM’s capabilities — its “hands.”
-                            Two major types exist — <em>knowledge tools</em> (for retrieving data) and <em>action tools</em> (for executing tasks).
-                            The Weather Agent diagram showed <code>get_weather()</code> and <code>convert_temperature_units()</code> wired through MCP’s function-calling interface —
-                            a clean cascade of JSON-RPC requests and responses.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_1.png"
-                                 alt="Weather Agent Tool Call example (MCP function call workflow)"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 1 — Weather Agent Tool Call example</em>
-                        </p>
-
-                        <p>
-                            We explored three tool categories:
-                            <strong>Function Tools</strong>, <strong>Built-in Tools</strong>, and <strong>Agent Tools</strong>.
-                            Function Tools are simple Python functions wrapped in schemas. Built-in Tools are native to the model — Gemini includes Google Search,
-                            Code Execution, and Computer Use. Agent Tools are meta — one agent exposes itself as a tool to another, enabling
-                            <strong>Agent-to-Agent (A2A)</strong> composition. It’s literally “AI as a function.”
-                        </p>
-
-
-
-                        <h4>🔌 From Chaos to Protocol — Enter the Model Context Protocol (MCP)</h4>
-                        <p>
-                            Without a standard interface, connecting LLMs to tools is an N×M nightmare.
-                            <strong>Model Context Protocol (MCP)</strong> fixes this by acting as a universal contract for AI-to-tool communication —
-                            a kind of HTTP for Agents. It defines a clean three-tier architecture:
-                        </p>
-                        <ul>
-                            <li><strong>Host —</strong> manages agent sessions and policy enforcement.</li>
-                            <li><strong>Client —</strong> bridges LLM calls to MCP servers.</li>
-                            <li><strong>Server —</strong> provides tools and capabilities (APIs, databases, services).</li>
-                        </ul>
-                        <p>
-                            Each call flows as a JSON-RPC session (<code>tools/call</code> requests/responses) — green hosts, blue servers, connected by structured RPC pipes.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_2.png"
-                                 alt="MCP Host–Client–Server architecture diagram"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — MCP Host–Client–Server Architecture</em>
-                        </p>
-
-                        <h4>🧩 Primitives and Schemas — The Data Contracts of AI</h4>
-                        <p>
-                            The MCP spec defines six primitives: <strong>Tools, Resources, Prompts, Sampling, Elicitation,</strong> and <strong>Roots</strong>.
-                            Tools dominate — each defined by a JSON schema with <code>inputSchema</code>, <code>outputSchema</code>, and annotations like
-                            <code>readOnlyHint</code> and <code>idempotentHint</code>.
-                            It’s like OpenAPI for AI Ops — finally some type safety for LLMs.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_3.png"
-                                 alt="MCP Transport Protocols diagram"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 3 — MCP Transport Protocols</em>
-                        </p>
-
-                        <h4>⚙️ Governance, Scalability & Security — The Enterprise Layer</h4>
-                        <p>
-                            MCP is powerful but risky: dynamic capability injection, tool shadowing, and the confused-deputy problem.
-                            We learned defensive patterns — explicit allowlists, mutual TLS, taint tracking, and Apigee gateways for policy enforcement.
-                        </p>
-
-
-                        <h4>🔬 Assignment — Building Our Own MCP Tool</h4>
-                        <p>
-                            Our assignment was hands-on: we built a mini MCP server exposing a custom tool (<code>get_stock_price</code>) with JSON schema validation.
-                            We wired a Gemini 2.5 Flash LLM client to discover and invoke it at runtime, tested mock data over Streamable HTTP, and validated outputs.
-                            In short, we built a mini API gateway that <em>thinks for itself</em> — and it worked like a charm.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_5.png"
-                                 alt="MCP Transport Protocols diagram"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_2_6.png"
-                                 alt="MCP Transport Protocols diagram"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                        </p>
-
-                        <h4>💡 Day 2 Takeaway</h4>
-                        <p>
-                            If Day 1 was about teaching AI to <em>think</em>, Day 2 was about teaching it to <em>act safely and at scale</em>.
-                            The Model Context Protocol felt like the missing bridge between APIs and intelligence — a proper contract for AI autonomy.
-                            It was nerdy, elegant, and beautifully engineered.
-                        </p>
-
-                        <p>
-                            You can find the assignment & code in my&nbsp;
-                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
-                        </p>
-                        <!-- End Day 2 content -->
-
-                    </div>
-                </div>
-
-                <!-- ✅ Day 3 -->
-                <div class="rc-item">
-                    <input type="checkbox" id="rc-d3" name="rc-acc">
-                    <label class="rc-title" for="rc-d3">
-                        <span>Day 3: Context Engineering, Sessions & Memory — Teaching Agents to Remember</span>
-                        <span class="rc-chevron">›</span>
-                    </label>
-                    <div class="rc-panel">
-
-                        <p>
-                            If Day 1 gave agents a brain and Day 2 gave them hands, Day 3 gave them <strong>memory</strong> — the power to
-                            <em>remember, forget, and evolve</em>. This session felt like digital neuroscience: how large language models transition
-                            from stateless text predictors to stateful, context-aware entities.
-                            The core idea was <strong>Context Engineering</strong> — dynamically assembling the perfect mix of conversation history,
-                            system prompts, user memories, and retrieved data so that the agent always “knows” what matters right now.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_1.png"
-                                 alt="Flow of Context Management for Agents"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 1 — Flow of Context Management for Agents</em>
-                        </p>
-
-                        <h4>🧩 Context Engineering — From Prompting to State Management</h4>
-                        <p>
-                            LLMs are inherently <strong>stateless</strong>. Out of the box they forget everything between calls.
-                            Context Engineering fixes that by orchestrating <em>sessions</em>, <em>memory managers</em>, and
-                            <em>retrieval pipelines</em> to curate what sits inside the model’s context window at every step.
-                            Think of it as replacing static prompts with a dynamic orchestration layer that selects relevant instructions,
-                            examples, user memories, and RAG results in real time.
-                            Prompt engineering is the recipe; <strong>context engineering is the mise en place</strong> — the prep work that makes
-                            intelligent reasoning possible.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_9.png"
-                                 alt="Context Fetch → Prepare → Invoke → Upload Cycle"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — Context Fetch → Prepare → Invoke → Upload Cycle</em>
-                        </p>
-
-                        <h4>🤝 Multi-Agent Architectures — From Solo Reasoners to Collaborative Systems</h4>
-                        <p>
-                            One of the most fascinating visuals from Day 3 was the <strong>Multi-Agent Architecture Spectrum</strong>.
-                            It breaks down how agents evolve from working solo to collaborating in complex networks.
-                            A <strong>Single Agent</strong> setup is the simplest — one LLM paired with its tools, handling reasoning end-to-end.
-                            In a <strong>Network</strong> pattern, multiple agents communicate symmetrically, sharing knowledge to solve problems collectively.
-                            The <strong>Supervisor</strong> model introduces hierarchy — a central coordinator delegates tasks to sub-agents for parallel reasoning.
-                            The <strong>Supervisor-as-Tools</strong> design flips that hierarchy, where one agent invokes others as callable APIs.
-                            <strong>Hierarchical</strong> systems scale this idea further — layered supervisors manage specialized agent clusters, each responsible for sub-domains.
-                            Finally, <strong>Custom Architectures</strong> combine multiple paradigms into flexible, graph-like ecosystems optimized for real-world, interdependent tasks.
-                            Together, these designs mark the shift from isolated cognition to a fully <em>collaborative, context-aware agent ecosystem</em> capable of self-organization and adaptive problem-solving.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_2.png"
-                                 alt="Multi-Agent System Architectures: Single, Network, Supervisor, Hierarchical, and Custom"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25); margin-top:10px;">
-                            <em>Figure 3 — Multi-Agent System Architectures: From Single Agent to Fully Networked Ecosystems</em>
-                        </p>
-
-
-                        <h4>⚙️ Sessions — The Short-Term Memory of the AI Mind</h4>
-                        <p>
-                            A <strong>Session</strong> is the agent’s working desk — a mutable space that holds conversation
-                            <em>events</em> (user queries, model replies, tool calls) and state data.
-                            Frameworks implement this differently:
-                        <ul>
-                            <li><strong>ADK</strong> — explicit <code>Session</code> and <code>Event</code> objects (log-based, append-only).</li>
-                            <li><strong>LangGraph</strong> — treats the entire state as a compacted session object.</li>
-                            <li><strong>Multi-Agent Systems</strong> — share session logs via A2A protocols without losing isolation.</li>
-                        </ul>
-                        Sessions act like short-term memory — cleared when projects end, summarized into long-term storage afterward.
-                        </p>
-
-
-
-                        <h4>💾 Memory — Turning Conversations into Long-Term Knowledge</h4>
-                        <p>
-                            Then came <strong>Memory</strong> — the long-term knowledge layer that transforms raw chats into structured facts.
-                            It’s not “save history” — it’s an <em>LLM-powered ETL pipeline</em> that extracts key information,
-                            resolves conflicts, deduplicates entities, and stores them in vector databases or knowledge graphs for semantic retrieval.
-                            The memory loop is essentially self-curation for AI knowledge.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_4.png"
-                                 alt="Memory Generation and Consolidation Pipeline"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 4 — Memory Generation and Consolidation Pipeline</em>
-                        </p>
-
-                        <h4>🧠 Declarative vs Procedural Memory — Facts and Workflows</h4>
-                        <p>
-                            Memories split into two types:
-                            <strong>Declarative</strong> (facts and preferences) and <strong>Procedural</strong> (workflows and skills).
-                            Declarative memory lets agents know you; procedural memory lets them help you efficiently.
-                            Together, they mirror the human hippocampus and prefrontal cortex — data plus process.
-                            Stored across vector DBs and knowledge graphs, they enable hybrid semantic-graph reasoning.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_5.png"
-                                 alt="Memory Provenance and Lineage"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 5 — Memory Provenance and Lineage</em>
-                        </p>
-
-                        <h4>🔬 Assignment — Building a Memory-Enabled Agent</h4>
-                        <p>
-                            For the assignment, we implemented a <em>Memory-as-a-Tool</em> pattern using Google’s ADK.
-                            We built a custom tool <code>generate_memories()</code> to extract facts from chat sessions and persist them in the Agent Engine Memory Bank.
-                            The memory manager handled deduplication and provenance tracking before storing them in a vector database.
-                            Retrieval hooks then let the agent pre-load context or fetch relevant memories mid-conversation.
-                            Watching an agent recall something from two sessions ago felt like seeing synthetic cognition come alive.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_3_6.png"
-                                 alt="ADK Memory Tool Implementation"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 6 — ADK Memory Tool Implementation</em>
-                        </p>
-
-                        <h4>💡 Day 3 Takeaway</h4>
-                        <p>
-                            If Day 1 was about teaching AI to <em>think</em> and Day 2 was about teaching it to <em>act</em>, Day 3 was about teaching it to <em>remember</em>.
-                            <strong>Context Engineering</strong> isn’t prompt tuning — it’s AI systems design.
-                            Sessions provide short-term workspace; memory adds history and continuity.
-                            Together, they form the cognitive backbone of agentic AI.
-                            We’re no longer just coding logic; we’re building digital minds with memory hierarchies and self-curation pipelines.
-                        </p>
-
-                        <p>
-                            You can find the assignment & code in my&nbsp;
-                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
-                        </p>
-                        <!-- End Day 3 content -->
-
-                    </div>
-                </div>
-
-
-<!--                &lt;!&ndash; ✅ Day 4 &ndash;&gt;-->
-<!--                <div class="rc-item">-->
-<!--                    <input type="checkbox" id="rc-d4" name="rc-acc">-->
-<!--                    <label class="rc-title" for="rc-d4">-->
-<!--                        <span>Day 4: Observability & Evaluation — Peering Inside the AI Mind</span>-->
-<!--                        <span class="rc-chevron">›</span>-->
-<!--                    </label>-->
-
-<!--                    <div class="rc-panel">-->
-
-<!--                        <p>-->
-<!--                            If Day 3 was about giving agents memory, Day 4 was about giving them <strong>self-awareness</strong>.-->
-<!--                            We dove deep into <strong>Agent Observability and Evaluation</strong> — essentially, the DevOps backbone of the agentic world.-->
-<!--                            In classical systems, debugging meant chasing logs and metrics. But here, we’re not debugging code — we’re debugging-->
-<!--                            <em>thought</em>. The discipline now revolves around understanding <em>how</em> an agent thinks, acts, and learns in real time.-->
-<!--                            Think of this as moving from <strong>monitoring</strong> to <strong>true cognitive observability</strong>,-->
-<!--                            where we don’t just ask “Is it running?” but “Is it reasoning correctly?”-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_4_1.png"-->
-<!--                                 alt="Three Pillars of Agent Observability"-->
-<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 1 — The Three Pillars of Agent Observability</em>-->
-<!--                        </p>-->
-
-<!--                        <h4>🍳 The Kitchen Analogy — From Line Cook to Gourmet Chef</h4>-->
-<!--                        <p>-->
-<!--                            The instructors used the <strong>Kitchen Analogy</strong> to nail the concept.-->
-<!--                            Traditional software is like a <em>line cook</em> — rigid recipe, predictable output, easy to monitor.-->
-<!--                            But an AI agent is a <em>gourmet chef</em>: given random ingredients and a creative challenge, it must improvise.-->
-<!--                            Observability, then, becomes the food critic’s job — understanding each decision and reasoning step.-->
-<!--                            We’re no longer checking recipes; we’re <strong>critiquing cognition</strong>.-->
-<!--                        </p>-->
-
-
-
-<!--                        <h4>📊 The Three Pillars — Logs, Traces, and Metrics</h4>-->
-<!--                        <p>-->
-<!--                            Observability for AI agents stands on three core pillars:-->
-<!--                        <ul>-->
-<!--                            <li><strong>Logs:</strong> The agent’s diary — every prompt, tool call, and context update captured in structured JSON.</li>-->
-<!--                            <li><strong>Traces:</strong> The agent’s footsteps — a narrative chain showing cause and effect between reasoning steps.</li>-->
-<!--                            <li><strong>Metrics:</strong> The agent’s health report — latency, token cost, and reasoning quality visualized over time.</li>-->
-<!--                        </ul>-->
-<!--                        These together transform an opaque black box into a <strong>glass box of cognition</strong>.-->
-<!--                        We configured <strong>OpenTelemetry</strong> to stitch logs and traces into a unified reasoning timeline.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_4_3.png"-->
-<!--                                 alt="OpenTelemetry Tracing Visualization"-->
-<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 2 — Distributed Tracing and Observability Visualization</em>-->
-<!--                        </p>-->
-
-<!--                        <h4>⚙️ Logging Deep Dive — The Agent’s Diary</h4>-->
-<!--                        <p>-->
-<!--                            Using the <strong>Agent Development Kit (ADK)</strong>, we built contextual, structured logs that record every LLM action,-->
-<!--                            tool call, and context mutation. Each log contains IDs, token usage, latency, and reasoning stage.-->
-<!--                            The challenge was balancing <em>verbosity vs. performance</em> — detailed enough to debug, lightweight enough for scale.-->
-<!--                        </p>-->
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_4_4.png"-->
-<!--                                 alt="A structured log entry capturing a single LLM request"-->
-<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 3 — A structured log entry capturing a single LLM request</em>-->
-<!--                        </p>-->
-
-<!--                        <h4>🔗 Tracing — The Detective’s Red String Board</h4>-->
-<!--                        <p>-->
-<!--                            Tracing links events together into a cohesive story.-->
-<!--                            Every request becomes a <strong>trace</strong>, each reasoning step a <strong>span</strong>, annotated with metadata like latency,-->
-<!--                            model ID, and API cost.-->
-<!--                            When something breaks, logs tell you <em>what</em> happened — but traces show <em>why</em>.-->
-<!--                            It’s cognitive forensics at runtime.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_4_3.png"-->
-<!--                                 alt="Sample OpenTelemetry Trace Timeline"-->
-<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 4 — End-to-End Trace for an Agentic Request</em>-->
-<!--                        </p>-->
-
-<!--                        <h4>📈 Metrics — Quantifying Agent Health</h4>-->
-<!--                        <p>-->
-<!--                            Metrics act as the vital signs of an agent’s mind:-->
-<!--                        <ul>-->
-<!--                            <li><strong>System Metrics:</strong> Latency, token count, error rates, and API cost.</li>-->
-<!--                            <li><strong>Quality Metrics:</strong> Helpfulness, accuracy, and safety — often evaluated using LLM-as-a-Judge.</li>-->
-<!--                        </ul>-->
-<!--                        We built dashboards to visualize both operational and qualitative metrics, giving a full 360° view of agent performance.-->
-<!--                        </p>-->
-
-<!--                        <h4>💡 Takeaway — Quality Is Architecture, Not QA</h4>-->
-<!--                        <p>-->
-<!--                            Day 4 fundamentally changed how I think about AI reliability.-->
-<!--                            We don’t test agents after deployment — we <strong>design them for visibility</strong> from the ground up.-->
-<!--                            Logs, traces, and metrics together form the nervous system of intelligent systems,-->
-<!--                            enabling debugging, evaluation, and trust at scale.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_4_8.png"-->
-<!--                                 alt="The Agent Quality Flywheel"-->
-<!--                                 style="width:80%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 5 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>-->
-<!--                        </p>-->
-
-<!--                        <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>-->
-<!--                        <p>-->
-<!--                            Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.-->
-<!--                            We built an <strong>ADK-based agent</strong> that streamed telemetry to-->
-<!--                            <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.-->
-<!--                            Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.-->
-<!--                            We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —-->
-<!--                            turning raw reasoning into a living system graph.-->
-<!--                        </p>-->
-
-<!--                        <p>-->
-<!--                            In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.-->
-<!--                            Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.-->
-<!--                            This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)-->
-<!--                            represented the holy grail of cognitive telemetry.-->
-<!--                            The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —-->
-<!--                            the perfect visualization of intelligence under observation.-->
-<!--                        </p>-->
-<!--                        <p>-->
-<!--                            You can find the assignment & code in my&nbsp;-->
-<!--                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>-->
-<!--                        </p>-->
-
-<!--                    </div>-->
-<!--                </div>-->
-
-
-<!--                &lt;!&ndash; ✅ Day 5 &ndash;&gt;-->
-<!--                <div class="rc-item">-->
-<!--                    <input type="checkbox" id="rc-d6" name="rc-acc">-->
-<!--                    <label class="rc-title" for="rc-d6">-->
-<!--                        <span>Day 5: From Prototype to Production — AgentOps in the Real World</span>-->
-<!--                        <span class="rc-chevron">›</span>-->
-<!--                    </label>-->
-<!--                    <div class="rc-panel">-->
-
-<!--                        <p>-->
-<!--                            Day 5 was where everything we learned finally converged into a complete-->
-<!--                            <strong>AgentOps lifecycle</strong>. It was less about prompts and more about production:-->
-<!--                            scaling, governance, and trust. We explored what Google calls the-->
-<!--                            <em>“last-mile problem”</em>—turning prototypes into reliable, observable, and secure systems.-->
-<!--                            The quote of the day summed it up perfectly:-->
-<!--                            <strong>“Building an agent is easy; trusting it is hard.”</strong>-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_5_0.png"-->
-<!--                                 alt="Prototype-to-Production workflow"-->
-<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
-<!--                            <em>Figure 1 — Prototype → Production Workflow</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>⚙️ Closing the Last Mile</h5>-->
-<!--                        <p>-->
-<!--                            We learned that 80% of the work in agent development lies not in intelligence but in-->
-<!--                            <strong>infrastructure and operations</strong>. Real production agents need-->
-<!--                            <strong>evaluation-gated CI/CD</strong>, secure state management, and predictable latency/cost-->
-<!--                            controls. Forget fancy prompts—this was systems engineering 101 for cognition at scale.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_5_1.png"-->
-<!--                                 alt="Evaluation-gated CI/CD pipeline"-->
-<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>🧩 The Three Pillars of Production</h5>-->
-<!--                        <p>-->
-<!--                            Production-grade agent systems rest on three foundations:-->
-<!--                        </p>-->
-<!--                        <ul>-->
-<!--                            <li><strong>Evaluation as a Quality Gate —</strong> no agent ships without passing-->
-<!--                                behavioral and guardrail tests, automated via LLM-as-a-Judge frameworks.</li>-->
-<!--                            <li><strong>Automated CI/CD —</strong> all prompts, tools, and config are version-controlled,-->
-<!--                                validated in staging, and rolled out safely through Terraform and Cloud Build.</li>-->
-<!--                            <li><strong>Comprehensive Observability —</strong> logs, traces, and metrics-->
-<!--                                expose reasoning paths, latency, and cost through Vertex AI and Cloud Monitoring.</li>-->
-<!--                        </ul>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_5_3.png"-->
-<!--                                 alt="CI/CD and Observability Loop"-->
-<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
-<!--                            <em>Figure 3 — CI/CD and Observability Loop</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>🔐 Security, Guardrails &amp; HITL</h5>-->
-<!--                        <p>-->
-<!--                            Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>-->
-<!--                            for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.-->
-<!--                            Input filters block malicious prompts; output filters catch PII or toxicity; HITL intervenes when risks spike.-->
-<!--                            Safety is a pipeline, not a policy.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_5_4.png"-->
-<!--                                 alt="Secure agent architecture with HITL"-->
-<!--                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
-<!--                            <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>🤝 A2A Protocol — Agent Collaboration in Action</h5>-->
-<!--                        <p>-->
-<!--                            Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like-->
-<!--                            microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based-->
-<!--                            <code>AgentCards</code> describing their capabilities and delegate complex tasks autonomously.-->
-<!--                            Using ADK’s <code>to_a2a()</code> and <code>RemoteA2aAgent()</code>, we built distributed systems of-->
-<!--                            reasoning peers that plan together like digital colleagues.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_5_2.png"-->
-<!--                                 alt="A2A and MCP integration diagram"-->
-<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
-<!--                            <em>Figure 5 — A2A + MCP Integration</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>🧬 Observe → Act → Evolve</h5>-->
-<!--                        <p>-->
-<!--                            Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.-->
-<!--                            Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.-->
-<!--                            This feedback cycle transforms AI from static code to a living system of continuous learning—true-->
-<!--                            <strong>AgentOps</strong>.-->
-<!--                        </p>-->
-<!--                        <h4>🤝Assignments</h4>-->
-<!--                        <p>-->
-<!--                        Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated-->
-<!--                        to <strong>production-grade systems</strong>. The focus was twofold:-->
-<!--                        <strong>Agent Collaboration (A2A)</strong> and <strong>Deployment</strong>.-->
-<!--                        We first learned how to let multiple agents communicate and coordinate autonomously,-->
-<!--                        then packaged them into containerized, observable services ready for cloud deployment.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_51_1.png"-->
-<!--                                 alt="Agent-to-Agent (A2A) Collaboration Overview"-->
-<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>🤝 Part 1 — Agent2Agent (A2A) Communication</h5>-->
-<!--                        <p>-->
-<!--                            This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework-->
-<!--                            where multiple agents act as teammates rather than isolated bots. We designed a-->
-<!--                            <em>Coordinator Agent</em> that decomposed complex problems into subtasks handled by-->
-<!--                            specialized peers like <em>Planner</em>, <em>Researcher</em>, and <em>Writer</em>.-->
-<!--                            Each agent exposed a JSON-based <code>AgentCard</code> describing its capabilities and-->
-<!--                            could call others dynamically using ADK utilities such as <code>to_a2a()</code> and-->
-<!--                            <code>RemoteA2aAgent()</code>.-->
-<!--                            This architecture mirrors microservices — each agent is independent, reusable,-->
-<!--                            and observable.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_51_2.png"-->
-<!--                                 alt="Coordinator–Specialist Message Flow"-->
-<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>What we built</h5>-->
-<!--                        <ul>-->
-<!--                            <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>-->
-<!--                            <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>-->
-<!--                            <li>Created a <strong>Coordinator loop</strong> to route requests and aggregate responses.</li>-->
-<!--                            <li>Enabled agents to invoke external tools and attach results to their A2A messages.</li>-->
-<!--                            <li>Added <strong>observability hooks</strong> to trace handoffs and monitor cost and latency.</li>-->
-<!--                        </ul>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_51_3.png"-->
-<!--                                 alt="A2A Tracing and Metrics"-->
-<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 3 — Tracing A2A handoffs with logs and metrics</em>-->
-<!--                        </p>-->
-
-<!--                        <p>-->
-<!--                            👉 Try the official A2A assignment on Kaggle:-->
-<!--                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5a-agent2agent-communication"-->
-<!--                               target="_blank" rel="noopener noreferrer">-->
-<!--                                Day-5a: Agent2Agent Communication (Kaggle)-->
-<!--                            </a>-->
-<!--                        </p>-->
-
-<!--                        <h5>⚙️ Part 2 — Agent Deployment</h5>-->
-<!--                        <p>-->
-<!--                            After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks-->
-<!--                            to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.-->
-<!--                            The goal was to operationalize agents as microservices — versioned, observable, and scalable.-->
-<!--                            Each agent exposed REST endpoints (<code>/invoke</code>, <code>/healthz</code>), ran in a containerized-->
-<!--                            runtime, and was instrumented with logs and traces for AgentOps monitoring.-->
-<!--                        </p>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_51_4.png"-->
-<!--                                 alt="Local-to-Cloud Deployment Pipeline"-->
-<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>-->
-<!--                        </p>-->
-
-<!--                        <h5>Deployment Checklist</h5>-->
-<!--                        <ul>-->
-<!--                            <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>-->
-<!--                            <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>-->
-<!--                            <li><strong>Observability</strong> — add tracing IDs, structured logs, and custom metrics (cost &amp; latency).</li>-->
-<!--                            <li><strong>Continuous Deployment</strong> — push image to registry and deploy with autoscaling.</li>-->
-<!--                            <li><strong>Safety &amp; QoS</strong> — timeouts, retries, and circuit breakers around external tools.</li>-->
-<!--                        </ul>-->
-
-<!--                        <p style="text-align:center;">-->
-<!--                            <img src="../../assets/images/day_51_5.png"-->
-<!--                                 alt="Production Observability"-->
-<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
-<!--                            <em>Figure 5 — Observability and Tracing in Production</em>-->
-<!--                        </p>-->
-
-<!--                        <p>-->
-<!--                            👉 Open the official Deployment assignment on Kaggle:-->
-<!--                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5b-agent-deployment"-->
-<!--                               target="_blank" rel="noopener noreferrer">-->
-<!--                                Day-5b: Agent Deployment (Kaggle)-->
-<!--                            </a>-->
-<!--                        </p>-->
-
-<!--                        <h4>💡 Day 5 Takeaway</h4>-->
-<!--                        <p>-->
-<!--                            Day 5 was the ultimate developer flex — building agents that don’t just <em>think</em> or <em>act</em>,-->
-<!--                            but <em>collaborate and ship</em>. We learned how to build autonomous agent teams via A2A and deploy them-->
-<!--                            as scalable services with FastAPI, Docker, and Vertex AI. The future of AI development is clear:-->
-<!--                            <strong>don’t just train models — deploy ecosystems that learn, coordinate, and evolve.</strong>-->
-<!--                        </p>-->
-
-<!--                        <p>-->
-<!--                            You can find the assignment & code in my&nbsp;-->
-<!--                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>-->
-<!--                        </p>-->
-
-<!--                    </div>-->
-<!--                </div>-->
 
 
             </div>
