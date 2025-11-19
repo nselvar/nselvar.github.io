@@ -115,6 +115,141 @@
                             <strong>metrics</strong> to monitor your agents’ behavior and optimize their performance using
                             <em>LLM-as-a-Judge</em> frameworks and quality benchmarks.
                         </p>
+                        <!-- ✅ Day 4 -->
+                        <div class="rc-item">
+                            <input type="checkbox" id="rc-d4" name="rc-acc">
+                            <label class="rc-title" for="rc-d4">
+                                <span>Day 4: Observability & Evaluation — Peering Inside the AI Mind</span>
+                                <span class="rc-chevron">›</span>
+                            </label>
+
+                            <div class="rc-panel">
+
+                                <p>
+                                    If Day 3 was about giving agents memory, Day 4 was about giving them <strong>self-awareness</strong>.
+                                    We dove deep into <strong>Agent Observability and Evaluation</strong> — essentially, the DevOps backbone of the agentic world.
+                                    In classical systems, debugging meant chasing logs and metrics. But here, we’re not debugging code — we’re debugging
+                                    <em>thought</em>. The discipline now revolves around understanding <em>how</em> an agent thinks, acts, and learns in real time.
+                                    Think of this as moving from <strong>monitoring</strong> to <strong>true cognitive observability</strong>,
+                                    where we don’t just ask “Is it running?” but “Is it reasoning correctly?”
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_4_1.png"
+                                         alt="Three Pillars of Agent Observability"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                                    <em>Figure 1 — The Three Pillars of Agent Observability</em>
+                                </p>
+
+                                <h4>🍳 The Kitchen Analogy — From Line Cook to Gourmet Chef</h4>
+                                <p>
+                                    The instructors used the <strong>Kitchen Analogy</strong> to nail the concept.
+                                    Traditional software is like a <em>line cook</em> — rigid recipe, predictable output, easy to monitor.
+                                    But an AI agent is a <em>gourmet chef</em>: given random ingredients and a creative challenge, it must improvise.
+                                    Observability, then, becomes the food critic’s job — understanding each decision and reasoning step.
+                                    We’re no longer checking recipes; we’re <strong>critiquing cognition</strong>.
+                                </p>
+
+
+
+                                <h4>📊 The Three Pillars — Logs, Traces, and Metrics</h4>
+                                <p>
+                                    Observability for AI agents stands on three core pillars:
+                                <ul>
+                                    <li><strong>Logs:</strong> The agent’s diary — every prompt, tool call, and context update captured in structured JSON.</li>
+                                    <li><strong>Traces:</strong> The agent’s footsteps — a narrative chain showing cause and effect between reasoning steps.</li>
+                                    <li><strong>Metrics:</strong> The agent’s health report — latency, token cost, and reasoning quality visualized over time.</li>
+                                </ul>
+                                These together transform an opaque black box into a <strong>glass box of cognition</strong>.
+                                We configured <strong>OpenTelemetry</strong> to stitch logs and traces into a unified reasoning timeline.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_4_3.png"
+                                         alt="OpenTelemetry Tracing Visualization"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 2 — Distributed Tracing and Observability Visualization</em>
+                                </p>
+
+                                <h4>⚙️ Logging Deep Dive — The Agent’s Diary</h4>
+                                <p>
+                                    Using the <strong>Agent Development Kit (ADK)</strong>, we built contextual, structured logs that record every LLM action,
+                                    tool call, and context mutation. Each log contains IDs, token usage, latency, and reasoning stage.
+                                    The challenge was balancing <em>verbosity vs. performance</em> — detailed enough to debug, lightweight enough for scale.
+                                </p>
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_4_4.png"
+                                         alt="A structured log entry capturing a single LLM request"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 3 — A structured log entry capturing a single LLM request</em>
+                                </p>
+
+                                <h4>🔗 Tracing — The Detective’s Red String Board</h4>
+                                <p>
+                                    Tracing links events together into a cohesive story.
+                                    Every request becomes a <strong>trace</strong>, each reasoning step a <strong>span</strong>, annotated with metadata like latency,
+                                    model ID, and API cost.
+                                    When something breaks, logs tell you <em>what</em> happened — but traces show <em>why</em>.
+                                    It’s cognitive forensics at runtime.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_4_3.png"
+                                         alt="Sample OpenTelemetry Trace Timeline"
+                                         style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 4 — End-to-End Trace for an Agentic Request</em>
+                                </p>
+
+                                <h4>📈 Metrics — Quantifying Agent Health</h4>
+                                <p>
+                                    Metrics act as the vital signs of an agent’s mind:
+                                <ul>
+                                    <li><strong>System Metrics:</strong> Latency, token count, error rates, and API cost.</li>
+                                    <li><strong>Quality Metrics:</strong> Helpfulness, accuracy, and safety — often evaluated using LLM-as-a-Judge.</li>
+                                </ul>
+                                We built dashboards to visualize both operational and qualitative metrics, giving a full 360° view of agent performance.
+                                </p>
+
+                                <h4>💡 Takeaway — Quality Is Architecture, Not QA</h4>
+                                <p>
+                                    Day 4 fundamentally changed how I think about AI reliability.
+                                    We don’t test agents after deployment — we <strong>design them for visibility</strong> from the ground up.
+                                    Logs, traces, and metrics together form the nervous system of intelligent systems,
+                                    enabling debugging, evaluation, and trust at scale.
+                                </p>
+
+                                <p style="text-align:center;">
+                                    <img src="../../assets/images/day_4_8.png"
+                                         alt="The Agent Quality Flywheel"
+                                         style="width:80%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <em>Figure 5 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>
+                                </p>
+
+                                <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>
+                                <p>
+                                    Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.
+                                    We built an <strong>ADK-based agent</strong> that streamed telemetry to
+                                    <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.
+                                    Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.
+                                    We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —
+                                    turning raw reasoning into a living system graph.
+                                </p>
+
+                                <p>
+                                    In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.
+                                    Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.
+                                    This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)
+                                    represented the holy grail of cognitive telemetry.
+                                    The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —
+                                    the perfect visualization of intelligence under observation.
+                                </p>
+                                <p>
+                                    You can find the assignment & code in my&nbsp;
+                                    <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                                </p>
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="day-block">
@@ -125,6 +260,219 @@
                             multi-agent systems with the <strong>Agent2Agent (A2A) Protocol</strong>, and deploying on
                             <em>Vertex AI Agent Engine</em> for enterprise-grade scalability.
                         </p>
+                    </div>
+                    <!-- ✅ Day 5 -->
+                    <div class="rc-item">
+                        <input type="checkbox" id="rc-d6" name="rc-acc">
+                        <label class="rc-title" for="rc-d6">
+                            <span>Day 5: From Prototype to Production — AgentOps in the Real World</span>
+                            <span class="rc-chevron">›</span>
+                        </label>
+                        <div class="rc-panel">
+
+                            <p>
+                                Day 5 was where everything we learned finally converged into a complete
+                                <strong>AgentOps lifecycle</strong>. It was less about prompts and more about production:
+                                scaling, governance, and trust. We explored what Google calls the
+                                <em>“last-mile problem”</em>—turning prototypes into reliable, observable, and secure systems.
+                                The quote of the day summed it up perfectly:
+                                <strong>“Building an agent is easy; trusting it is hard.”</strong>
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_5_0.png"
+                                     alt="Prototype-to-Production workflow"
+                                     style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                <em>Figure 1 — Prototype → Production Workflow</em>
+                            </p>
+
+                            <h5>⚙️ Closing the Last Mile</h5>
+                            <p>
+                                We learned that 80% of the work in agent development lies not in intelligence but in
+                                <strong>infrastructure and operations</strong>. Real production agents need
+                                <strong>evaluation-gated CI/CD</strong>, secure state management, and predictable latency/cost
+                                controls. Forget fancy prompts—this was systems engineering 101 for cognition at scale.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_5_1.png"
+                                     alt="Evaluation-gated CI/CD pipeline"
+                                     style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>
+                            </p>
+
+                            <h5>🧩 The Three Pillars of Production</h5>
+                            <p>
+                                Production-grade agent systems rest on three foundations:
+                            </p>
+                            <ul>
+                                <li><strong>Evaluation as a Quality Gate —</strong> no agent ships without passing
+                                    behavioral and guardrail tests, automated via LLM-as-a-Judge frameworks.</li>
+                                <li><strong>Automated CI/CD —</strong> all prompts, tools, and config are version-controlled,
+                                    validated in staging, and rolled out safely through Terraform and Cloud Build.</li>
+                                <li><strong>Comprehensive Observability —</strong> logs, traces, and metrics
+                                    expose reasoning paths, latency, and cost through Vertex AI and Cloud Monitoring.</li>
+                            </ul>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_5_3.png"
+                                     alt="CI/CD and Observability Loop"
+                                     style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                <em>Figure 3 — CI/CD and Observability Loop</em>
+                            </p>
+
+                            <h5>🔐 Security, Guardrails &amp; HITL</h5>
+                            <p>
+                                Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>
+                                for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.
+                                Input filters block malicious prompts; output filters catch PII or toxicity; HITL intervenes when risks spike.
+                                Safety is a pipeline, not a policy.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_5_4.png"
+                                     alt="Secure agent architecture with HITL"
+                                     style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>
+                            </p>
+
+                            <h5>🤝 A2A Protocol — Agent Collaboration in Action</h5>
+                            <p>
+                                Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like
+                                microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based
+                                <code>AgentCards</code> describing their capabilities and delegate complex tasks autonomously.
+                                Using ADK’s <code>to_a2a()</code> and <code>RemoteA2aAgent()</code>, we built distributed systems of
+                                reasoning peers that plan together like digital colleagues.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_5_2.png"
+                                     alt="A2A and MCP integration diagram"
+                                     style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                                <em>Figure 5 — A2A + MCP Integration</em>
+                            </p>
+
+                            <h5>🧬 Observe → Act → Evolve</h5>
+                            <p>
+                                Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.
+                                Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.
+                                This feedback cycle transforms AI from static code to a living system of continuous learning—true
+                                <strong>AgentOps</strong>.
+                            </p>
+                            <h4>🤝Assignments</h4>
+                            <p>
+                                Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated
+                                to <strong>production-grade systems</strong>. The focus was twofold:
+                                <strong>Agent Collaboration (A2A)</strong> and <strong>Deployment</strong>.
+                                We first learned how to let multiple agents communicate and coordinate autonomously,
+                                then packaged them into containerized, observable services ready for cloud deployment.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_51_1.png"
+                                     alt="Agent-to-Agent (A2A) Collaboration Overview"
+                                     style="width:82%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                                <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>
+                            </p>
+
+                            <h5>🤝 Part 1 — Agent2Agent (A2A) Communication</h5>
+                            <p>
+                                This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework
+                                where multiple agents act as teammates rather than isolated bots. We designed a
+                                <em>Coordinator Agent</em> that decomposed complex problems into subtasks handled by
+                                specialized peers like <em>Planner</em>, <em>Researcher</em>, and <em>Writer</em>.
+                                Each agent exposed a JSON-based <code>AgentCard</code> describing its capabilities and
+                                could call others dynamically using ADK utilities such as <code>to_a2a()</code> and
+                                <code>RemoteA2aAgent()</code>.
+                                This architecture mirrors microservices — each agent is independent, reusable,
+                                and observable.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_51_2.png"
+                                     alt="Coordinator–Specialist Message Flow"
+                                     style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>
+                            </p>
+
+                            <h5>What we built</h5>
+                            <ul>
+                                <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>
+                                <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>
+                                <li>Created a <strong>Coordinator loop</strong> to route requests and aggregate responses.</li>
+                                <li>Enabled agents to invoke external tools and attach results to their A2A messages.</li>
+                                <li>Added <strong>observability hooks</strong> to trace handoffs and monitor cost and latency.</li>
+                            </ul>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_51_3.png"
+                                     alt="A2A Tracing and Metrics"
+                                     style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                <em>Figure 3 — Tracing A2A handoffs with logs and metrics</em>
+                            </p>
+
+                            <p>
+                                👉 Try the official A2A assignment on Kaggle:
+                                <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5a-agent2agent-communication"
+                                   target="_blank" rel="noopener noreferrer">
+                                    Day-5a: Agent2Agent Communication (Kaggle)
+                                </a>
+                            </p>
+
+                            <h5>⚙️ Part 2 — Agent Deployment</h5>
+                            <p>
+                                After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks
+                                to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.
+                                The goal was to operationalize agents as microservices — versioned, observable, and scalable.
+                                Each agent exposed REST endpoints (<code>/invoke</code>, <code>/healthz</code>), ran in a containerized
+                                runtime, and was instrumented with logs and traces for AgentOps monitoring.
+                            </p>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_51_4.png"
+                                     alt="Local-to-Cloud Deployment Pipeline"
+                                     style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>
+                            </p>
+
+                            <h5>Deployment Checklist</h5>
+                            <ul>
+                                <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>
+                                <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>
+                                <li><strong>Observability</strong> — add tracing IDs, structured logs, and custom metrics (cost &amp; latency).</li>
+                                <li><strong>Continuous Deployment</strong> — push image to registry and deploy with autoscaling.</li>
+                                <li><strong>Safety &amp; QoS</strong> — timeouts, retries, and circuit breakers around external tools.</li>
+                            </ul>
+
+                            <p style="text-align:center;">
+                                <img src="../../assets/images/day_51_5.png"
+                                     alt="Production Observability"
+                                     style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                <em>Figure 5 — Observability and Tracing in Production</em>
+                            </p>
+
+                            <p>
+                                👉 Open the official Deployment assignment on Kaggle:
+                                <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5b-agent-deployment"
+                                   target="_blank" rel="noopener noreferrer">
+                                    Day-5b: Agent Deployment (Kaggle)
+                                </a>
+                            </p>
+
+                            <h4>💡 Day 5 Takeaway</h4>
+                            <p>
+                                Day 5 was the ultimate developer flex — building agents that don’t just <em>think</em> or <em>act</em>,
+                                but <em>collaborate and ship</em>. We learned how to build autonomous agent teams via A2A and deploy them
+                                as scalable services with FastAPI, Docker, and Vertex AI. The future of AI development is clear:
+                                <strong>don’t just train models — deploy ecosystems that learn, coordinate, and evolve.</strong>
+                            </p>
+
+                            <p>
+                                You can find the assignment & code in my&nbsp;
+                                <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
+                            </p>
+
+                        </div>
                     </div>
                 </section>
 
@@ -531,356 +879,356 @@
                 </div>
 
 
-                <!-- ✅ Day 4 -->
-                <div class="rc-item">
-                    <input type="checkbox" id="rc-d4" name="rc-acc">
-                    <label class="rc-title" for="rc-d4">
-                        <span>Day 4: Observability & Evaluation — Peering Inside the AI Mind</span>
-                        <span class="rc-chevron">›</span>
-                    </label>
+<!--                &lt;!&ndash; ✅ Day 4 &ndash;&gt;-->
+<!--                <div class="rc-item">-->
+<!--                    <input type="checkbox" id="rc-d4" name="rc-acc">-->
+<!--                    <label class="rc-title" for="rc-d4">-->
+<!--                        <span>Day 4: Observability & Evaluation — Peering Inside the AI Mind</span>-->
+<!--                        <span class="rc-chevron">›</span>-->
+<!--                    </label>-->
 
-                    <div class="rc-panel">
+<!--                    <div class="rc-panel">-->
 
-                        <p>
-                            If Day 3 was about giving agents memory, Day 4 was about giving them <strong>self-awareness</strong>.
-                            We dove deep into <strong>Agent Observability and Evaluation</strong> — essentially, the DevOps backbone of the agentic world.
-                            In classical systems, debugging meant chasing logs and metrics. But here, we’re not debugging code — we’re debugging
-                            <em>thought</em>. The discipline now revolves around understanding <em>how</em> an agent thinks, acts, and learns in real time.
-                            Think of this as moving from <strong>monitoring</strong> to <strong>true cognitive observability</strong>,
-                            where we don’t just ask “Is it running?” but “Is it reasoning correctly?”
-                        </p>
+<!--                        <p>-->
+<!--                            If Day 3 was about giving agents memory, Day 4 was about giving them <strong>self-awareness</strong>.-->
+<!--                            We dove deep into <strong>Agent Observability and Evaluation</strong> — essentially, the DevOps backbone of the agentic world.-->
+<!--                            In classical systems, debugging meant chasing logs and metrics. But here, we’re not debugging code — we’re debugging-->
+<!--                            <em>thought</em>. The discipline now revolves around understanding <em>how</em> an agent thinks, acts, and learns in real time.-->
+<!--                            Think of this as moving from <strong>monitoring</strong> to <strong>true cognitive observability</strong>,-->
+<!--                            where we don’t just ask “Is it running?” but “Is it reasoning correctly?”-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_4_1.png"
-                                 alt="Three Pillars of Agent Observability"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.25);">
-                            <em>Figure 1 — The Three Pillars of Agent Observability</em>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_4_1.png"-->
+<!--                                 alt="Three Pillars of Agent Observability"-->
+<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 1 — The Three Pillars of Agent Observability</em>-->
+<!--                        </p>-->
 
-                        <h4>🍳 The Kitchen Analogy — From Line Cook to Gourmet Chef</h4>
-                        <p>
-                            The instructors used the <strong>Kitchen Analogy</strong> to nail the concept.
-                            Traditional software is like a <em>line cook</em> — rigid recipe, predictable output, easy to monitor.
-                            But an AI agent is a <em>gourmet chef</em>: given random ingredients and a creative challenge, it must improvise.
-                            Observability, then, becomes the food critic’s job — understanding each decision and reasoning step.
-                            We’re no longer checking recipes; we’re <strong>critiquing cognition</strong>.
-                        </p>
-
-
-
-                        <h4>📊 The Three Pillars — Logs, Traces, and Metrics</h4>
-                        <p>
-                            Observability for AI agents stands on three core pillars:
-                        <ul>
-                            <li><strong>Logs:</strong> The agent’s diary — every prompt, tool call, and context update captured in structured JSON.</li>
-                            <li><strong>Traces:</strong> The agent’s footsteps — a narrative chain showing cause and effect between reasoning steps.</li>
-                            <li><strong>Metrics:</strong> The agent’s health report — latency, token cost, and reasoning quality visualized over time.</li>
-                        </ul>
-                        These together transform an opaque black box into a <strong>glass box of cognition</strong>.
-                        We configured <strong>OpenTelemetry</strong> to stitch logs and traces into a unified reasoning timeline.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_4_3.png"
-                                 alt="OpenTelemetry Tracing Visualization"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — Distributed Tracing and Observability Visualization</em>
-                        </p>
-
-                        <h4>⚙️ Logging Deep Dive — The Agent’s Diary</h4>
-                        <p>
-                            Using the <strong>Agent Development Kit (ADK)</strong>, we built contextual, structured logs that record every LLM action,
-                            tool call, and context mutation. Each log contains IDs, token usage, latency, and reasoning stage.
-                            The challenge was balancing <em>verbosity vs. performance</em> — detailed enough to debug, lightweight enough for scale.
-                        </p>
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_4_4.png"
-                                 alt="A structured log entry capturing a single LLM request"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 3 — A structured log entry capturing a single LLM request</em>
-                        </p>
-
-                        <h4>🔗 Tracing — The Detective’s Red String Board</h4>
-                        <p>
-                            Tracing links events together into a cohesive story.
-                            Every request becomes a <strong>trace</strong>, each reasoning step a <strong>span</strong>, annotated with metadata like latency,
-                            model ID, and API cost.
-                            When something breaks, logs tell you <em>what</em> happened — but traces show <em>why</em>.
-                            It’s cognitive forensics at runtime.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_4_3.png"
-                                 alt="Sample OpenTelemetry Trace Timeline"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 4 — End-to-End Trace for an Agentic Request</em>
-                        </p>
-
-                        <h4>📈 Metrics — Quantifying Agent Health</h4>
-                        <p>
-                            Metrics act as the vital signs of an agent’s mind:
-                        <ul>
-                            <li><strong>System Metrics:</strong> Latency, token count, error rates, and API cost.</li>
-                            <li><strong>Quality Metrics:</strong> Helpfulness, accuracy, and safety — often evaluated using LLM-as-a-Judge.</li>
-                        </ul>
-                        We built dashboards to visualize both operational and qualitative metrics, giving a full 360° view of agent performance.
-                        </p>
-
-                        <h4>💡 Takeaway — Quality Is Architecture, Not QA</h4>
-                        <p>
-                            Day 4 fundamentally changed how I think about AI reliability.
-                            We don’t test agents after deployment — we <strong>design them for visibility</strong> from the ground up.
-                            Logs, traces, and metrics together form the nervous system of intelligent systems,
-                            enabling debugging, evaluation, and trust at scale.
-                        </p>
-
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_4_8.png"
-                                 alt="The Agent Quality Flywheel"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 5 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>
-                        </p>
-
-                        <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>
-                        <p>
-                            Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.
-                            We built an <strong>ADK-based agent</strong> that streamed telemetry to
-                            <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.
-                            Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.
-                            We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —
-                            turning raw reasoning into a living system graph.
-                        </p>
-
-                        <p>
-                            In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.
-                            Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.
-                            This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)
-                            represented the holy grail of cognitive telemetry.
-                            The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —
-                            the perfect visualization of intelligence under observation.
-                        </p>
-                        <p>
-                            You can find the assignment & code in my&nbsp;
-                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
-                        </p>
-
-                    </div>
-                </div>
+<!--                        <h4>🍳 The Kitchen Analogy — From Line Cook to Gourmet Chef</h4>-->
+<!--                        <p>-->
+<!--                            The instructors used the <strong>Kitchen Analogy</strong> to nail the concept.-->
+<!--                            Traditional software is like a <em>line cook</em> — rigid recipe, predictable output, easy to monitor.-->
+<!--                            But an AI agent is a <em>gourmet chef</em>: given random ingredients and a creative challenge, it must improvise.-->
+<!--                            Observability, then, becomes the food critic’s job — understanding each decision and reasoning step.-->
+<!--                            We’re no longer checking recipes; we’re <strong>critiquing cognition</strong>.-->
+<!--                        </p>-->
 
 
-                <!-- ✅ Day 5 -->
-                <div class="rc-item">
-                    <input type="checkbox" id="rc-d6" name="rc-acc">
-                    <label class="rc-title" for="rc-d6">
-                        <span>Day 5: From Prototype to Production — AgentOps in the Real World</span>
-                        <span class="rc-chevron">›</span>
-                    </label>
-                    <div class="rc-panel">
 
-                        <p>
-                            Day 5 was where everything we learned finally converged into a complete
-                            <strong>AgentOps lifecycle</strong>. It was less about prompts and more about production:
-                            scaling, governance, and trust. We explored what Google calls the
-                            <em>“last-mile problem”</em>—turning prototypes into reliable, observable, and secure systems.
-                            The quote of the day summed it up perfectly:
-                            <strong>“Building an agent is easy; trusting it is hard.”</strong>
-                        </p>
+<!--                        <h4>📊 The Three Pillars — Logs, Traces, and Metrics</h4>-->
+<!--                        <p>-->
+<!--                            Observability for AI agents stands on three core pillars:-->
+<!--                        <ul>-->
+<!--                            <li><strong>Logs:</strong> The agent’s diary — every prompt, tool call, and context update captured in structured JSON.</li>-->
+<!--                            <li><strong>Traces:</strong> The agent’s footsteps — a narrative chain showing cause and effect between reasoning steps.</li>-->
+<!--                            <li><strong>Metrics:</strong> The agent’s health report — latency, token cost, and reasoning quality visualized over time.</li>-->
+<!--                        </ul>-->
+<!--                        These together transform an opaque black box into a <strong>glass box of cognition</strong>.-->
+<!--                        We configured <strong>OpenTelemetry</strong> to stitch logs and traces into a unified reasoning timeline.-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_5_0.png"
-                                 alt="Prototype-to-Production workflow"
-                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 1 — Prototype → Production Workflow</em>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_4_3.png"-->
+<!--                                 alt="OpenTelemetry Tracing Visualization"-->
+<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 2 — Distributed Tracing and Observability Visualization</em>-->
+<!--                        </p>-->
 
-                        <h5>⚙️ Closing the Last Mile</h5>
-                        <p>
-                            We learned that 80% of the work in agent development lies not in intelligence but in
-                            <strong>infrastructure and operations</strong>. Real production agents need
-                            <strong>evaluation-gated CI/CD</strong>, secure state management, and predictable latency/cost
-                            controls. Forget fancy prompts—this was systems engineering 101 for cognition at scale.
-                        </p>
+<!--                        <h4>⚙️ Logging Deep Dive — The Agent’s Diary</h4>-->
+<!--                        <p>-->
+<!--                            Using the <strong>Agent Development Kit (ADK)</strong>, we built contextual, structured logs that record every LLM action,-->
+<!--                            tool call, and context mutation. Each log contains IDs, token usage, latency, and reasoning stage.-->
+<!--                            The challenge was balancing <em>verbosity vs. performance</em> — detailed enough to debug, lightweight enough for scale.-->
+<!--                        </p>-->
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_4_4.png"-->
+<!--                                 alt="A structured log entry capturing a single LLM request"-->
+<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 3 — A structured log entry capturing a single LLM request</em>-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_5_1.png"
-                                 alt="Evaluation-gated CI/CD pipeline"
-                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>
-                        </p>
+<!--                        <h4>🔗 Tracing — The Detective’s Red String Board</h4>-->
+<!--                        <p>-->
+<!--                            Tracing links events together into a cohesive story.-->
+<!--                            Every request becomes a <strong>trace</strong>, each reasoning step a <strong>span</strong>, annotated with metadata like latency,-->
+<!--                            model ID, and API cost.-->
+<!--                            When something breaks, logs tell you <em>what</em> happened — but traces show <em>why</em>.-->
+<!--                            It’s cognitive forensics at runtime.-->
+<!--                        </p>-->
 
-                        <h5>🧩 The Three Pillars of Production</h5>
-                        <p>
-                            Production-grade agent systems rest on three foundations:
-                        </p>
-                        <ul>
-                            <li><strong>Evaluation as a Quality Gate —</strong> no agent ships without passing
-                                behavioral and guardrail tests, automated via LLM-as-a-Judge frameworks.</li>
-                            <li><strong>Automated CI/CD —</strong> all prompts, tools, and config are version-controlled,
-                                validated in staging, and rolled out safely through Terraform and Cloud Build.</li>
-                            <li><strong>Comprehensive Observability —</strong> logs, traces, and metrics
-                                expose reasoning paths, latency, and cost through Vertex AI and Cloud Monitoring.</li>
-                        </ul>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_4_3.png"-->
+<!--                                 alt="Sample OpenTelemetry Trace Timeline"-->
+<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 4 — End-to-End Trace for an Agentic Request</em>-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_5_3.png"
-                                 alt="CI/CD and Observability Loop"
-                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 3 — CI/CD and Observability Loop</em>
-                        </p>
+<!--                        <h4>📈 Metrics — Quantifying Agent Health</h4>-->
+<!--                        <p>-->
+<!--                            Metrics act as the vital signs of an agent’s mind:-->
+<!--                        <ul>-->
+<!--                            <li><strong>System Metrics:</strong> Latency, token count, error rates, and API cost.</li>-->
+<!--                            <li><strong>Quality Metrics:</strong> Helpfulness, accuracy, and safety — often evaluated using LLM-as-a-Judge.</li>-->
+<!--                        </ul>-->
+<!--                        We built dashboards to visualize both operational and qualitative metrics, giving a full 360° view of agent performance.-->
+<!--                        </p>-->
 
-                        <h5>🔐 Security, Guardrails &amp; HITL</h5>
-                        <p>
-                            Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>
-                            for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.
-                            Input filters block malicious prompts; output filters catch PII or toxicity; HITL intervenes when risks spike.
-                            Safety is a pipeline, not a policy.
-                        </p>
+<!--                        <h4>💡 Takeaway — Quality Is Architecture, Not QA</h4>-->
+<!--                        <p>-->
+<!--                            Day 4 fundamentally changed how I think about AI reliability.-->
+<!--                            We don’t test agents after deployment — we <strong>design them for visibility</strong> from the ground up.-->
+<!--                            Logs, traces, and metrics together form the nervous system of intelligent systems,-->
+<!--                            enabling debugging, evaluation, and trust at scale.-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_5_4.png"
-                                 alt="Secure agent architecture with HITL"
-                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_4_8.png"-->
+<!--                                 alt="The Agent Quality Flywheel"-->
+<!--                                 style="width:80%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 5 — The Agent Quality Flywheel: Define → Observe → Evaluate → Improve</em>-->
+<!--                        </p>-->
 
-                        <h5>🤝 A2A Protocol — Agent Collaboration in Action</h5>
-                        <p>
-                            Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like
-                            microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based
-                            <code>AgentCards</code> describing their capabilities and delegate complex tasks autonomously.
-                            Using ADK’s <code>to_a2a()</code> and <code>RemoteA2aAgent()</code>, we built distributed systems of
-                            reasoning peers that plan together like digital colleagues.
-                        </p>
+<!--                        <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>-->
+<!--                        <p>-->
+<!--                            Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.-->
+<!--                            We built an <strong>ADK-based agent</strong> that streamed telemetry to-->
+<!--                            <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.-->
+<!--                            Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.-->
+<!--                            We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —-->
+<!--                            turning raw reasoning into a living system graph.-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_5_2.png"
-                                 alt="A2A and MCP integration diagram"
-                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
-                            <em>Figure 5 — A2A + MCP Integration</em>
-                        </p>
+<!--                        <p>-->
+<!--                            In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.-->
+<!--                            Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.-->
+<!--                            This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)-->
+<!--                            represented the holy grail of cognitive telemetry.-->
+<!--                            The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —-->
+<!--                            the perfect visualization of intelligence under observation.-->
+<!--                        </p>-->
+<!--                        <p>-->
+<!--                            You can find the assignment & code in my&nbsp;-->
+<!--                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>-->
+<!--                        </p>-->
 
-                        <h5>🧬 Observe → Act → Evolve</h5>
-                        <p>
-                            Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.
-                            Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.
-                            This feedback cycle transforms AI from static code to a living system of continuous learning—true
-                            <strong>AgentOps</strong>.
-                        </p>
-                        <h4>🤝Assignments</h4>
-                        <p>
-                        Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated
-                        to <strong>production-grade systems</strong>. The focus was twofold:
-                        <strong>Agent Collaboration (A2A)</strong> and <strong>Deployment</strong>.
-                        We first learned how to let multiple agents communicate and coordinate autonomously,
-                        then packaged them into containerized, observable services ready for cloud deployment.
-                        </p>
+<!--                    </div>-->
+<!--                </div>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_51_1.png"
-                                 alt="Agent-to-Agent (A2A) Collaboration Overview"
-                                 style="width:82%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">
-                            <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>
-                        </p>
 
-                        <h5>🤝 Part 1 — Agent2Agent (A2A) Communication</h5>
-                        <p>
-                            This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework
-                            where multiple agents act as teammates rather than isolated bots. We designed a
-                            <em>Coordinator Agent</em> that decomposed complex problems into subtasks handled by
-                            specialized peers like <em>Planner</em>, <em>Researcher</em>, and <em>Writer</em>.
-                            Each agent exposed a JSON-based <code>AgentCard</code> describing its capabilities and
-                            could call others dynamically using ADK utilities such as <code>to_a2a()</code> and
-                            <code>RemoteA2aAgent()</code>.
-                            This architecture mirrors microservices — each agent is independent, reusable,
-                            and observable.
-                        </p>
+<!--                &lt;!&ndash; ✅ Day 5 &ndash;&gt;-->
+<!--                <div class="rc-item">-->
+<!--                    <input type="checkbox" id="rc-d6" name="rc-acc">-->
+<!--                    <label class="rc-title" for="rc-d6">-->
+<!--                        <span>Day 5: From Prototype to Production — AgentOps in the Real World</span>-->
+<!--                        <span class="rc-chevron">›</span>-->
+<!--                    </label>-->
+<!--                    <div class="rc-panel">-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_51_2.png"
-                                 alt="Coordinator–Specialist Message Flow"
-                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>
-                        </p>
+<!--                        <p>-->
+<!--                            Day 5 was where everything we learned finally converged into a complete-->
+<!--                            <strong>AgentOps lifecycle</strong>. It was less about prompts and more about production:-->
+<!--                            scaling, governance, and trust. We explored what Google calls the-->
+<!--                            <em>“last-mile problem”</em>—turning prototypes into reliable, observable, and secure systems.-->
+<!--                            The quote of the day summed it up perfectly:-->
+<!--                            <strong>“Building an agent is easy; trusting it is hard.”</strong>-->
+<!--                        </p>-->
 
-                        <h5>What we built</h5>
-                        <ul>
-                            <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>
-                            <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>
-                            <li>Created a <strong>Coordinator loop</strong> to route requests and aggregate responses.</li>
-                            <li>Enabled agents to invoke external tools and attach results to their A2A messages.</li>
-                            <li>Added <strong>observability hooks</strong> to trace handoffs and monitor cost and latency.</li>
-                        </ul>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_5_0.png"-->
+<!--                                 alt="Prototype-to-Production workflow"-->
+<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
+<!--                            <em>Figure 1 — Prototype → Production Workflow</em>-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_51_3.png"
-                                 alt="A2A Tracing and Metrics"
-                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 3 — Tracing A2A handoffs with logs and metrics</em>
-                        </p>
+<!--                        <h5>⚙️ Closing the Last Mile</h5>-->
+<!--                        <p>-->
+<!--                            We learned that 80% of the work in agent development lies not in intelligence but in-->
+<!--                            <strong>infrastructure and operations</strong>. Real production agents need-->
+<!--                            <strong>evaluation-gated CI/CD</strong>, secure state management, and predictable latency/cost-->
+<!--                            controls. Forget fancy prompts—this was systems engineering 101 for cognition at scale.-->
+<!--                        </p>-->
 
-                        <p>
-                            👉 Try the official A2A assignment on Kaggle:
-                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5a-agent2agent-communication"
-                               target="_blank" rel="noopener noreferrer">
-                                Day-5a: Agent2Agent Communication (Kaggle)
-                            </a>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_5_1.png"-->
+<!--                                 alt="Evaluation-gated CI/CD pipeline"-->
+<!--                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>-->
+<!--                        </p>-->
 
-                        <h5>⚙️ Part 2 — Agent Deployment</h5>
-                        <p>
-                            After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks
-                            to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.
-                            The goal was to operationalize agents as microservices — versioned, observable, and scalable.
-                            Each agent exposed REST endpoints (<code>/invoke</code>, <code>/healthz</code>), ran in a containerized
-                            runtime, and was instrumented with logs and traces for AgentOps monitoring.
-                        </p>
+<!--                        <h5>🧩 The Three Pillars of Production</h5>-->
+<!--                        <p>-->
+<!--                            Production-grade agent systems rest on three foundations:-->
+<!--                        </p>-->
+<!--                        <ul>-->
+<!--                            <li><strong>Evaluation as a Quality Gate —</strong> no agent ships without passing-->
+<!--                                behavioral and guardrail tests, automated via LLM-as-a-Judge frameworks.</li>-->
+<!--                            <li><strong>Automated CI/CD —</strong> all prompts, tools, and config are version-controlled,-->
+<!--                                validated in staging, and rolled out safely through Terraform and Cloud Build.</li>-->
+<!--                            <li><strong>Comprehensive Observability —</strong> logs, traces, and metrics-->
+<!--                                expose reasoning paths, latency, and cost through Vertex AI and Cloud Monitoring.</li>-->
+<!--                        </ul>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_51_4.png"
-                                 alt="Local-to-Cloud Deployment Pipeline"
-                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_5_3.png"-->
+<!--                                 alt="CI/CD and Observability Loop"-->
+<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
+<!--                            <em>Figure 3 — CI/CD and Observability Loop</em>-->
+<!--                        </p>-->
 
-                        <h5>Deployment Checklist</h5>
-                        <ul>
-                            <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>
-                            <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>
-                            <li><strong>Observability</strong> — add tracing IDs, structured logs, and custom metrics (cost &amp; latency).</li>
-                            <li><strong>Continuous Deployment</strong> — push image to registry and deploy with autoscaling.</li>
-                            <li><strong>Safety &amp; QoS</strong> — timeouts, retries, and circuit breakers around external tools.</li>
-                        </ul>
+<!--                        <h5>🔐 Security, Guardrails &amp; HITL</h5>-->
+<!--                        <p>-->
+<!--                            Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>-->
+<!--                            for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.-->
+<!--                            Input filters block malicious prompts; output filters catch PII or toxicity; HITL intervenes when risks spike.-->
+<!--                            Safety is a pipeline, not a policy.-->
+<!--                        </p>-->
 
-                        <p style="text-align:center;">
-                            <img src="../../assets/images/day_51_5.png"
-                                 alt="Production Observability"
-                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                            <em>Figure 5 — Observability and Tracing in Production</em>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_5_4.png"-->
+<!--                                 alt="Secure agent architecture with HITL"-->
+<!--                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
+<!--                            <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>-->
+<!--                        </p>-->
 
-                        <p>
-                            👉 Open the official Deployment assignment on Kaggle:
-                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5b-agent-deployment"
-                               target="_blank" rel="noopener noreferrer">
-                                Day-5b: Agent Deployment (Kaggle)
-                            </a>
-                        </p>
+<!--                        <h5>🤝 A2A Protocol — Agent Collaboration in Action</h5>-->
+<!--                        <p>-->
+<!--                            Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like-->
+<!--                            microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based-->
+<!--                            <code>AgentCards</code> describing their capabilities and delegate complex tasks autonomously.-->
+<!--                            Using ADK’s <code>to_a2a()</code> and <code>RemoteA2aAgent()</code>, we built distributed systems of-->
+<!--                            reasoning peers that plan together like digital colleagues.-->
+<!--                        </p>-->
 
-                        <h4>💡 Day 5 Takeaway</h4>
-                        <p>
-                            Day 5 was the ultimate developer flex — building agents that don’t just <em>think</em> or <em>act</em>,
-                            but <em>collaborate and ship</em>. We learned how to build autonomous agent teams via A2A and deploy them
-                            as scalable services with FastAPI, Docker, and Vertex AI. The future of AI development is clear:
-                            <strong>don’t just train models — deploy ecosystems that learn, coordinate, and evolve.</strong>
-                        </p>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_5_2.png"-->
+<!--                                 alt="A2A and MCP integration diagram"-->
+<!--                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">-->
+<!--                            <em>Figure 5 — A2A + MCP Integration</em>-->
+<!--                        </p>-->
 
-                        <p>
-                            You can find the assignment & code in my&nbsp;
-                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
-                        </p>
+<!--                        <h5>🧬 Observe → Act → Evolve</h5>-->
+<!--                        <p>-->
+<!--                            Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.-->
+<!--                            Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.-->
+<!--                            This feedback cycle transforms AI from static code to a living system of continuous learning—true-->
+<!--                            <strong>AgentOps</strong>.-->
+<!--                        </p>-->
+<!--                        <h4>🤝Assignments</h4>-->
+<!--                        <p>-->
+<!--                        Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated-->
+<!--                        to <strong>production-grade systems</strong>. The focus was twofold:-->
+<!--                        <strong>Agent Collaboration (A2A)</strong> and <strong>Deployment</strong>.-->
+<!--                        We first learned how to let multiple agents communicate and coordinate autonomously,-->
+<!--                        then packaged them into containerized, observable services ready for cloud deployment.-->
+<!--                        </p>-->
 
-                    </div>
-                </div>
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_51_1.png"-->
+<!--                                 alt="Agent-to-Agent (A2A) Collaboration Overview"-->
+<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>-->
+<!--                        </p>-->
+
+<!--                        <h5>🤝 Part 1 — Agent2Agent (A2A) Communication</h5>-->
+<!--                        <p>-->
+<!--                            This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework-->
+<!--                            where multiple agents act as teammates rather than isolated bots. We designed a-->
+<!--                            <em>Coordinator Agent</em> that decomposed complex problems into subtasks handled by-->
+<!--                            specialized peers like <em>Planner</em>, <em>Researcher</em>, and <em>Writer</em>.-->
+<!--                            Each agent exposed a JSON-based <code>AgentCard</code> describing its capabilities and-->
+<!--                            could call others dynamically using ADK utilities such as <code>to_a2a()</code> and-->
+<!--                            <code>RemoteA2aAgent()</code>.-->
+<!--                            This architecture mirrors microservices — each agent is independent, reusable,-->
+<!--                            and observable.-->
+<!--                        </p>-->
+
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_51_2.png"-->
+<!--                                 alt="Coordinator–Specialist Message Flow"-->
+<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>-->
+<!--                        </p>-->
+
+<!--                        <h5>What we built</h5>-->
+<!--                        <ul>-->
+<!--                            <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>-->
+<!--                            <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>-->
+<!--                            <li>Created a <strong>Coordinator loop</strong> to route requests and aggregate responses.</li>-->
+<!--                            <li>Enabled agents to invoke external tools and attach results to their A2A messages.</li>-->
+<!--                            <li>Added <strong>observability hooks</strong> to trace handoffs and monitor cost and latency.</li>-->
+<!--                        </ul>-->
+
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_51_3.png"-->
+<!--                                 alt="A2A Tracing and Metrics"-->
+<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 3 — Tracing A2A handoffs with logs and metrics</em>-->
+<!--                        </p>-->
+
+<!--                        <p>-->
+<!--                            👉 Try the official A2A assignment on Kaggle:-->
+<!--                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5a-agent2agent-communication"-->
+<!--                               target="_blank" rel="noopener noreferrer">-->
+<!--                                Day-5a: Agent2Agent Communication (Kaggle)-->
+<!--                            </a>-->
+<!--                        </p>-->
+
+<!--                        <h5>⚙️ Part 2 — Agent Deployment</h5>-->
+<!--                        <p>-->
+<!--                            After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks-->
+<!--                            to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.-->
+<!--                            The goal was to operationalize agents as microservices — versioned, observable, and scalable.-->
+<!--                            Each agent exposed REST endpoints (<code>/invoke</code>, <code>/healthz</code>), ran in a containerized-->
+<!--                            runtime, and was instrumented with logs and traces for AgentOps monitoring.-->
+<!--                        </p>-->
+
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_51_4.png"-->
+<!--                                 alt="Local-to-Cloud Deployment Pipeline"-->
+<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>-->
+<!--                        </p>-->
+
+<!--                        <h5>Deployment Checklist</h5>-->
+<!--                        <ul>-->
+<!--                            <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>-->
+<!--                            <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>-->
+<!--                            <li><strong>Observability</strong> — add tracing IDs, structured logs, and custom metrics (cost &amp; latency).</li>-->
+<!--                            <li><strong>Continuous Deployment</strong> — push image to registry and deploy with autoscaling.</li>-->
+<!--                            <li><strong>Safety &amp; QoS</strong> — timeouts, retries, and circuit breakers around external tools.</li>-->
+<!--                        </ul>-->
+
+<!--                        <p style="text-align:center;">-->
+<!--                            <img src="../../assets/images/day_51_5.png"-->
+<!--                                 alt="Production Observability"-->
+<!--                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">-->
+<!--                            <em>Figure 5 — Observability and Tracing in Production</em>-->
+<!--                        </p>-->
+
+<!--                        <p>-->
+<!--                            👉 Open the official Deployment assignment on Kaggle:-->
+<!--                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5b-agent-deployment"-->
+<!--                               target="_blank" rel="noopener noreferrer">-->
+<!--                                Day-5b: Agent Deployment (Kaggle)-->
+<!--                            </a>-->
+<!--                        </p>-->
+
+<!--                        <h4>💡 Day 5 Takeaway</h4>-->
+<!--                        <p>-->
+<!--                            Day 5 was the ultimate developer flex — building agents that don’t just <em>think</em> or <em>act</em>,-->
+<!--                            but <em>collaborate and ship</em>. We learned how to build autonomous agent teams via A2A and deploy them-->
+<!--                            as scalable services with FastAPI, Docker, and Vertex AI. The future of AI development is clear:-->
+<!--                            <strong>don’t just train models — deploy ecosystems that learn, coordinate, and evolve.</strong>-->
+<!--                        </p>-->
+
+<!--                        <p>-->
+<!--                            You can find the assignment & code in my&nbsp;-->
+<!--                            <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>-->
+<!--                        </p>-->
+
+<!--                    </div>-->
+<!--                </div>-->
 
 
             </div>
