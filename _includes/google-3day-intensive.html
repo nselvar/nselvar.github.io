@@ -693,7 +693,7 @@
                             <em>Figure 1 — Prototype → Production Workflow</em>
                         </p>
 
-                        <h4>⚙️ Closing the Last Mile</h4>
+                        <h5>⚙️ Closing the Last Mile</h5>
                         <p>
                             We learned that 80% of the work in agent development lies not in intelligence but in
                             <strong>infrastructure and operations</strong>. Real production agents need
@@ -708,7 +708,7 @@
                             <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>
                         </p>
 
-                        <h4>🧩 The Three Pillars of Production</h4>
+                        <h5>🧩 The Three Pillars of Production</h5>
                         <p>
                             Production-grade agent systems rest on three foundations:
                         </p>
@@ -728,7 +728,7 @@
                             <em>Figure 3 — CI/CD and Observability Loop</em>
                         </p>
 
-                        <h4>🔐 Security, Guardrails &amp; HITL</h4>
+                        <h5>🔐 Security, Guardrails &amp; HITL</h5>
                         <p>
                             Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>
                             for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.
@@ -743,7 +743,7 @@
                             <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>
                         </p>
 
-                        <h4>🤝 A2A Protocol — Agent Collaboration in Action</h4>
+                        <h5>🤝 A2A Protocol — Agent Collaboration in Action</h5>
                         <p>
                             Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like
                             microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based
@@ -759,14 +759,14 @@
                             <em>Figure 5 — A2A + MCP Integration</em>
                         </p>
 
-                        <h4>🧬 Observe → Act → Evolve</h4>
+                        <h5>🧬 Observe → Act → Evolve</h5>
                         <p>
                             Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.
                             Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.
                             This feedback cycle transforms AI from static code to a living system of continuous learning—true
                             <strong>AgentOps</strong>.
                         </p>
-
+                        <h4>🤝Assignments</h4>
                         <p>
                         Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated
                         to <strong>production-grade systems</strong>. The focus was twofold:
@@ -782,7 +782,7 @@
                             <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>
                         </p>
 
-                        <h4>🤝 Part 1 — Agent2Agent (A2A) Communication</h4>
+                        <h5>🤝 Part 1 — Agent2Agent (A2A) Communication</h5>
                         <p>
                             This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework
                             where multiple agents act as teammates rather than isolated bots. We designed a
@@ -802,7 +802,7 @@
                             <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>
                         </p>
 
-                        <h4>What we built</h4>
+                        <h5>What we built</h5>
                         <ul>
                             <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>
                             <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>
@@ -826,7 +826,7 @@
                             </a>
                         </p>
 
-                        <h4>⚙️ Part 2 — Agent Deployment</h4>
+                        <h5>⚙️ Part 2 — Agent Deployment</h5>
                         <p>
                             After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks
                             to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.
@@ -842,7 +842,7 @@
                             <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>
                         </p>
 
-                        <h4>Deployment Checklist</h4>
+                        <h5>Deployment Checklist</h5>
                         <ul>
                             <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>
                             <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>
