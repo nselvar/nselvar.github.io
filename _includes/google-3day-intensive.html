@@ -751,28 +751,116 @@
                             <strong>AgentOps</strong>.
                         </p>
 
-
-
-                        <h4>💻 Assignment — Multi-Agent Deployment &amp; A2A</h4>
                         <p>
-                            The assignment was to build a multi-agent system using A2A and deploy it to
-                            <strong>Vertex AI Agent Engine</strong>. We containerized local agents with <em>FastAPI</em> and
-                            <em>Docker</em>, exposed them using <code>to_a2a()</code>, and connected remote agents with
-                            <code>RemoteA2aAgent()</code>. Each agent shared an <code>AgentCard</code> descriptor for dynamic
-                            discovery and collaboration. Seeing them communicate autonomously felt like watching a distributed mind come alive.
+                        Day 5 marked the grand finale of the AI Agents Intensive — where our prototypes graduated
+                        to <strong>production-grade systems</strong>. The focus was twofold:
+                        <strong>Agent Collaboration (A2A)</strong> and <strong>Deployment</strong>.
+                        We first learned how to let multiple agents communicate and coordinate autonomously,
+                        then packaged them into containerized, observable services ready for cloud deployment.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_51_1.png"
+                                 alt="Agent-to-Agent (A2A) Collaboration Overview"
+                                 style="width:82%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                            <em>Figure 1 — Multi-Agent Collaboration through A2A Protocol</em>
+                        </p>
+
+                        <h4>🤝 Part 1 — Agent2Agent (A2A) Communication</h4>
+                        <p>
+                            This assignment introduced <strong>Agent2Agent (A2A)</strong> communication — a framework
+                            where multiple agents act as teammates rather than isolated bots. We designed a
+                            <em>Coordinator Agent</em> that decomposed complex problems into subtasks handled by
+                            specialized peers like <em>Planner</em>, <em>Researcher</em>, and <em>Writer</em>.
+                            Each agent exposed a JSON-based <code>AgentCard</code> describing its capabilities and
+                            could call others dynamically using ADK utilities such as <code>to_a2a()</code> and
+                            <code>RemoteA2aAgent()</code>.
+                            This architecture mirrors microservices — each agent is independent, reusable,
+                            and observable.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_51_2.png"
+                                 alt="Coordinator–Specialist Message Flow"
+                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 2 — Coordinator ⇄ Specialist message flow using A2A calls</em>
+                        </p>
+
+                        <h4>What we built</h4>
+                        <ul>
+                            <li>Defined clear <strong>roles &amp; policies</strong> for each agent (planner, solver, reviewer).</li>
+                            <li>Implemented a structured <strong>message schema</strong> for task handoffs (intent, payload, confidence).</li>
+                            <li>Created a <strong>Coordinator loop</strong> to route requests and aggregate responses.</li>
+                            <li>Enabled agents to invoke external tools and attach results to their A2A messages.</li>
+                            <li>Added <strong>observability hooks</strong> to trace handoffs and monitor cost and latency.</li>
+                        </ul>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_51_3.png"
+                                 alt="A2A Tracing and Metrics"
+                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 3 — Tracing A2A handoffs with logs and metrics</em>
+                        </p>
+
+                        <p>
+                            👉 Try the official A2A assignment on Kaggle:
+                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5a-agent2agent-communication"
+                               target="_blank" rel="noopener noreferrer">
+                                Day-5a: Agent2Agent Communication (Kaggle)
+                            </a>
+                        </p>
+
+                        <h4>⚙️ Part 2 — Agent Deployment</h4>
+                        <p>
+                            After collaboration came <strong>deployment</strong>. We took our A2A ecosystem from local notebooks
+                            to the cloud using <strong>FastAPI</strong>, <strong>Docker</strong>, and <strong>Vertex AI Agent Engine</strong>.
+                            The goal was to operationalize agents as microservices — versioned, observable, and scalable.
+                            Each agent exposed REST endpoints (<code>/invoke</code>, <code>/healthz</code>), ran in a containerized
+                            runtime, and was instrumented with logs and traces for AgentOps monitoring.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_51_4.png"
+                                 alt="Local-to-Cloud Deployment Pipeline"
+                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 4 — Local → Docker → Vertex AI Agent Engine Deployment</em>
+                        </p>
+
+                        <h4>Deployment Checklist</h4>
+                        <ul>
+                            <li><strong>FastAPI</strong> endpoints wrapping agent logic (+ health &amp; invoke routes).</li>
+                            <li><strong>Docker image</strong> with locked dependencies and environment variables for secrets.</li>
+                            <li><strong>Observability</strong> — add tracing IDs, structured logs, and custom metrics (cost &amp; latency).</li>
+                            <li><strong>Continuous Deployment</strong> — push image to registry and deploy with autoscaling.</li>
+                            <li><strong>Safety &amp; QoS</strong> — timeouts, retries, and circuit breakers around external tools.</li>
+                        </ul>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_51_5.png"
+                                 alt="Production Observability"
+                                 style="width:82%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 5 — Observability and Tracing in Production</em>
+                        </p>
+
+                        <p>
+                            👉 Open the official Deployment assignment on Kaggle:
+                            <a href="https://www.kaggle.com/code/kaggle5daysofai/day-5b-agent-deployment"
+                               target="_blank" rel="noopener noreferrer">
+                                Day-5b: Agent Deployment (Kaggle)
+                            </a>
+                        </p>
+
+                        <h4>💡 Day 5 Takeaway</h4>
+                        <p>
+                            Day 5 was the ultimate developer flex — building agents that don’t just <em>think</em> or <em>act</em>,
+                            but <em>collaborate and ship</em>. We learned how to build autonomous agent teams via A2A and deploy them
+                            as scalable services with FastAPI, Docker, and Vertex AI. The future of AI development is clear:
+                            <strong>don’t just train models — deploy ecosystems that learn, coordinate, and evolve.</strong>
                         </p>
 
                         <p>
                             You can find the assignment & code in my&nbsp;
                             <a href="https://github.com/nselvar/NN-SVMBankTelemarketing/" rel="noopener noreferrer" target="_blank">GitHub repo</a>
-                        </p>
-
-                        <h4>💡 Day 5 Takeaway</h4>
-                        <p>
-                            Day 5 proved that AI engineering is no longer about building smarter models but
-                            <strong>smarter systems</strong>. From evaluation-gated pipelines and A2A collaboration to
-                            observability loops and security guardrails, this was a masterclass in trust-centric design.
-                            The new engineering ethic is clear: <strong>don’t just build agents that work—build agents you can trust.</strong>
                         </p>
 
                     </div>
