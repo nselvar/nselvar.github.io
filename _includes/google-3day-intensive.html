@@ -7,20 +7,36 @@
                 5-Day AI Agents Intensive Course with Google
             </h2>
 
+<!--            <style>-->
+<!--                .rc-acc { max-width: 1000px; margin: 0 auto; }-->
+<!--                .rc-item { border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 0.75rem; background: #fff;-->
+<!--                           box-shadow: 0 1px 6px rgba(0,0,0,0.04); overflow: hidden; }-->
+<!--                .rc-title { display: flex; justify-content: space-between; align-items: center;-->
+<!--                            padding: 0.9rem 1rem; font-weight: 600; cursor: pointer; }-->
+<!--                .rc-chevron { transition: transform 200ms ease; }-->
+<!--                .rc-panel { max-height: 0; overflow: hidden; transition: max-height 250ms ease;-->
+<!--                            border-top: 1px dashed #e5e7eb; padding: 0 1rem; }-->
+<!--                input[name="rc-acc"] { display: none; }-->
+<!--                input[name="rc-acc"]:checked + label + .rc-panel {-->
+<!--                  max-height: 6000px; padding: 0.75rem 1rem 1rem;-->
+<!--                }-->
+<!--                input[name="rc-acc"]:checked + label .rc-chevron { transform: rotate(90deg); }-->
+<!--            </style>-->
             <style>
                 .rc-acc { max-width: 1000px; margin: 0 auto; }
-                .rc-item { border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 0.75rem; background: #fff;
-                           box-shadow: 0 1px 6px rgba(0,0,0,0.04); overflow: hidden; }
-                .rc-title { display: flex; justify-content: space-between; align-items: center;
-                            padding: 0.9rem 1rem; font-weight: 600; cursor: pointer; }
+                .rc-item { border:1px solid #e5e7eb; border-radius:12px; margin-bottom:.75rem; background:#fff;
+                           box-shadow:0 1px 6px rgba(0,0,0,.04); overflow:hidden; }
+                .rc-title { display:flex; justify-content:space-between; align-items:center;
+                            padding:.9rem 1rem; font-weight:600; cursor:pointer; }
                 .rc-chevron { transition: transform 200ms ease; }
-                .rc-panel { max-height: 0; overflow: hidden; transition: max-height 250ms ease;
-                            border-top: 1px dashed #e5e7eb; padding: 0 1rem; }
-                input[name="rc-acc"] { display: none; }
-                input[name="rc-acc"]:checked + label + .rc-panel {
-                  max-height: 6000px; padding: 0.75rem 1rem 1rem;
-                }
+                .rc-panel { max-height:0; overflow:hidden; transition:max-height 250ms ease; border-top:1px dashed #e5e7eb; padding:0 1rem; }
+                input[name="rc-acc"] { display:none; }
+                /* 🚀 bump this way up so even after images load, nothing clips */
+                input[name="rc-acc"]:checked + label + .rc-panel { max-height: 999999px; padding:.75rem 1rem 1rem; }
                 input[name="rc-acc"]:checked + label .rc-chevron { transform: rotate(90deg); }
+
+                /* keep images tame inside the panel */
+                .rc-panel img { max-width:100%; height:auto; display:block; }
             </style>
 
             <div class="rc-acc">
