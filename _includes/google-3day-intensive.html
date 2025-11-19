@@ -29,7 +29,7 @@
 
 
                     <p>
-                        The <strong>5-Day AI Agents Intensive</strong>[November 10 2025-  November 14 2025] is Google’s flagship hands-on program that turns
+                        The <strong>5-Day AI Agents Intensive</strong> [November 10 2025-  November 14 2025] is Google’s flagship hands-on program that turns
                         developers into full-stack <em>agentic engineers</em>. Co-created by Google Research and Kaggle,
                         it takes learners from <strong>prompting</strong> to <strong>production</strong>, covering
                         models, tools, orchestration, memory, observability, and deployment. Each day blends theory
@@ -652,12 +652,129 @@
                 </div>
 
 
+                <!-- ✅ Day 5 -->
+                <div class="rc-item">
+                    <input type="checkbox" id="rc-d6" name="rc-acc">
+                    <label class="rc-title" for="rc-d6">
+                        <span>Day 5: From Prototype to Production — AgentOps in the Real World</span>
+                        <span class="rc-chevron">›</span>
+                    </label>
+                    <div class="rc-panel">
+
+                        <p>
+                            Day 5 was where everything we learned finally converged into a complete
+                            <strong>AgentOps lifecycle</strong>. It was less about prompts and more about production:
+                            scaling, governance, and trust. We explored what Google calls the
+                            <em>“last-mile problem”</em>—turning prototypes into reliable, observable, and secure systems.
+                            The quote of the day summed it up perfectly:
+                            <strong>“Building an agent is easy; trusting it is hard.”</strong>
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_5_0.png"
+                                 alt="Prototype-to-Production workflow"
+                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 1 — Prototype → Production Workflow</em>
+                        </p>
+
+                        <h4>⚙️ Closing the Last Mile</h4>
+                        <p>
+                            We learned that 80% of the work in agent development lies not in intelligence but in
+                            <strong>infrastructure and operations</strong>. Real production agents need
+                            <strong>evaluation-gated CI/CD</strong>, secure state management, and predictable latency/cost
+                            controls. Forget fancy prompts—this was systems engineering 101 for cognition at scale.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_5_1.png"
+                                 alt="Evaluation-gated CI/CD pipeline"
+                                 style="width:85%; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                            <em>Figure 2 — Evaluation-Gated Deployment Pipeline</em>
+                        </p>
+
+                        <h4>🧩 The Three Pillars of Production</h4>
+                        <p>
+                            Production-grade agent systems rest on three foundations:
+                        </p>
+                        <ul>
+                            <li><strong>Evaluation as a Quality Gate —</strong> no agent ships without passing
+                                behavioral and guardrail tests, automated via LLM-as-a-Judge frameworks.</li>
+                            <li><strong>Automated CI/CD —</strong> all prompts, tools, and config are version-controlled,
+                                validated in staging, and rolled out safely through Terraform and Cloud Build.</li>
+                            <li><strong>Comprehensive Observability —</strong> logs, traces, and metrics
+                                expose reasoning paths, latency, and cost through Vertex AI and Cloud Monitoring.</li>
+                        </ul>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_5_3.png"
+                                 alt="CI/CD and Observability Loop"
+                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 3 — CI/CD and Observability Loop</em>
+                        </p>
+
+                        <h4>🔐 Security, Guardrails &amp; HITL</h4>
+                        <p>
+                            Autonomy without security is chaos. We explored Google’s <strong>Secure AI Framework (SAIF)</strong>
+                            for agents—defining policies, I/O guardrails, and <strong>Human-in-the-Loop (HITL)</strong> checkpoints.
+                            Input filters block malicious prompts; output filters catch PII or toxicity; HITL intervenes when risks spike.
+                            Safety is a pipeline, not a policy.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_5_4.png"
+                                 alt="Secure agent architecture with HITL"
+                                 style="width:80%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 4 — Secure Agent Architecture with Guardrails &amp; HITL</em>
+                        </p>
+
+                        <h4>🤝 A2A Protocol — Agent Collaboration in Action</h4>
+                        <p>
+                            Enter the <strong>Agent2Agent (A2A) Protocol</strong>—the standard that lets agents communicate like
+                            microservices. While MCP handles tools, A2A handles agents. Agents exchange JSON-based
+                            <code>AgentCards</code> describing their capabilities and delegate complex tasks autonomously.
+                            Using ADK’s <code>to_a2a()</code> and <code>RemoteA2aAgent()</code>, we built distributed systems of
+                            reasoning peers that plan together like digital colleagues.
+                        </p>
+
+                        <p style="text-align:center;">
+                            <img src="../../assets/images/day_5_2.png"
+                                 alt="A2A and MCP integration diagram"
+                                 style="width:82%; border-radius:12px; box-shadow:0 0 8px rgba(0,0,0,0.2);">
+                            <em>Figure 5 — A2A + MCP Integration</em>
+                        </p>
+
+                        <h4>🧬 Observe → Act → Evolve</h4>
+                        <p>
+                            Once live, agents enter a continuous loop of <em>Observation, Action, and Evolution</em>.
+                            Logs feed metrics; metrics trigger tuning; tuning commits new versions via automated CI/CD.
+                            This feedback cycle transforms AI from static code to a living system of continuous learning—true
+                            <strong>AgentOps</strong>.
+                        </p>
 
 
 
+                        <h4>💻 Assignment — Multi-Agent Deployment &amp; A2A</h4>
+                        <p>
+                            The assignment was to build a multi-agent system using A2A and deploy it to
+                            <strong>Vertex AI Agent Engine</strong>. We containerized local agents with <em>FastAPI</em> and
+                            <em>Docker</em>, exposed them using <code>to_a2a()</code>, and connected remote agents with
+                            <code>RemoteA2aAgent()</code>. Each agent shared an <code>AgentCard</code> descriptor for dynamic
+                            discovery and collaboration. Seeing them communicate autonomously felt like watching a distributed mind come alive.
+                        </p>
 
 
-                <div class="rc-item"><input type="checkbox" id="rc-d5" name="rc-acc"><label class="rc-title" for="rc-d5"><span>Day 5</span><span class="rc-chevron">›</span></label><div class="rc-panel"><p>Coming soon …</p></div></div>
+
+                        <h4>💡 Day 5 Takeaway</h4>
+                        <p>
+                            Day 5 proved that AI engineering is no longer about building smarter models but
+                            <strong>smarter systems</strong>. From evaluation-gated pipelines and A2A collaboration to
+                            observability loops and security guardrails, this was a masterclass in trust-centric design.
+                            The new engineering ethic is clear: <strong>don’t just build agents that work—build agents you can trust.</strong>
+                        </p>
+
+                    </div>
+                </div>
+
 
             </div>
 
