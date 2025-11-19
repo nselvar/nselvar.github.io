@@ -626,21 +626,64 @@
 
                                 <h4>🧪 Assignment — Building a Full Observability Pipeline</h4>
                                 <p>
-                                    Our Day 4 assignment was a deep dive into <strong>AgentOps instrumentation</strong>.
-                                    We built an <strong>ADK-based agent</strong> that streamed telemetry to
-                                    <strong>Google Cloud Monitoring</strong> via <strong>OpenTelemetry</strong>.
-                                    Each LLM call and tool execution generated JSON logs and trace spans enriched with token usage and latency.
-                                    We then visualized this data on a real-time dashboard that plotted model performance, API costs, and response quality —
-                                    turning raw reasoning into a living system graph.
+                                    Day 4a reframed debugging for agentic systems: we’re not only watching code paths, we’re
+                                    observing <em>reasoning</em>. The stack is the classic triad — <strong>Logs</strong> (structured, contextual
+                                    records of prompts, tool calls, and state changes), <strong>Traces</strong> (end-to-end request timelines with spans for
+                                    planning, tool execution, and post-processing), and <strong>Metrics</strong> (latency, token usage, error rates,
+                                    cost). Together they turn an opaque LLM into a “glass box of cognition.”  [oai_citation:0‡Kaggle](https://www.kaggle.com/code/kaggle5daysofai/day-4a-agent-observability)
+                                </p>
+
+
+
+                                <h4>What we instrumented</h4>
+                                <ul>
+                                    <li><strong>Structured logs</strong> with request/response IDs, tool names, token counts, latency, and result status.</li>
+                                    <li><strong>Distributed tracing</strong> (e.g., OpenTelemetry) to stitch planning → tool calls → synthesis into one timeline.</li>
+                                    <li><strong>Dashboards</strong> to track p50/p95 latency, cost per task, tool failure rates, and retry/circuit-breaker events.</li>
+                                </ul>
+
+                                <figure style="text-align:center;">
+                                    <img src="../../assets/images/observability-demo.gif" alt="Trace Timeline for an Agent Task"
+                                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <figcaption>Figure — End-to-end trace with spans for plan → act → observe</figcaption>
+                                </figure>
+
+                                <p>
+                                    The notebook shows how observability supports <strong>AgentOps</strong>: you can correlate quality drops with
+                                    context bloat, mis-routed tools, or model version changes — and then fix with prompts, policies, or
+                                    tool selection rules.  [oai_citation:1‡Kaggle](https://www.kaggle.com/code/kaggle5daysofai/day-4a-agent-observability)
                                 </p>
 
                                 <p>
-                                    In the second half of the lab, we extended our pipeline with a <strong>custom evaluation module</strong>.
-                                    Using an auxiliary <em>Judge Model</em>, we scored agent responses for accuracy and helpfulness and correlated them with runtime data.
-                                    This fusion of <strong>quantitative metrics</strong> (like latency) and <strong>qualitative scores</strong> (like semantic accuracy)
-                                    represented the holy grail of cognitive telemetry.
-                                    The dashboard’s final state showed reasoning traces, token cost curves, and LLM-as-a-Judge scores on a single canvas —
-                                    the perfect visualization of intelligence under observation.
+                                    Day 4b moves from visibility to <strong>verifiability</strong>. You’ll build an evaluation layer that scores
+                                    responses and tool usage using both <em>offline</em> tests (golden sets, unit scenarios) and <em>online</em> checks
+                                    (canary/A-B). Core techniques include <strong>LLM-as-Judge</strong> with rubric prompts (helpfulness, factuality,
+                                    safety), <strong>task-specific metrics</strong> (e.g., exact-match, BLEU, JSON-schema validity), and <strong>tool-use
+                                    audits</strong> (was the right tool called with the right parameters?).  [oai_citation:2‡GitHub](https://github.com/leonspeniel/Kaggle5DaysofAI)
+                                </p>
+
+                                <figure style="text-align:center;">
+                                    <img src="../../assets/images/day_4_eval_framework.png" alt="Agent Evaluation Framework"
+                                         style="width:85%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                                    <figcaption>Figure — Offline & online evaluation feeding a quality gate</figcaption>
+                                </figure>
+
+                                <h4>What we implemented</h4>
+                                <ul>
+                                    <li><strong>Rubric-based judges</strong> (accuracy, completeness, safety) with calibrated pass thresholds.</li>
+                                    <li><strong>Regression suites</strong> for prompts/tools/config so CI can fail on quality regressions.</li>
+                                    <li><strong>Quality dashboards</strong> that join eval scores with observability (latency, tokens, cost) to balance QoS.</li>
+                                </ul>
+
+                                <figure style="text-align:center;">
+                                    <img src="../../assets/images/day_4_eval_dashboard.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                                    <figcaption>Figure — Judge scores correlated with latency and cost</figcaption>
+                                </figure>
+
+                                <p>
+                                    The upshot: <strong>quality becomes a release gate</strong>. Only models/agents that meet target scores and
+                                    operational SLOs roll forward; everything else is auto-blocked in CI/CD.  [oai_citation:3‡GitHub](https://github.com/leonspeniel/Kaggle5DaysofAI)
                                 </p>
                                 <p>
                                     You can find the assignment & code in my&nbsp;
