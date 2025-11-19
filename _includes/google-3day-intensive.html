@@ -630,7 +630,7 @@
                                     observing <em>reasoning</em>. The stack is the classic triad — <strong>Logs</strong> (structured, contextual
                                     records of prompts, tool calls, and state changes), <strong>Traces</strong> (end-to-end request timelines with spans for
                                     planning, tool execution, and post-processing), and <strong>Metrics</strong> (latency, token usage, error rates,
-                                    cost). Together they turn an opaque LLM into a “glass box of cognition.”  [oai_citation:0‡Kaggle](https://www.kaggle.com/code/kaggle5daysofai/day-4a-agent-observability)
+                                    cost). Together they turn an opaque LLM into a “glass box of cognition.” (https://www.kaggle.com/code/kaggle5daysofai/day-4a-agent-observability)
                                 </p>
 
 
@@ -641,6 +641,13 @@
                                     <li><strong>Distributed tracing</strong> (e.g., OpenTelemetry) to stitch planning → tool calls → synthesis into one timeline.</li>
                                     <li><strong>Dashboards</strong> to track p50/p95 latency, cost per task, tool failure rates, and retry/circuit-breaker events.</li>
                                 </ul>
+
+                                <figure style="text-align:center;">
+                                    <img src="../../assets/images/day_4_a.gif" alt="Agent Evaluation Framework"
+                                         style="width:85%;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.25);">
+                                    <figcaption>Figure — Inspect the Function call in Events</figcaption>
+                                </figure>
+
 
 
 
