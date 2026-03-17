@@ -100,7 +100,7 @@
     display: block;
   }
 
-  .sidebar { display: block; }
+  .sidebar { display: none; }
 
   .alingleft, .alignright, .aligncenter {
     display: inline-block;
@@ -198,14 +198,7 @@
   }
 
   .sidebar {
-    width: $aside-width;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-attachment: scroll;
-    z-index: 200;
-    display: block;
+    display: none;
   }
 
   .cover {
