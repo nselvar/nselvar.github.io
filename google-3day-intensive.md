@@ -7,4 +7,4 @@ permalink: /google-5day-intensive/
 summary: ""
 ---
 
-{% include google-5day-intensive.html %}
+{% include google-3day-intensive.html %}
