@@ -208,7 +208,8 @@
   .content-wrapper {
     width: $content-wrapper-width;
     max-width: $article-max-width;
-    margin-left: $post-margin-left;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   main {
@@ -224,7 +225,8 @@
   .blog-footer {
     width: $content-wrapper-width;
     max-width: $article-max-width;
-    margin-left: $post-margin-left;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .post-links {
