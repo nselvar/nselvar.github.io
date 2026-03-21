@@ -194,7 +194,7 @@
                 </table>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="3-langgraph-the-conductor">3. LangGraph — The Conductor</h2>
                 <h3 id="3-1-what-langgraph-does">3.1 What LangGraph Does</h3>
@@ -351,6 +351,15 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
                     &quot;it&quot; refers to &quot;inflation,&quot; and answers accordingly.
                 </p>
 
+                <p>One of the key features that makes NewsGenie feel like a true conversational assistant is its use of session memory. Instead of treating every query as an isolated request, the system retains a structured history of previous interactions within the session. This allows the chatbot to understand context-dependent follow-ups such as “describe more about it” or “why is it named that way?” without requiring the user to restate the original topic. By injecting recent chat history into the classification and response generation stages, NewsGenie enables coherent multi-turn conversations while balancing performance and cost through a sliding context window. This design ensures that the system remains both context-aware and efficient, delivering responses that feel natural, connected, and user-centric.</p>
+
+
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/sessionhistory.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                    <figcaption>NewsGenie maintains conversational continuity through session memory, allowing follow-up questions to build naturally on prior context without repeating information.</figcaption>
+                </figure>
+
                 <h3 id="5-2-implementation">5.2 Implementation</h3>
                 <p>
                     Streamlit&#39;s built-in <code>st.session_state</code> dictionary persists for the lifetime of a single browser
@@ -393,7 +402,7 @@ history_text = <span class="hljs-string">"\n"</span>.join(
 </code></pre>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="6-complete-query-processing-flow">6. Complete Query Processing Flow</h2>
                 <h3 id="6-1-end-to-end-sequence-diagram">6.1 End-to-End Sequence Diagram</h3>
@@ -503,7 +512,7 @@ history_text = <span class="hljs-string">"\n"</span>.join(
                 </table>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="7-ai-chatbot-design">7. AI Chatbot Design</h2>
                 <h3 id="7-1-conversation-management">7.1 Conversation Management</h3>
@@ -733,7 +742,6 @@ Respond ONLY with valid JSON:
                 </figure>
 
                 <hr>
-                <hr>
 
                 <h2 id="9-workflow-and-error-handling">9. Workflow and Error Handling</h2>
                 <h3 id="9-1-api-integration-architecture">9.1 API Integration Architecture</h3>
@@ -798,40 +806,15 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
                 <p>The routing function reads a clean enum, not a chain of exception handlers scattered across multiple functions.</p>
 
                 <hr>
-                <hr>
 
                 <h2 id="10-full-execution-flow">10. Full Execution Flow</h2>
 
                 <figure style="text-align:center;">
-                    <img src="../../assets/images/RoutingFlow.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                    <img src="../../assets/images/RoutingFlowAIS.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
                          style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
                 </figure>
 
-                <pre><code>START
-  |
-[classifier]
-  |
-  +--<span class="hljs-function">--&gt;</span> (query_type == <span class="hljs-string">"general"</span>) -------<span class="hljs-function">--&gt;</span> [general]
-  |                                                |
-  +--<span class="hljs-function">--&gt;</span> (query_type == <span class="hljs-string">"news"</span>) ------<span class="hljs-function">--&gt;</span> [news]  |
-  |                                          |     |
-  |                          <span class="hljs-function"><span class="hljs-params">(success)</span> --&gt;</span> [validate]
-  |                          <span class="hljs-function"><span class="hljs-params">(failed)</span>  --&gt;</span> [fallback]
-  |                                          |
-  +--<span class="hljs-function">--&gt;</span> <span class="hljs-function"><span class="hljs-params">(query_type == <span class="hljs-string">"mixed"</span>)</span> -&gt;</span> [mixed_general]
-                                          |
-                                     [mixed_news]
-                                          |
-                               <span class="hljs-function"><span class="hljs-params">(success)</span> --&gt;</span> [mixed_validate]
-                               <span class="hljs-function"><span class="hljs-params">(failed)</span>  --&gt;</span> [fallback]
-                                          |
-                                      [composer]
-                                          |
-                                       END
-</code></pre>
-
                 <hr>
-
 
                 <h2 id="14-conclusion">14. Conclusion</h2>
                 <h3 id="14-1-what-newsgenie-demonstrates">14.1 What NewsGenie Demonstrates</h3>
