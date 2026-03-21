@@ -301,6 +301,19 @@ article a.btn {
   color: white;
   font-size: 0.6em;
 }
+
+article.page {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  padding: 1em;
+  margin: 1em;
+  background-color: #f6f6f6;
+  border: solid white;
+  border-width: 13px;
+}
+
+article.page:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .salient {
   text-transform: uppercase;
   font-weight: bold;
