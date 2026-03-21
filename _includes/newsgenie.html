@@ -89,30 +89,10 @@
 
                 <h3 id="1-3-high-level-architecture">1.3 High-Level Architecture</h3>
                 <p>The application is structured into five distinct layers:</p>
-                <pre><code>┌─────────────────────────────────────────────────────────────┐
-│  PRESENTATION LAYER  (app.py + Streamlit)                   │
-│  User interface, chat history display, news card rendering  │
-├─────────────────────────────────────────────────────────────┤
-│  ORCHESTRATION LAYER  (graph.py + LangGraph)                │
-│  Workflow graph, conditional routing, <span class="hljs-keyword">state</span> management      │
-├─────────────────────────────────────────────────────────────┤
-│  AGENT LAYER  (agent_nodes.py)                              │
-│  classify, general, news, validate, fallback, composer      │
-├─────────────────────────────────────────────────────────────┤
-│  STATE LAYER  (<span class="hljs-keyword">state</span>.py)                                    │
-│  NewsGenieState TypedDict — shared data contract            │
-├─────────────────────────────────────────────────────────────┤
-│  CONFIGURATION LAYER  (config.py)                           │
-│  API keys, OpenAI client, timeout settings                  │
-└─────────────────────────────────────────────────────────────┘
-</code></pre>
-
-
 
                 <figure style="text-align:center;">
                     <img src="../../assets/images/newsarchitecure.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
-                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                    <figcaption>Figure — Judge scores correlated with latency and cost</figcaption>
+                         style="width:50%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
                 </figure>
 
                 <hr>
@@ -497,7 +477,7 @@ history_text = <span class="hljs-string">"\n"</span>.join(
 </code></pre>
 
                 <figure style="text-align:center;">
-                    <img src="../../assets/images/newsgenie_flow_v2.png"
+                    <img src="../../assets/images/flow_block_pro_cropped.png"
                          style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
                     <figcaption>Figure — Judge scores correlated with latency and cost</figcaption>
                 </figure>
@@ -822,6 +802,13 @@ Respond ONLY with valid JSON:
                     to slip through than for all articles to be falsely flagged as suspicious.
                 </p>
 
+
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/crediblity.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                    <figcaption>Each news article is evaluated with AI-powered credibility checks, highlighting potential misinformation while preserving transparency for the user.</figcaption>
+                </figure>
+
                 <hr>
                 <hr>
 
@@ -891,6 +878,12 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
                 <hr>
 
                 <h2 id="10-full-execution-flow">10. Full Execution Flow</h2>
+
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/RoutingFlow.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                </figure>
+
                 <pre><code>START
   |
 [classifier]
