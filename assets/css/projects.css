@@ -1,0 +1,28 @@
+.project-container {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.content-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin: 15px 0;
+}
+
+.project-content {
+    padding: 15px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.card-section {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
