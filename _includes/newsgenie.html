@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
@@ -14,24 +13,6 @@
                 <hr>
             </section>
 
-            <section>
-                <h2 id="table-of-contents">Table of Contents</h2>
-                <nav>
-                    <ol>
-                        <li><a href="#1-introduction">Introduction</a></li>
-                        <li><a href="#2-why-a-team-of-agents">Why a Team of Agents?</a></li>
-                        <li><a href="#3-langgraph--the-conductor">LangGraph — The Conductor</a></li>
-                        <li><a href="#4-newsgeniestate--the-shared-notepad">NewsGenieState — The Shared Notepad</a></li>
-                        <li><a href="#5-session-memory">Session Memory</a></li>
-                        <li><a href="#6-complete-query-processing-flow">Complete Query Processing Flow</a></li>
-                        <li><a href="#7-ai-chatbot-design">AI Chatbot Design</a></li>
-                        <li><a href="#8-real-time-news-integration">Real-Time News Integration</a></li>
-                        <li><a href="#9-workflow-and-error-handling">Workflow and Error Handling</a></li>
-                        <li><a href="#10-conclusion">Conclusion</a></li>
-                    </ol>
-                </nav>
-                <hr>
-            </section>
 
             <section id="1-introduction">
                 <h2>1. Introduction</h2>
@@ -101,56 +82,7 @@
                     </table>
                 </article>
 
-                <article>
-                    <h3 id="1-3-high-architecture">1.3 High-Level Architecture</h3>
-                    <p>The application is structured into five distinct layers:</p>
-                    <pre><code>┌─────────────────────────────────────────────────────────────┐
-│  PRESENTATION LAYER  (app.py + Streamlit)                   │
-│  User interface, chat history display, news card rendering  │
-├─────────────────────────────────────────────────────────────┤
-│  ORCHESTRATION LAYER  (graph.py + LangGraph)                │
-│  Workflow graph, conditional routing, state management      │
-├─────────────────────────────────────────────────────────────┤
-│  AGENT LAYER  (agent_nodes.py)                              │
-│  classify, general, news, validate, fallback, composer      │
-├─────────────────────────────────────────────────────────────┤
-│  STATE LAYER  (state.py)                                    │
-│  NewsGenieState TypedDict — shared data contract            │
-├─────────────────────────────────────────────────────────────┤
-│  CONFIGURATION LAYER  (config.py)                           │
-│  API keys, OpenAI client, timeout settings                  │
-└─────────────────────────────────────────────────────────────┘</code></pre>
-                </article>
-            </section>
 
-            <section id="2-why-a-team-of-agent">
-                <h2>2. Why a Team of Agents?</h2>
-
-                <article>
-                    <h3 id="2-1-the-problem-with-a-single">2.1 The Problem with a Single AI</h3>
-                    <p>
-                        A naive chatbot architecture routes every user message to one AI model that simultaneously interprets,
-                        retrieves, generates, and formats. This design fails at scale for three reasons:
-                    </p>
-
-                    <p><strong>1. Intent ambiguity:</strong> The prompt "Tell me about Tesla" could mean:</p>
-                    <ul>
-                        <li>A general knowledge explanation of the company</li>
-                        <li>The latest Tesla news headlines</li>
-                        <li>A financial analysis with current stock data</li>
-                    </ul>
-
-                    <p>
-                        A single model guesses the intent based on tone and phrasing — an unreliable heuristic that produces
-                        mismatched outputs for roughly 30% of ambiguous queries.
-                    </p>
-
-                    <p>
-                        <strong>2. Hallucination of recency:</strong> GPT-4o-mini has a training cutoff. Asking "What happened
-                        in the markets today?" to a monolithic chatbot risks receiving a plausible but entirely fabricated answer.
-                        Specialisation forces the news pipeline to always fetch real data.
-                    </p>
-                </article>
             </section>
 
             <section id="2-why-a-team-of-agents">
