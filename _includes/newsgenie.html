@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<div class="project-container">
+    <div class="content-box">
+        <div class="project-content">
+            <h1 id="newsgenie-ai-powered-news-chatbot">NewsGenie: AI-Powered News Chatbot</h1>
+            <h2 id="complete-technical-report">Complete Technical Report</h2>
+
+            <section>
+                <p>
+                    <strong>Project:</strong> NewsGenie — Real-Time AI News Chatbot<br>
+                    <strong>Stack:</strong> Python · LangGraph · GPT-4o-mini · GNews API · DuckDuckGo · Streamlit<br>
+                    <strong>Date:</strong> March 2026
+                </p>
+                <hr>
+            </section>
+
+            <section>
+                <h2 id="table-of-contents">Table of Contents</h2>
+                <nav>
+                    <ol>
+                        <li><a href="#1-introduction">Introduction</a></li>
+                        <li><a href="#2-why-a-team-of-agents">Why a Team of Agents?</a></li>
+                        <li><a href="#3-langgraph--the-conductor">LangGraph — The Conductor</a></li>
+                        <li><a href="#4-newsgeniestate--the-shared-notepad">NewsGenieState — The Shared Notepad</a></li>
+                        <li><a href="#5-session-memory">Session Memory</a></li>
+                        <li><a href="#6-complete-query-processing-flow">Complete Query Processing Flow</a></li>
+                        <li><a href="#7-ai-chatbot-design">AI Chatbot Design</a></li>
+                        <li><a href="#8-real-time-news-integration">Real-Time News Integration</a></li>
+                        <li><a href="#9-workflow-and-error-handling">Workflow and Error Handling</a></li>
+                        <li><a href="#10-conclusion">Conclusion</a></li>
+                    </ol>
+                </nav>
+                <hr>
+            </section>
+
+            <section id="1-introduction">
+                <h2>1. Introduction</h2>
+
+                <article>
+                    <h3 id="1-1-overview">1.1 Overview</h3>
+                    <p>
+                        NewsGenie is an AI-powered news chatbot that combines large language model reasoning with real-time news
+                        retrieval to deliver contextually accurate, up-to-date answers to user queries. Rather than relying on a
+                        single monolithic AI model to handle every task, NewsGenie employs a coordinated team of specialised agents,
+                        each with a clearly defined role, orchestrated by the LangGraph workflow engine.
+                    </p>
+
+                    <p>The system addresses three core limitations present in conventional AI chatbots:</p>
+                    <ul>
+                        <li>
+                            <strong>Hallucination of current events:</strong> Standard language models have fixed training cutoffs
+                            and cannot access live news. NewsGenie connects directly to the GNews API for real-time headlines.
+                        </li>
+                        <li>
+                            <strong>Ambiguous intent handling:</strong> A single prompt-response model cannot reliably distinguish
+                            between a request for a general knowledge answer versus a request for today's news. NewsGenie uses a
+                            dedicated classifier agent to resolve intent before any expensive operation is triggered.
+                        </li>
+                        <li>
+                            <strong>Single point of failure:</strong> If one API goes down, a naive implementation returns nothing.
+                            NewsGenie implements a three-level fallback chain: GNews → DuckDuckGo → graceful message.
+                        </li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3 id="1-2-system-goals">1.2 System Goals</h3>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Goal</th>
+                            <th>Implementation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Answer factual knowledge questions</td>
+                            <td>GPT-4o-mini general agent</td>
+                        </tr>
+                        <tr>
+                            <td>Fetch real-time categorised news</td>
+                            <td>GNews API with category prefixing</td>
+                        </tr>
+                        <tr>
+                            <td>Handle multi-turn conversations</td>
+                            <td>Chat history injected into every prompt</td>
+                        </tr>
+                        <tr>
+                            <td>Degrade gracefully on API failure</td>
+                            <td>DuckDuckGo fallback + composer messaging</td>
+                        </tr>
+                        <tr>
+                            <td>Classify intent reliably</td>
+                            <td>Rule-based + LLM-based two-pass classifier</td>
+                        </tr>
+                        <tr>
+                            <td>Present results cleanly</td>
+                            <td>Streamlit with custom CSS design system</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </article>
+
+                <article>
+                    <h3 id="1-3-high-architecture">1.3 High-Level Architecture</h3>
+                    <p>The application is structured into five distinct layers:</p>
+                    <pre><code>┌─────────────────────────────────────────────────────────────┐
+│  PRESENTATION LAYER  (app.py + Streamlit)                   │
+│  User interface, chat history display, news card rendering  │
+├─────────────────────────────────────────────────────────────┤
+│  ORCHESTRATION LAYER  (graph.py + LangGraph)                │
+│  Workflow graph, conditional routing, state management      │
+├─────────────────────────────────────────────────────────────┤
+│  AGENT LAYER  (agent_nodes.py)                              │
+│  classify, general, news, validate, fallback, composer      │
+├─────────────────────────────────────────────────────────────┤
+│  STATE LAYER  (state.py)                                    │
+│  NewsGenieState TypedDict — shared data contract            │
+├─────────────────────────────────────────────────────────────┤
+│  CONFIGURATION LAYER  (config.py)                           │
+│  API keys, OpenAI client, timeout settings                  │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+                </article>
+            </section>
+
+            <section id="2-why-a-team-of-agent">
+                <h2>2. Why a Team of Agents?</h2>
+
+                <article>
+                    <h3 id="2-1-the-problem-with-a-single">2.1 The Problem with a Single AI</h3>
+                    <p>
+                        A naive chatbot architecture routes every user message to one AI model that simultaneously interprets,
+                        retrieves, generates, and formats. This design fails at scale for three reasons:
+                    </p>
+
+                    <p><strong>1. Intent ambiguity:</strong> The prompt "Tell me about Tesla" could mean:</p>
+                    <ul>
+                        <li>A general knowledge explanation of the company</li>
+                        <li>The latest Tesla news headlines</li>
+                        <li>A financial analysis with current stock data</li>
+                    </ul>
+
+                    <p>
+                        A single model guesses the intent based on tone and phrasing — an unreliable heuristic that produces
+                        mismatched outputs for roughly 30% of ambiguous queries.
+                    </p>
+
+                    <p>
+                        <strong>2. Hallucination of recency:</strong> GPT-4o-mini has a training cutoff. Asking "What happened
+                        in the markets today?" to a monolithic chatbot risks receiving a plausible but entirely fabricated answer.
+                        Specialisation forces the news pipeline to always fetch real data.
+                    </p>
+                </article>
+            </section>
+
+            <section id="2-why-a-team-of-agents">
+
+                <h3 id="1-3-high-level-architecture">1.3 High-Level Architecture</h3>
+                <p>The application is structured into five distinct layers:</p>
+                <pre><code>┌─────────────────────────────────────────────────────────────┐
+│  PRESENTATION LAYER  (app.py + Streamlit)                   │
+│  User interface, chat history display, news card rendering  │
+├─────────────────────────────────────────────────────────────┤
+│  ORCHESTRATION LAYER  (graph.py + LangGraph)                │
+│  Workflow graph, conditional routing, <span class="hljs-keyword">state</span> management      │
+├─────────────────────────────────────────────────────────────┤
+│  AGENT LAYER  (agent_nodes.py)                              │
+│  classify, general, news, validate, fallback, composer      │
+├─────────────────────────────────────────────────────────────┤
+│  STATE LAYER  (<span class="hljs-keyword">state</span>.py)                                    │
+│  NewsGenieState TypedDict — shared data contract            │
+├─────────────────────────────────────────────────────────────┤
+│  CONFIGURATION LAYER  (config.py)                           │
+│  API keys, OpenAI client, timeout settings                  │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+
+                <hr>
+                <hr>
+
+                <h2 id="2-why-a-team-of-agents-">2. Why a Team of Agents?</h2>
+                <h3 id="2-1-the-problem-with-a-single-ai">2.1 The Problem with a Single AI</h3>
+                <p>
+                    A naive chatbot architecture routes every user message to one AI model that simultaneously interprets, retrieves,
+                    generates, and formats. This design fails at scale for three reasons:
+                </p>
+
+                <p><strong>1. Intent ambiguity:</strong> The prompt &quot;Tell me about Tesla&quot; could mean:</p>
+                <ul>
+                    <li>A general knowledge explanation of the company</li>
+                    <li>The latest Tesla news headlines</li>
+                    <li>A financial analysis with current stock data</li>
+                </ul>
+
+                <p>
+                    A single model guesses the intent based on tone and phrasing — an unreliable heuristic that produces mismatched
+                    outputs for roughly 30% of ambiguous queries.
+                </p>
+
+                <p>
+                    <strong>2. Hallucination of recency:</strong> GPT-4o-mini has a training cutoff. Asking &quot;What happened in
+                    the markets today?&quot; to a monolithic chatbot risks receiving a plausible but entirely fabricated answer.
+                    Specialisation forces the news pipeline to always fetch real data.
+                </p>
+
+                <p>
+                    <strong>3. Cascading failures:</strong> When a single model handles everything, one broken dependency (an API
+                    key, a rate limit) silently corrupts the entire response. A multi-agent system allows partial degradation — the
+                    general agent can still answer knowledge questions even while the news API is down.
+                </p>
+
+                <h3 id="2-2-the-agent-team">2.2 The Agent Team</h3>
+                <p>NewsGenie distributes responsibility across seven specialised agents:</p>
+                <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                        THE <span class="hljs-literal">AGENT</span> TEAM                           │
+│                                                                 │
+│  <span class="hljs-number">1.</span> classify_query    → Determines what the user actually wants │
+│  <span class="hljs-number">2.</span> general_agent     → Answers knowledge and reasoning queries  │
+│  <span class="hljs-number">3.</span> news_agent        → Fetches real, live news from GNews API  │
+│  <span class="hljs-number">4.</span> validate_agent    → Checks each article for credibility     │
+│  <span class="hljs-number">5.</span> fallback_agent    → Uses DuckDuckGo when GNews is down      │
+│  <span class="hljs-number">6.</span> composer_agent    → Assembles the final formatted response  │
+│  <span class="hljs-number">7.</span> mixed_* wrappers  → Proxy nodes for mixed-query routing     │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+
+                <p>Each agent:</p>
+                <ul>
+                    <li><strong>Reads</strong> from the shared <code>NewsGenieState</code></li>
+                    <li><strong>Performs</strong> exactly one well-defined task</li>
+                    <li><strong>Writes</strong> only the fields it owns back to state</li>
+                    <li>
+                        <strong>Does not chain to another agent via a direct call</strong> — with the exception of the three
+                        <code>mixed_*</code> wrapper nodes, which are thin delegates that exist solely to give the mixed pipeline
+                        path unique LangGraph node names
+                    </li>
+                </ul>
+
+                <p>
+                    This is the <strong>Single Responsibility Principle</strong> applied to AI pipelines. Like a hospital where the
+                    radiologist does not also dispense medication, each agent&#39;s scope is deliberately constrained.
+                </p>
+
+                <h3 id="2-3-benefits-of-the-multi-agent-model">2.3 Benefits of the Multi-Agent Model</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Concern</th>
+                        <th>Single-Agent Approach</th>
+                        <th>Multi-Agent Approach</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Debugging</td>
+                        <td>Hard — error anywhere in one large prompt</td>
+                        <td>Easy — each agent tested in isolation</td>
+                    </tr>
+                    <tr>
+                        <td>Modification</td>
+                        <td>Changing routing risks breaking answers</td>
+                        <td>Swap one node without touching others</td>
+                    </tr>
+                    <tr>
+                        <td>Cost optimisation</td>
+                        <td>All queries cost the same</td>
+                        <td>Rule-based routing avoids GPT for 60% of classifications</td>
+                    </tr>
+                    <tr>
+                        <td>Failure handling</td>
+                        <td>Total failure on API error</td>
+                        <td>Partial degradation, fallback paths active</td>
+                    </tr>
+                    <tr>
+                        <td>Scaling</td>
+                        <td>Bottleneck at one model</td>
+                        <td>Each path scaled independently</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+                <hr>
+
+                <h2 id="3-langgraph-the-conductor">3. LangGraph — The Conductor</h2>
+                <h3 id="3-1-what-langgraph-does">3.1 What LangGraph Does</h3>
+                <p>
+                    LangGraph is the orchestration framework that connects all agents into a directed, stateful workflow graph. Think
+                    of it as the conductor of an orchestra — it does not play any instrument itself, but it ensures every instrument
+                    plays at exactly the right moment, in exactly the right sequence.
+                </p>
+
+                <p>Developers define three components:</p>
+                <ul>
+                    <li><strong>Nodes</strong> — the agent functions (the instruments)</li>
+                    <li><strong>Edges</strong> — fixed transitions between agents (always runs)</li>
+                    <li>
+                        <strong>Conditional Edges</strong> — routing functions that choose the next agent based on current state
+                    </li>
+                </ul>
+
+                <h3 id="3-2-graph-construction">3.2 Graph Construction</h3>
+                <p>The complete graph is assembled in <code>graph.py</code>:</p>
+                <pre><code class="lang-python"><span class="hljs-keyword">graph</span> = StateGraph(NewsGenieState)
+
+<span class="hljs-meta"># Register all agents as named nodes</span>
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"classifier"</span>,     classify_query)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"general"</span>,        general_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"news"</span>,           news_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"validate"</span>,       validate_news_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"fallback"</span>,       fallback_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"composer"</span>,       composer_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"mixed_general"</span>,  mixed_general_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"mixed_news"</span>,     mixed_news_agent)
+<span class="hljs-keyword">graph</span>.add_node(<span class="hljs-string">"mixed_validate"</span>, mixed_validate_agent)
+
+<span class="hljs-meta"># Wire the execution paths</span>
+<span class="hljs-keyword">graph</span>.add_edge(START, <span class="hljs-string">"classifier"</span>)
+<span class="hljs-keyword">graph</span>.add_conditional_edges(
+    <span class="hljs-string">"classifier"</span>,
+    route_after_classification,
+    {
+        <span class="hljs-string">"general"</span>:       <span class="hljs-string">"general"</span>,
+        <span class="hljs-string">"news"</span>:          <span class="hljs-string">"news"</span>,
+        <span class="hljs-string">"mixed_general"</span>: <span class="hljs-string">"mixed_general"</span>
+    }
+)
+<span class="hljs-keyword">graph</span>.add_edge(<span class="hljs-string">"general"</span>, <span class="hljs-string">"composer"</span>)
+<span class="hljs-keyword">graph</span>.add_conditional_edges(
+    <span class="hljs-string">"news"</span>,
+    route_after_news,
+    {
+        <span class="hljs-string">"fallback"</span>: <span class="hljs-string">"fallback"</span>,
+        <span class="hljs-string">"validate"</span>: <span class="hljs-string">"validate"</span>
+    }
+)
+<span class="hljs-keyword">graph</span>.add_edge(<span class="hljs-string">"validate"</span>, <span class="hljs-string">"composer"</span>)
+<span class="hljs-keyword">graph</span>.add_edge(<span class="hljs-string">"fallback"</span>, <span class="hljs-string">"composer"</span>)
+<span class="hljs-keyword">graph</span>.add_edge(<span class="hljs-string">"composer"</span>, <span class="hljs-keyword">END</span>)
+
+workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">compile</span>()
+</code></pre>
+
+                <h3 id="3-3-the-three-execution-paths">3.3 The Three Execution Paths</h3>
+                <pre><code>START
+  │
+<span class="hljs-string">[classifier]</span>
+  │
+  ├──── query_type = <span class="hljs-string">"general"</span> ──────────────────► <span class="hljs-string">[general]</span>
+  │                                                    │
+  │                                               <span class="hljs-string">[composer]</span> ──► END
+  │
+  ├──── query_type = <span class="hljs-string">"news"</span> ────────────────────► <span class="hljs-string">[news]</span>
+  │                                                 │
+  │                                    success ──► <span class="hljs-string">[validate]</span> ──► <span class="hljs-string">[composer]</span> ──► END
+  │                                    failure ──► <span class="hljs-string">[fallback]</span> ──► <span class="hljs-string">[composer]</span> ──► END
+  │
+  └──── query_type = <span class="hljs-string">"mixed"</span> ──────────────────► <span class="hljs-string">[mixed_general]</span>
+                                                      │
+                                               <span class="hljs-string">[mixed_news]</span>
+                                                      │
+                                      success ──► <span class="hljs-string">[mixed_validate]</span> ──► <span class="hljs-string">[composer]</span> ──► END
+                                      failure ──► <span class="hljs-string">[fallback]</span>        ──► <span class="hljs-string">[composer]</span> ──► END
+</code></pre>
+
+                <hr>
+                <hr>
+
+                <h2 id="4-newsgeniestate-the-shared-notepad">4. NewsGenieState — The Shared Notepad</h2>
+                <h3 id="4-1-the-central-design-decision">4.1 The Central Design Decision</h3>
+                <p>
+                    The most important architectural decision in NewsGenie is that <strong>all inter-agent communication happens
+                    through a single shared state object</strong> — no agent ever calls another agent directly.
+                </p>
+
+                <p><code>NewsGenieState</code> is defined as a Python <code>TypedDict</code> in <code>state.py</code>:</p>
+                <pre><code class="lang-python">from typing import TypedDict, List, Dict, Any
+
+class NewsGenieState(TypedDict):
+    <span class="hljs-meta"># ── User Inputs ─────────────────────────────────────</span>
+    user_query: <span class="hljs-keyword">str</span>
+    selected_category: <span class="hljs-keyword">str</span>
+    chat_history: List[Dict[<span class="hljs-keyword">str</span>, <span class="hljs-keyword">str</span>]]
+
+    <span class="hljs-meta"># ── Classification Results ──────────────────────────</span>
+    query_type: <span class="hljs-keyword">str</span>        <span class="hljs-meta"># <span class="hljs-meta-string">"general"</span> | <span class="hljs-meta-string">"news"</span> | <span class="hljs-meta-string">"mixed"</span></span>
+    category: <span class="hljs-keyword">str</span>          <span class="hljs-meta"># <span class="hljs-meta-string">"technology"</span> | <span class="hljs-meta-string">"finance"</span> | <span class="hljs-meta-string">"sports"</span> | <span class="hljs-meta-string">"general"</span></span>
+    topic: <span class="hljs-keyword">str</span>             <span class="hljs-meta"># search phrase, e.g. <span class="hljs-meta-string">"interest rates"</span></span>
+
+    <span class="hljs-meta"># ── Agent Outputs ───────────────────────────────────</span>
+    general_response: <span class="hljs-keyword">str</span>
+    news_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
+    validated_news_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
+    fallback_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
+
+    <span class="hljs-meta"># ── Status &amp; Final Output ───────────────────────────</span>
+    api_status: <span class="hljs-keyword">str</span>        <span class="hljs-meta"># <span class="hljs-meta-string">"success"</span> | <span class="hljs-meta-string">"failed"</span> | <span class="hljs-meta-string">"no_results"</span></span>
+    final_response: <span class="hljs-keyword">str</span>
+    error_message: <span class="hljs-keyword">str</span>
+</code></pre>
+
+                <h3 id="4-4-state-lifecycle">4.4 State Lifecycle</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Who sets it</th>
+                        <th>Fields populated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Initialisation</td>
+                        <td><code>app.py</code></td>
+                        <td><code>user_query</code>, <code>selected_category</code>, <code>chat_history</code></td>
+                    </tr>
+                    <tr>
+                        <td>Classification</td>
+                        <td><code>classify_query</code></td>
+                        <td><code>query_type</code>, <code>category</code>, <code>topic</code></td>
+                    </tr>
+                    <tr>
+                        <td>Answer generation</td>
+                        <td><code>general_agent</code></td>
+                        <td><code>general_response</code></td>
+                    </tr>
+                    <tr>
+                        <td>News fetch</td>
+                        <td><code>news_agent</code></td>
+                        <td><code>news_results</code>, <code>api_status</code>, <code>error_message</code></td>
+                    </tr>
+                    <tr>
+                        <td>Validation</td>
+                        <td><code>validate_news_agent</code></td>
+                        <td><code>validated_news_results</code></td>
+                    </tr>
+                    <tr>
+                        <td>Fallback</td>
+                        <td><code>fallback_agent</code></td>
+                        <td><code>fallback_results</code></td>
+                    </tr>
+                    <tr>
+                        <td>Composition</td>
+                        <td><code>composer_agent</code></td>
+                        <td><code>final_response</code></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    At every stage, previously set fields remain untouched. The state accumulates rather than overwrites — an audit
+                    trail of every decision the pipeline made.
+                </p>
+
+                <hr>
+                <hr>
+
+                <h2 id="5-session-memory">5. Session Memory</h2>
+                <h3 id="5-1-the-problem-session-memory-solves">5.1 The Problem Session Memory Solves</h3>
+                <p>Without memory, every user message is treated as the first message ever received. The exchange:</p>
+                <blockquote>
+                    <p>
+                        <strong>User:</strong> What is inflation?<br>
+                        <strong>Bot:</strong> Inflation is a general rise in price levels…<br>
+                        <strong>User:</strong> Why does it happen?<br>
+                        <strong>Bot:</strong> <em>(Has no idea what &quot;it&quot; refers to)</em>
+                    </p>
+                </blockquote>
+
+                <p>
+                    Session memory gives the chatbot conversational continuity. The bot reads the previous exchange, understands that
+                    &quot;it&quot; refers to &quot;inflation,&quot; and answers accordingly.
+                </p>
+
+                <h3 id="5-2-implementation">5.2 Implementation</h3>
+                <p>
+                    Streamlit&#39;s built-in <code>st.session_state</code> dictionary persists for the lifetime of a single browser
+                    tab. After every successful response, <code>app.py</code> appends two entries:
+                </p>
+
+                <pre><code class="lang-python"># <span class="hljs-keyword">app</span>.py — history_label is the <span class="hljs-keyword">display</span> text stored <span class="hljs-keyword">in</span> chat history.
+# <span class="hljs-keyword">For</span> category-only requests (<span class="hljs-keyword">no</span> text typed), a descriptive <span class="hljs-keyword">label</span> is
+# generated <span class="hljs-keyword">so</span> the chat panel doesn't show <span class="hljs-keyword">an</span> empty bubble.
+history_label = effective_query <span class="hljs-keyword">if</span> effective_query <span class="hljs-keyword">else</span> f<span class="hljs-string">"Latest {st.session_state.selected_category} news"</span>
+<span class="hljs-keyword">st</span>.session_state.chat_history.<span class="hljs-keyword">append</span>({<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: history_label})
+<span class="hljs-keyword">st</span>.session_state.chat_history.<span class="hljs-keyword">append</span>({<span class="hljs-string">"role"</span>: <span class="hljs-string">"assistant"</span>, <span class="hljs-string">"content"</span>: result[<span class="hljs-string">"final_response"</span>]})
+</code></pre>
+
+                <p>
+                    On the next user submission, the full <code>chat_history</code> list is included in the initial state passed to
+                    <code>workflow.invoke()</code>.
+                </p>
+
+                <h3 id="5-3-context-window-management">5.3 Context Window Management</h3>
+                <p>
+                    Sending the entire conversation history to GPT on every request is expensive and risks exceeding context limits.
+                    NewsGenie uses a deliberate sliding window:
+                </p>
+                <ul>
+                    <li><strong>Visual display:</strong> Last 10 messages shown in the chat panel</li>
+                    <li><strong>GPT context:</strong> Last 6 messages injected into classifier and general agent prompts</li>
+                </ul>
+
+                <p>
+                    The 6-message window covers three full turns (user + assistant × 3), which handles the vast majority of
+                    conversational follow-ups. Messages 7–10 remain visible to the user but are not sent to GPT — a cost-conscious
+                    trade-off that preserves UX without inflating API costs.
+                </p>
+
+                <pre><code class="lang-python"><span class="hljs-comment"># Inside classify_query and general_agent</span>
+history_text = <span class="hljs-string">"\n"</span>.join(
+    [f<span class="hljs-string">"{m['role']}: {m['content']}"</span> <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> <span class="hljs-keyword">state</span>.get(<span class="hljs-string">"chat_history"</span>, [])[-<span class="hljs-number">6</span>:]]
+)
+</code></pre>
+
+                <hr>
+                <hr>
+
+                <h2 id="6-complete-query-processing-flow">6. Complete Query Processing Flow</h2>
+                <h3 id="6-1-end-to-end-sequence-diagram">6.1 End-to-End Sequence Diagram</h3>
+                <p>Every user submission follows this exact sequence from button click to rendered result:</p>
+                <pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                  COMPLETE QUERY PROCESSING FLOW                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+  <span class="hljs-number">1</span>. User submits (category dropdown + optional text <span class="hljs-built_in">input</span>)
+               ↓
+  <span class="hljs-number">2</span>. app.<span class="hljs-keyword">py</span> constructs initial NewsGenieState
+     - user_query, selected_category, chat_history populated
+     - <span class="hljs-keyword">all</span> result fields initialised <span class="hljs-keyword">to</span> <span class="hljs-built_in">empty</span> strings / <span class="hljs-built_in">empty</span> lists
+               ↓
+  <span class="hljs-number">3</span>. workflow.invoke(initial_state) called
+               ↓
+  <span class="hljs-number">4</span>. classify_query node runs
+     ├── Rule-based <span class="hljs-keyword">match</span>? → returns instantly (zero API calls)
+     └── Ambiguous text?   → GPT-<span class="hljs-number">4</span><span class="hljs-keyword">o</span>-mini classifies at temperature=<span class="hljs-number">0</span>
+               ↓
+  <span class="hljs-number">5</span>. LangGraph routes based <span class="hljs-keyword">on</span> query_type:
+     ├── <span class="hljs-string">"general"</span> → general_agent → composer → END
+     ├── <span class="hljs-string">"news"</span>    → news_agent → [validate | fallback] → composer → END
+     └── <span class="hljs-string">"mixed"</span>   → mixed_general → mixed_news
+                       → [mixed_validate | fallback] → composer → END
+               ↓
+  <span class="hljs-number">6</span>. composer_agent assembles final_response markdown <span class="hljs-built_in">string</span>
+               ↓
+  <span class="hljs-number">7</span>. workflow.invoke() returns <span class="hljs-built_in">complete</span> state dict <span class="hljs-keyword">to</span> app.<span class="hljs-keyword">py</span>
+               ↓
+  <span class="hljs-number">8</span>. app.<span class="hljs-keyword">py</span> post-processin<span class="hljs-variable">g:</span>
+     - Appends user message <span class="hljs-built_in">and</span> assistant response <span class="hljs-keyword">to</span> chat_history
+     - Stores result in <span class="hljs-keyword">st</span>.session_state.last_result
+     - Calls <span class="hljs-keyword">st</span>.rerun() <span class="hljs-keyword">to</span> trigger full UI refresh
+               ↓
+  <span class="hljs-number">9</span>. UI renders result<span class="hljs-variable">s:</span>
+     - final_response → answer box (markdown rendered)
+     - validated_news_results OR fallback_results → <span class="hljs-number">3</span>-column HTML news card grid
+     - chat_history → <span class="hljs-keyword">right</span>-column conversation bubble panel (<span class="hljs-keyword">last</span> <span class="hljs-number">10</span> <span class="hljs-keyword">messages</span>, reversed)
+</code></pre>
+
+                <h3 id="6-2-worked-example-mixed-query">6.2 Worked Example — Mixed Query</h3>
+                <p><strong>User input:</strong> Dropdown = &quot;finance&quot;, Text = &quot;Why are interest rates rising?&quot;</p>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Agent</th>
+                        <th>Action</th>
+                        <th>State Fields Written</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><code>classify_query</code></td>
+                        <td>Rule-based: category + query → mixed</td>
+                        <td>
+                            <code>query_type=&quot;mixed&quot;</code>, <code>category=&quot;finance&quot;</code>,
+                            <code>topic=&quot;Why are interest rates rising?&quot;</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>mixed_general_agent</code></td>
+                        <td>GPT-4o-mini at temp=0.3 answers the question</td>
+                        <td><code>general_response=&quot;Interest rates are rising because...&quot;</code></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><code>mixed_news_agent</code></td>
+                        <td>GNews API: <code>q=&quot;finance Why are interest rates rising&quot;</code></td>
+                        <td><code>news_results=[5 articles]</code>, <code>api_status=&quot;success&quot;</code></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><code>mixed_validate_agent</code></td>
+                        <td>5 separate GPT calls, one per article</td>
+                        <td><code>validated_news_results=[5 articles with credibility fields]</code></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><code>composer_agent</code></td>
+                        <td>Assembles <code>### Answer\n...\n\n### Latest News\n...</code></td>
+                        <td><code>final_response=&quot;### Answer\n...&quot;</code></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    <strong>Total API calls:</strong> 0 (classify) + 1 (GPT answer) + 1 (GNews) + 5 (GPT validation) =
+                    <strong>7 calls</strong>
+                </p>
+
+                <h3 id="6-3-query-type-decision-matrix">6.3 Query Type Decision Matrix</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Dropdown</th>
+                        <th>Text Input</th>
+                        <th>Rule Applied</th>
+                        <th>Query Type</th>
+                        <th>Pipeline</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>none</td>
+                        <td>&quot;What is blockchain?&quot;</td>
+                        <td>LLM classify</td>
+                        <td>general</td>
+                        <td>classifier → general → composer</td>
+                    </tr>
+                    <tr>
+                        <td>&quot;technology&quot;</td>
+                        <td>(empty)</td>
+                        <td>Rule 1: category only</td>
+                        <td>news</td>
+                        <td>classifier → news → validate → composer</td>
+                    </tr>
+                    <tr>
+                        <td>&quot;finance&quot;</td>
+                        <td>&quot;inflation&quot;</td>
+                        <td>Rule 2: category + text</td>
+                        <td>mixed</td>
+                        <td>classifier → mixed_general → mixed_news → mixed_validate → composer</td>
+                    </tr>
+                    <tr>
+                        <td>none</td>
+                        <td>&quot;latest AI news&quot;</td>
+                        <td>LLM classify → news</td>
+                        <td>news</td>
+                        <td>classifier → news → validate → composer</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+                <hr>
+
+                <h2 id="7-ai-chatbot-design">7. AI Chatbot Design</h2>
+                <h3 id="7-1-conversation-management">7.1 Conversation Management</h3>
+                <h4 id="7-1-1-the-role-of-chat-history">7.1.1 The Role of Chat History</h4>
+                <p>
+                    NewsGenie treats every interaction as part of an ongoing conversation, not an isolated query. The
+                    <code>chat_history</code> field in <code>NewsGenieState</code> carries all previous turns and is injected into
+                    the classifier and general agent prompts, enabling:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Pronoun resolution:</strong> &quot;Why does it happen?&quot; resolved to &quot;Why does inflation
+                        happen?&quot; via history context
+                    </li>
+                    <li>
+                        <strong>Follow-up handling:</strong> &quot;Tell me more&quot; expands the most recent topic without
+                        re-stating it
+                    </li>
+                    <li>
+                        <strong>Contextual classification:</strong> A follow-up like &quot;What about sports?&quot; after a finance
+                        query is correctly classified
+                    </li>
+                </ul>
+
+                <h3 id="7-2-query-differentiation">7.2 Query Differentiation</h3>
+                <h4 id="7-2-1-the-two-pass-classification-system">7.2.1 The Two-Pass Classification System</h4>
+                <p>
+                    Query classification uses two sequential passes, with the first pass handling the majority of requests at zero
+                    cost:
+                </p>
+
+                <p><strong>Pass 1 — Rule-Based (instant, zero API calls):</strong></p>
+                <pre><code class="lang-python"><span class="hljs-comment"># Pure category news request</span>
+<span class="hljs-keyword">if</span> selected_category != <span class="hljs-string">"none"</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> user_query.strip():
+<span class="hljs-built_in">    return</span> {<span class="hljs-string">"query_type"</span>: <span class="hljs-string">"news"</span>, <span class="hljs-string">"category"</span>: selected_category, <span class="hljs-string">"topic"</span>: selected_category}
+
+<span class="hljs-comment"># Category + question = mixed request</span>
+<span class="hljs-keyword">if</span> selected_category != <span class="hljs-string">"none"</span> <span class="hljs-keyword">and</span> user_query.strip():
+<span class="hljs-built_in">    return</span> {<span class="hljs-string">"query_type"</span>: <span class="hljs-string">"mixed"</span>, <span class="hljs-string">"category"</span>: selected_category, <span class="hljs-string">"topic"</span>: user_query}
+</code></pre>
+
+                <p>
+                    These two rules handle every structured UI interaction — dropdown selections with and without text. They require
+                    no API call, no network round-trip, and complete in microseconds.
+                </p>
+
+                <p><strong>Pass 2 — LLM-Based (one GPT call, for free-text queries only):</strong></p>
+                <pre><code class="lang-python">prompt = f<span class="hljs-string">""</span>"
+You are the Classifier Agent <span class="hljs-keyword">for</span> NewsGenie.
+
+Classify the user <span class="hljs-keyword">query</span> into <span class="hljs-keyword">one</span> of:
+- general
+- <span class="hljs-keyword">news</span>
+- mixed
+
+Extract:
+- category: technology / finance / sports / general
+- topic: short phrase describing the topic
+
+Conversation history:
+{history_text}
+
+User <span class="hljs-keyword">query</span>:
+{state[<span class="hljs-string">"user_query"</span>]}
+
+<span class="hljs-keyword">Return</span> ONLY valid JSON:
+{{
+  <span class="hljs-string">"query_type"</span>: <span class="hljs-string">"general|news|mixed"</span>,
+  <span class="hljs-string">"category"</span>: <span class="hljs-string">"technology|finance|sports|general"</span>,
+  <span class="hljs-string">"topic"</span>: <span class="hljs-string">"..."</span>
+}}
+<span class="hljs-string">""</span>"
+</code></pre>
+
+                <p>
+                    The GPT classifier uses <code>temperature=0</code> — the model always selects the highest-probability
+                    classification, ensuring the same query always routes to the same pipeline. Routing decisions must be
+                    deterministic; outputs can be creative.
+                </p>
+
+                <h4 id="7-2-2-classification-failure-recovery">7.2.2 Classification Failure Recovery</h4>
+                <p>
+                    When GPT returns a malformed or non-JSON response, the parse guard fires. Even if parsing succeeds, each field
+                    has a <code>.get()</code> default as a second safety net:
+                </p>
+
+                <pre><code class="lang-python">try:
+    parsed = json.loads(raw)
+except Exception:
+    parsed = {
+        <span class="hljs-string">"query_type"</span>: <span class="hljs-string">"general"</span>,
+        <span class="hljs-string">"category"</span>: <span class="hljs-string">"general"</span>,
+        <span class="hljs-string">"topic"</span>: <span class="hljs-keyword">state</span>[<span class="hljs-string">"user_query"</span>]
+    }
+
+return {
+    <span class="hljs-string">"query_type"</span>: parsed.get(<span class="hljs-string">"query_type"</span>, <span class="hljs-string">"general"</span>),
+    <span class="hljs-string">"category"</span>:   parsed.get(<span class="hljs-string">"category"</span>,   <span class="hljs-string">"general"</span>),
+    <span class="hljs-string">"topic"</span>:      parsed.get(<span class="hljs-string">"topic"</span>,       <span class="hljs-keyword">state</span>[<span class="hljs-string">"user_query"</span>])
+}
+</code></pre>
+
+                <p>
+                    Defaulting to <code>&quot;general&quot;</code> is deliberate: the general agent always produces a response (GPT
+                    always answers something), while <code>&quot;news&quot;</code> could fail due to API issues and
+                    <code>&quot;mixed&quot;</code> doubles the failure surface. The safest default is the path most likely to give
+                    the user <em>something</em> meaningful.
+                </p>
+
+                <h4 id="7-2-3-temperature-strategy">7.2.3 Temperature Strategy</h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Agent</th>
+                        <th>Temperature</th>
+                        <th>Reason</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>classify_query</code></td>
+                        <td>0.0</td>
+                        <td>Deterministic routing — same input must always produce same route</td>
+                    </tr>
+                    <tr>
+                        <td><code>validate_news_agent</code></td>
+                        <td>0.0</td>
+                        <td>Consistent credibility verdicts per article</td>
+                    </tr>
+                    <tr>
+                        <td><code>general_agent</code></td>
+                        <td>0.3</td>
+                        <td>Natural variation makes answers feel conversational, not robotic</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+                <hr>
+
+                <h2 id="8-real-time-news-integration">8. Real-Time News Integration</h2>
+                <h3 id="8-1-gnews-api-integration">8.1 GNews API Integration</h3>
+                <p>The <code>news_agent</code> fetches up to five articles per query from the GNews API:</p>
+                <pre><code class="lang-python"><span class="hljs-attr">url</span> = <span class="hljs-string">"https://gnews.io/api/v4/search"</span>
+<span class="hljs-attr">params</span> = {
+    <span class="hljs-string">"q"</span>:     search_query,   <span class="hljs-comment"># category-prefixed topic string</span>
+    <span class="hljs-string">"lang"</span>:  <span class="hljs-string">"en"</span>,
+    <span class="hljs-string">"max"</span>:   <span class="hljs-number">5</span>,
+    <span class="hljs-string">"token"</span>: GNEWS_API_KEY
+}
+<span class="hljs-attr">response</span> = requests.get(url, <span class="hljs-attr">params=params,</span> <span class="hljs-attr">timeout=10)</span>
+</code></pre>
+
+                <p><strong>Category-Prefixed Query Construction:</strong></p>
+                <pre><code class="lang-python"><span class="hljs-keyword">if</span> category != <span class="hljs-string">"general"</span> <span class="hljs-keyword">and</span> category <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> topic.<span class="hljs-built_in">lower</span>():
+    search_query = f<span class="hljs-string">"{category} {topic}"</span>
+<span class="hljs-keyword">else</span>:
+    search_query = topic
+</code></pre>
+
+                <p>
+                    This prevents duplicate category tokens. A topic of &quot;technology AI chips&quot; with category
+                    &quot;technology&quot; would otherwise produce &quot;technology technology AI chips&quot; — the guard catches
+                    this and passes the topic unchanged.
+                </p>
+
+                <p><strong>Article Normalisation:</strong></p>
+                <p>
+                    GNews returns nested JSON objects. Each article is flattened to a consistent schema before being stored in state:
+                </p>
+                <pre><code class="lang-python">{
+    <span class="hljs-attr">"title"</span>:       <span class="hljs-string">"Fed holds rates steady amid new inflation data"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"The Federal Reserve voted 9-1 to..."</span>,
+    <span class="hljs-attr">"source"</span>:      <span class="hljs-string">"Bloomberg"</span>,
+    <span class="hljs-attr">"url"</span>:         <span class="hljs-string">"https://bloomberg.com/..."</span>,
+    <span class="hljs-attr">"publishedAt"</span>: <span class="hljs-string">"2026-03-15T14:30:00Z"</span>,
+    <span class="hljs-attr">"image"</span>:       <span class="hljs-string">"https://..."</span>
+}
+</code></pre>
+
+                <p>
+                    This flat Data Transfer Object (DTO) is the contract between the news layer and all downstream consumers
+                    (validator, fallback, UI). The UI renders GNews results and DuckDuckGo fallback results identically because both
+                    conform to this schema.
+                </p>
+
+                <h3 id="8-2-credibility-validation">8.2 Credibility Validation</h3>
+                <p>
+                    For every article returned by GNews, a separate GPT call evaluates credibility
+                    (<code>validate_news_agent</code> in <code>agent_nodes.py</code>):
+                </p>
+
+                <pre><code class="lang-python">prompt = <span class="hljs-keyword">f</span><span class="hljs-string">""</span><span class="hljs-comment">"</span>
+You are <span class="hljs-keyword">a</span> fact-checking assistant. Evaluate the following news article
+headline <span class="hljs-built_in">and</span> description <span class="hljs-keyword">for</span> signs of misinformation, sensationalism,
+<span class="hljs-built_in">or</span> unreliability.
+
+Title: {article.<span class="hljs-built_in">get</span>(<span class="hljs-string">'title'</span>, <span class="hljs-string">''</span>)}
+Description: {article.<span class="hljs-built_in">get</span>(<span class="hljs-string">'description'</span>, <span class="hljs-string">''</span>)}
+Source: {article.<span class="hljs-built_in">get</span>(<span class="hljs-string">'source'</span>, <span class="hljs-string">''</span>)}
+
+Respond ONLY with valid JSON:
+{{<span class="hljs-string">"credible"</span>: true <span class="hljs-built_in">or</span> false, <span class="hljs-string">"reason"</span>: <span class="hljs-string">"one sentence explanation"</span>}}
+<span class="hljs-string">""</span><span class="hljs-comment">"</span>
+</code></pre>
+
+                <p><strong>Core philosophy — show, never hide:</strong></p>
+                <ul>
+                    <li><strong>Remove suspicious articles:</strong> Silently hides information; censorship risk if validator is wrong</li>
+                    <li>
+                        <strong>Show with warning badge (NewsGenie&#39;s approach):</strong> User sees every article and every
+                        verdict; user decides
+                    </li>
+                </ul>
+
+                <p>
+                    If validation itself fails for an article (API error, malformed response), the default is
+                    <code>credible=True</code> with no badge. During any API hiccup, it is less harmful for one suspicious article
+                    to slip through than for all articles to be falsely flagged as suspicious.
+                </p>
+
+                <hr>
+                <hr>
+
+                <h2 id="9-workflow-and-error-handling">9. Workflow and Error Handling</h2>
+                <h3 id="9-1-api-integration-architecture">9.1 API Integration Architecture</h3>
+                <h4 id="9-1-1-openai-client-configuration">9.1.1 OpenAI Client Configuration</h4>
+                <p>All GPT calls flow through a single <code>OpenAI</code> client instance configured in <code>config.py</code>:</p>
+
+                <pre><code class="lang-python">import <span class="hljs-keyword">os</span>
+<span class="hljs-keyword">from</span> openai import OpenAI
+
+<span class="hljs-comment"># Both env vars are set for compatibility with different SDK versions</span>
+<span class="hljs-keyword">os</span>.environ[<span class="hljs-string">"OPENAI_BASE_URL"</span>] = <span class="hljs-string">"https://openai.vocareum.com/v1"</span>
+<span class="hljs-keyword">os</span>.environ[<span class="hljs-string">"OPENAI_API_BASE"</span>] = <span class="hljs-string">"https://openai.vocareum.com/v1"</span>
+<span class="hljs-keyword">os</span>.environ[<span class="hljs-string">"OPENAI_API_KEY"</span>]  = <span class="hljs-string">"&lt;api-key&gt;"</span>  <span class="hljs-comment"># set at deploy time</span>
+
+client = OpenAI(timeout=<span class="hljs-number">30.0</span>)
+
+<span class="hljs-comment"># GNews key: reads env var first, falls back to default</span>
+GNEWS_API_KEY = <span class="hljs-keyword">os</span>.environ.get(<span class="hljs-string">"GNEWS_API_KEY"</span>, <span class="hljs-string">"&lt;gnews-key&gt;"</span>)
+</code></pre>
+
+                <p>
+                    The <code>timeout=30.0</code> setting ensures that a slow or unresponsive GPT endpoint raises a
+                    <code>Timeout</code> exception after 30 seconds rather than blocking the application indefinitely. GPT-4o-mini
+                    typically responds within 2–8 seconds; the 30-second ceiling accommodates peak-load scenarios while still
+                    protecting users from perpetual spinners.
+                </p>
+
+                <p>
+                    <strong>Centralisation principle:</strong> All API configuration lives in <code>config.py</code>. Every module
+                    importing from it receives the same client and key. When credentials need to rotate, one file changes — nothing
+                    else.
+                </p>
+
+                <h4 id="9-1-2-gnews-request-configuration">9.1.2 GNews Request Configuration</h4>
+                <pre><code class="lang-python">response = requests.<span class="hljs-keyword">get</span>(url, <span class="hljs-keyword">params</span>=<span class="hljs-keyword">params</span>, timeout=<span class="hljs-number">10</span>)
+</code></pre>
+
+                <p>The 10-second timeout on GNews is tighter than the GPT timeout because:</p>
+                <ul>
+                    <li>GNews is invoked with a structured query (no generation)</li>
+                    <li>REST APIs should respond in under 2 seconds under normal conditions</li>
+                    <li>10 seconds is generous without being reckless</li>
+                    <li>The fallback chain means a timeout is a manageable exception, not a hard failure</li>
+                </ul>
+
+                <h3 id="9-2-signal-based-error-propagation">9.2 Signal-Based Error Propagation</h3>
+                <p>
+                    NewsGenie does not propagate exceptions upward through the agent chain. Instead, agents communicate failure via
+                    the <code>api_status</code> field — a deliberate design choice that keeps routing logic clean and predictable:
+                </p>
+
+                <pre><code><span class="hljs-attribute">Exception-based</span>:           Signal-based (NewsGenie):
+
+<span class="vim"><span class="hljs-keyword">try</span>:                       result = news_agent(state)
+  news = fetch_news()      # result[<span class="hljs-string">"api_status"</span>] can <span class="hljs-keyword">be</span>:
+except APIError:           #   <span class="hljs-string">"success"</span>    → <span class="hljs-keyword">go</span> <span class="hljs-keyword">to</span> validate
+  use_fallback()           #   <span class="hljs-string">"failed"</span>     → <span class="hljs-keyword">go</span> <span class="hljs-keyword">to</span> fallback
+except Timeou<span class="hljs-variable">t:</span>            #   <span class="hljs-string">"no_results"</span> → <span class="hljs-keyword">go</span> <span class="hljs-keyword">to</span> fallback
+  use_fallback()</span>
+</code></pre>
+
+                <p>The routing function reads a clean enum, not a chain of exception handlers scattered across multiple functions.</p>
+
+                <hr>
+                <hr>
+
+                <h2 id="10-full-execution-flow">10. Full Execution Flow</h2>
+                <pre><code>START
+  |
+[classifier]
+  |
+  +--<span class="hljs-function">--&gt;</span> (query_type == <span class="hljs-string">"general"</span>) -------<span class="hljs-function">--&gt;</span> [general]
+  |                                                |
+  +--<span class="hljs-function">--&gt;</span> (query_type == <span class="hljs-string">"news"</span>) ------<span class="hljs-function">--&gt;</span> [news]  |
+  |                                          |     |
+  |                          <span class="hljs-function"><span class="hljs-params">(success)</span> --&gt;</span> [validate]
+  |                          <span class="hljs-function"><span class="hljs-params">(failed)</span>  --&gt;</span> [fallback]
+  |                                          |
+  +--<span class="hljs-function">--&gt;</span> <span class="hljs-function"><span class="hljs-params">(query_type == <span class="hljs-string">"mixed"</span>)</span> -&gt;</span> [mixed_general]
+                                          |
+                                     [mixed_news]
+                                          |
+                               <span class="hljs-function"><span class="hljs-params">(success)</span> --&gt;</span> [mixed_validate]
+                               <span class="hljs-function"><span class="hljs-params">(failed)</span>  --&gt;</span> [fallback]
+                                          |
+                                      [composer]
+                                          |
+                                       END
+</code></pre>
+
+                <hr>
+                <hr>
+
+                <h2 id="14-conclusion">14. Conclusion</h2>
+                <h3 id="14-1-what-newsgenie-demonstrates">14.1 What NewsGenie Demonstrates</h3>
+                <p>
+                    NewsGenie demonstrates that the quality of an AI application is determined primarily by
+                    <strong>architecture</strong>, not by the power of the underlying model. The same GPT-4o-mini model that powers
+                    a simple chatbot is here orchestrated into a seven-agent pipeline that handles intent classification, real-time
+                    retrieval, credibility validation, graceful degradation, and conversational memory — all with clean separation of
+                    concerns.
+                </p>
+
+                <h2 id="15-demo">15. Demo</h2>
+                <hr>
+                <p><em>NewsGenie — Complete Technical Report</em><br><em>March 2026</em></p>
+                <hr>
+            </section>
+        </div>
+    </div>
+</div>
