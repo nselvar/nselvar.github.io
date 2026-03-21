@@ -95,7 +95,7 @@
                          style="width:50%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
                 </figure>
 
-                <hr>
+
                 <hr>
 
                 <h2 id="2-why-a-team-of-agents-">2. Why a Team of Agents?</h2>
@@ -131,18 +131,12 @@
 
                 <h3 id="2-2-the-agent-team">2.2 The Agent Team</h3>
                 <p>NewsGenie distributes responsibility across seven specialised agents:</p>
-                <pre><code>┌─────────────────────────────────────────────────────────────────┐
-│                        THE <span class="hljs-literal">AGENT</span> TEAM                           │
-│                                                                 │
-│  <span class="hljs-number">1.</span> classify_query    → Determines what the user actually wants │
-│  <span class="hljs-number">2.</span> general_agent     → Answers knowledge and reasoning queries  │
-│  <span class="hljs-number">3.</span> news_agent        → Fetches real, live news from GNews API  │
-│  <span class="hljs-number">4.</span> validate_agent    → Checks each article for credibility     │
-│  <span class="hljs-number">5.</span> fallback_agent    → Uses DuckDuckGo when GNews is down      │
-│  <span class="hljs-number">6.</span> composer_agent    → Assembles the final formatted response  │
-│  <span class="hljs-number">7.</span> mixed_* wrappers  → Proxy nodes for mixed-query routing     │
-└─────────────────────────────────────────────────────────────────┘
-</code></pre>
+
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/agent_team.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                    <figcaption>NewsGenie distributes responsibility across seven specialised agents</figcaption>
+                </figure>
 
                 <p>Each agent:</p>
                 <ul>
@@ -262,28 +256,13 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
 </code></pre>
 
                 <h3 id="3-3-the-three-execution-paths">3.3 The Three Execution Paths</h3>
-                <pre><code>START
-  │
-<span class="hljs-string">[classifier]</span>
-  │
-  ├──── query_type = <span class="hljs-string">"general"</span> ──────────────────► <span class="hljs-string">[general]</span>
-  │                                                    │
-  │                                               <span class="hljs-string">[composer]</span> ──► END
-  │
-  ├──── query_type = <span class="hljs-string">"news"</span> ────────────────────► <span class="hljs-string">[news]</span>
-  │                                                 │
-  │                                    success ──► <span class="hljs-string">[validate]</span> ──► <span class="hljs-string">[composer]</span> ──► END
-  │                                    failure ──► <span class="hljs-string">[fallback]</span> ──► <span class="hljs-string">[composer]</span> ──► END
-  │
-  └──── query_type = <span class="hljs-string">"mixed"</span> ──────────────────► <span class="hljs-string">[mixed_general]</span>
-                                                      │
-                                               <span class="hljs-string">[mixed_news]</span>
-                                                      │
-                                      success ──► <span class="hljs-string">[mixed_validate]</span> ──► <span class="hljs-string">[composer]</span> ──► END
-                                      failure ──► <span class="hljs-string">[fallback]</span>        ──► <span class="hljs-string">[composer]</span> ──► END
-</code></pre>
 
-                <hr>
+
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/pastel_text_grouped.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+               </figure>
+
                 <hr>
 
                 <h2 id="4-newsgeniestate-the-shared-notepad">4. NewsGenieState — The Shared Notepad</h2>
@@ -294,30 +273,10 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
                 </p>
 
                 <p><code>NewsGenieState</code> is defined as a Python <code>TypedDict</code> in <code>state.py</code>:</p>
-                <pre><code class="lang-python">from typing import TypedDict, List, Dict, Any
-
-class NewsGenieState(TypedDict):
-    <span class="hljs-meta"># ── User Inputs ─────────────────────────────────────</span>
-    user_query: <span class="hljs-keyword">str</span>
-    selected_category: <span class="hljs-keyword">str</span>
-    chat_history: List[Dict[<span class="hljs-keyword">str</span>, <span class="hljs-keyword">str</span>]]
-
-    <span class="hljs-meta"># ── Classification Results ──────────────────────────</span>
-    query_type: <span class="hljs-keyword">str</span>        <span class="hljs-meta"># <span class="hljs-meta-string">"general"</span> | <span class="hljs-meta-string">"news"</span> | <span class="hljs-meta-string">"mixed"</span></span>
-    category: <span class="hljs-keyword">str</span>          <span class="hljs-meta"># <span class="hljs-meta-string">"technology"</span> | <span class="hljs-meta-string">"finance"</span> | <span class="hljs-meta-string">"sports"</span> | <span class="hljs-meta-string">"general"</span></span>
-    topic: <span class="hljs-keyword">str</span>             <span class="hljs-meta"># search phrase, e.g. <span class="hljs-meta-string">"interest rates"</span></span>
-
-    <span class="hljs-meta"># ── Agent Outputs ───────────────────────────────────</span>
-    general_response: <span class="hljs-keyword">str</span>
-    news_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
-    validated_news_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
-    fallback_results: List[Dict[<span class="hljs-keyword">str</span>, Any]]
-
-    <span class="hljs-meta"># ── Status &amp; Final Output ───────────────────────────</span>
-    api_status: <span class="hljs-keyword">str</span>        <span class="hljs-meta"># <span class="hljs-meta-string">"success"</span> | <span class="hljs-meta-string">"failed"</span> | <span class="hljs-meta-string">"no_results"</span></span>
-    final_response: <span class="hljs-keyword">str</span>
-    error_message: <span class="hljs-keyword">str</span>
-</code></pre>
+                <figure style="text-align:center;">
+                    <img src="../../assets/images/state-ai.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
+                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                </figure>
 
                 <h3 id="4-4-state-lifecycle">4.4 State Lifecycle</h3>
                 <table>
@@ -373,7 +332,7 @@ class NewsGenieState(TypedDict):
                 </p>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="5-session-memory">5. Session Memory</h2>
                 <h3 id="5-1-the-problem-session-memory-solves">5.1 The Problem Session Memory Solves</h3>
@@ -439,47 +398,11 @@ history_text = <span class="hljs-string">"\n"</span>.join(
                 <h2 id="6-complete-query-processing-flow">6. Complete Query Processing Flow</h2>
                 <h3 id="6-1-end-to-end-sequence-diagram">6.1 End-to-End Sequence Diagram</h3>
                 <p>Every user submission follows this exact sequence from button click to rendered result:</p>
-                <pre><code>┌─────────────────────────────────────────────────────────────────────┐
-│                  COMPLETE QUERY PROCESSING FLOW                     │
-└─────────────────────────────────────────────────────────────────────┘
-
-  <span class="hljs-number">1</span>. User submits (category dropdown + optional text <span class="hljs-built_in">input</span>)
-               ↓
-  <span class="hljs-number">2</span>. app.<span class="hljs-keyword">py</span> constructs initial NewsGenieState
-     - user_query, selected_category, chat_history populated
-     - <span class="hljs-keyword">all</span> result fields initialised <span class="hljs-keyword">to</span> <span class="hljs-built_in">empty</span> strings / <span class="hljs-built_in">empty</span> lists
-               ↓
-  <span class="hljs-number">3</span>. workflow.invoke(initial_state) called
-               ↓
-  <span class="hljs-number">4</span>. classify_query node runs
-     ├── Rule-based <span class="hljs-keyword">match</span>? → returns instantly (zero API calls)
-     └── Ambiguous text?   → GPT-<span class="hljs-number">4</span><span class="hljs-keyword">o</span>-mini classifies at temperature=<span class="hljs-number">0</span>
-               ↓
-  <span class="hljs-number">5</span>. LangGraph routes based <span class="hljs-keyword">on</span> query_type:
-     ├── <span class="hljs-string">"general"</span> → general_agent → composer → END
-     ├── <span class="hljs-string">"news"</span>    → news_agent → [validate | fallback] → composer → END
-     └── <span class="hljs-string">"mixed"</span>   → mixed_general → mixed_news
-                       → [mixed_validate | fallback] → composer → END
-               ↓
-  <span class="hljs-number">6</span>. composer_agent assembles final_response markdown <span class="hljs-built_in">string</span>
-               ↓
-  <span class="hljs-number">7</span>. workflow.invoke() returns <span class="hljs-built_in">complete</span> state dict <span class="hljs-keyword">to</span> app.<span class="hljs-keyword">py</span>
-               ↓
-  <span class="hljs-number">8</span>. app.<span class="hljs-keyword">py</span> post-processin<span class="hljs-variable">g:</span>
-     - Appends user message <span class="hljs-built_in">and</span> assistant response <span class="hljs-keyword">to</span> chat_history
-     - Stores result in <span class="hljs-keyword">st</span>.session_state.last_result
-     - Calls <span class="hljs-keyword">st</span>.rerun() <span class="hljs-keyword">to</span> trigger full UI refresh
-               ↓
-  <span class="hljs-number">9</span>. UI renders result<span class="hljs-variable">s:</span>
-     - final_response → answer box (markdown rendered)
-     - validated_news_results OR fallback_results → <span class="hljs-number">3</span>-column HTML news card grid
-     - chat_history → <span class="hljs-keyword">right</span>-column conversation bubble panel (<span class="hljs-keyword">last</span> <span class="hljs-number">10</span> <span class="hljs-keyword">messages</span>, reversed)
-</code></pre>
 
                 <figure style="text-align:center;">
                     <img src="../../assets/images/flow_block_pro_cropped.png"
                          style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
-                    <figcaption>Figure — Judge scores correlated with latency and cost</figcaption>
+                    <figcaption>Complete Query Processing</figcaption>
                 </figure>
 
                 <h3 id="6-2-worked-example-mixed-query">6.2 Worked Example — Mixed Query</h3>
@@ -719,7 +642,7 @@ return {
                 </table>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="8-real-time-news-integration">8. Real-Time News Integration</h2>
                 <h3 id="8-1-gnews-api-integration">8.1 GNews API Integration</h3>
@@ -908,7 +831,7 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
 </code></pre>
 
                 <hr>
-                <hr>
+
 
                 <h2 id="14-conclusion">14. Conclusion</h2>
                 <h3 id="14-1-what-newsgenie-demonstrates">14.1 What NewsGenie Demonstrates</h3>
