@@ -327,6 +327,22 @@
         gap: 8px;
     }
 
+    /* ── Demo Video ───────────────────────────────────────────── */
+    .if-demo-wrap {
+        margin: 20px 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .if-demo-wrap video {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 560px;
+    }
+
     /* ── Responsive ───────────────────────────────────────────── */
     @media (max-width: 768px) {
         #if-toc { display: none; }
@@ -380,6 +396,7 @@
     <div class="if-toc-section-label">Blog Post (cont.)</div>
     <a href="#if-blog-eval" class="if-blog-link">QAEvalChain</a>
     <a href="#if-blog-lessons" class="if-blog-link">Key Lessons</a>
+    <a href="#if-demo" class="if-blog-link">Live Demo</a>
     <a href="#if-blog-conclusion" class="if-blog-link">Conclusion</a>
 </nav>
 
@@ -1266,6 +1283,17 @@ cd ../frontend &amp;&amp; npm install
         <div class="if-lesson"><span class="if-lesson-num">Lesson 4</span><p><strong>Memory is what separates Q&amp;A from analysis.</strong> Users naturally ask multi-turn questions. The dual-layer architecture — short-term buffer plus long-term summaries — is what makes InsightForge feel like a genuine analyst.</p></div>
         <div class="if-lesson"><span class="if-lesson-num">Lesson 5</span><p><strong>Evaluation is not an afterthought.</strong> Without a scoring framework, there's no feedback loop. Building QAEvalChain in from the start created a reliable signal for where the system was failing and why.</p></div>
         <div class="if-lesson"><span class="if-lesson-num">Lesson 6</span><p><strong>Structured prompts beat longer prompts.</strong> The four-section output format (Findings → Analysis → Implications → Recommendations) consistently outperforms longer unstructured prompts.</p></div>
+    </div>
+
+    <div class="if-section" id="if-demo">
+        <h2 class="if-blog-section-title">Live Demo</h2>
+        <p>The video below walks through InsightForge end-to-end — uploading a sales CSV, querying in plain English, and watching the system route, retrieve, and respond in real time.</p>
+        <div class="if-demo-wrap">
+            <video controls playsinline preload="metadata">
+                <source src="/assets/videos/forgeinsight.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <div class="if-section" id="if-blog-conclusion">
