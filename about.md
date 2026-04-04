@@ -29,7 +29,7 @@ I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and
     </div>
     <div>
       <div style="font-weight:700;font-size:1em;color:#222;">Applied Generative AI Specialization</div>
-      <div style="color:#03425c;font-weight:600;font-size:0.88em;margin-top:2px;">Purdue University &nbsp;·&nbsp; via Simplilearn</div>
+      <div style="color:#03425c;font-weight:600;font-size:0.88em;margin-top:2px;">Purdue University</div>
       <div style="color:#888;font-size:0.82em;margin-top:2px;">Sep 2025 – May 2026 &nbsp;·&nbsp; Credential ID: 177251303</div>
       <div style="color:#444;font-size:0.85em;margin-top:8px;line-height:1.6;">
         Completed an advanced course on Applied Generative AI, focusing on end-to-end system design using LLMs. Built workflows leveraging LangChain, agentic frameworks, and RAG for contextual reasoning. Explored Transformers, VAEs, GANs, and diffusion models. Worked on LLM fine-tuning, prompt optimisation, evaluation metrics, benchmarking, and GenAI governance.
