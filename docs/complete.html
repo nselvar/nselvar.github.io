@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InsightForge — Technical Document &amp; Blog Post</title>
+    <style>
+        /* ── Reset & Base ─────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg:        #0a0a0f;
+            --surface:   #12121a;
+            --surface2:  #1a1a26;
+            --border:    rgba(255,255,255,0.08);
+            --text:      #e8e8f0;
+            --muted:     #8888aa;
+            --blue:      #60a5fa;
+            --violet:    #a78bfa;
+            --green:     #34d399;
+            --orange:    #fb923c;
+            --pink:      #f472b6;
+            --code-bg:   #0d1117;
+            --toc-w:     260px;
+            --max-w:     860px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: 15px;
+            line-height: 1.75;
+            display: flex;
+        }
+
+        /* ── Sidebar TOC ──────────────────────────────────────────── */
+        #toc {
+            position: fixed;
+            top: 0; left: 0;
+            width: var(--toc-w);
+            height: 100vh;
+            overflow-y: auto;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 40px;
+            z-index: 100;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        #toc::-webkit-scrollbar { width: 4px; }
+        #toc::-webkit-scrollbar-track { background: transparent; }
+        #toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        .toc-logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .toc-logo span {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--blue), var(--violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .toc-logo small {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+            -webkit-text-fill-color: var(--muted);
+        }
+        .toc-section-label {
+            padding: 10px 20px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        #toc a {
+            display: block;
+            padding: 5px 20px;
+            font-size: 12.5px;
+            color: var(--muted);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all .15s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #toc a:hover, #toc a.active {
+            color: var(--blue);
+            border-left-color: var(--blue);
+            background: rgba(96,165,250,.06);
+        }
+        #toc a.sub {
+            padding-left: 32px;
+            font-size: 12px;
+        }
+        #toc a.blog-link:hover, #toc a.blog-link.active {
+            color: var(--violet);
+            border-left-color: var(--violet);
+            background: rgba(167,139,250,.06);
+        }
+        .toc-divider {
+            margin: 12px 20px;
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Main Content ─────────────────────────────────────────── */
+        #content {
+            margin-left: var(--toc-w);
+            flex: 1;
+            min-width: 0;
+            padding: 56px clamp(24px, 5vw, 64px) 100px;
+            max-width: calc(var(--toc-w) + var(--max-w) + 128px);
+        }
+
+        /* ── Page Header ──────────────────────────────────────────── */
+        .page-header {
+            margin-bottom: 56px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .page-header h1 {
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 50%, var(--green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: .04em;
+        }
+        .badge-blue   { background: rgba(96,165,250,.15); color: var(--blue); border: 1px solid rgba(96,165,250,.25); }
+        .badge-violet { background: rgba(167,139,250,.15); color: var(--violet); border: 1px solid rgba(167,139,250,.25); }
+        .badge-green  { background: rgba(52,211,153,.15); color: var(--green); border: 1px solid rgba(52,211,153,.25); }
+        .badge-orange { background: rgba(251,146,60,.15); color: var(--orange); border: 1px solid rgba(251,146,60,.25); }
+
+        /* ── Part Dividers ────────────────────────────────────────── */
+        .part-header {
+            margin: 64px 0 40px;
+            padding: 24px 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .part-header::before {
+            content: '';
+            position: absolute; inset: 0;
+            opacity: .06;
+        }
+        .part-header.tech::before  { background: linear-gradient(135deg, var(--blue), var(--green)); }
+        .part-header.blog::before  { background: linear-gradient(135deg, var(--violet), var(--pink)); }
+        .part-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+        }
+        .part-header.tech h2  { color: var(--blue); }
+        .part-header.blog h2  { color: var(--violet); }
+        .part-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+        /* ── Section Headings ─────────────────────────────────────── */
+        .section {
+            margin-bottom: 56px;
+            scroll-margin-top: 24px;
+        }
+        h2.section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2.section-title .sec-num {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(96,165,250,.12);
+            color: var(--blue);
+            flex-shrink: 0;
+        }
+        h2.blog-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 28px 0 12px;
+        }
+        h3::before {
+            content: '›';
+            color: var(--blue);
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        /* ── Typography ───────────────────────────────────────────── */
+        p { margin-bottom: 14px; color: var(--text); }
+        strong { color: #fff; font-weight: 600; }
+        em { color: var(--muted); font-style: italic; }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { padding-left: 22px; margin-bottom: 14px; }
+        li { margin-bottom: 5px; }
+        hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+        /* ── Inline Code ──────────────────────────────────────────── */
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 13px;
+            background: rgba(255,255,255,.07);
+            color: var(--green);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* ── Code Blocks ──────────────────────────────────────────── */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 22px;
+            overflow-x: auto;
+            margin: 16px 0 20px;
+            position: relative;
+        }
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #c9d1d9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .lang-label {
+            position: absolute;
+            top: 10px; right: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: .7;
+        }
+        /* Syntax highlight tokens */
+        .kw  { color: #ff7b72; }   /* keywords */
+        .fn  { color: #d2a8ff; }   /* functions */
+        .str { color: #a5d6ff; }   /* strings */
+        .cm  { color: #8b949e; font-style: italic; } /* comments */
+        .num { color: #79c0ff; }   /* numbers */
+        .op  { color: #ff7b72; }   /* operators */
+        .cls { color: #ffa657; }   /* class names */
+        .var { color: #c9d1d9; }
+
+        /* ── Tables ───────────────────────────────────────────────── */
+        .table-wrap { overflow-x: auto; margin: 16px 0 20px; border-radius: 10px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+        thead tr { background: var(--surface2); }
+        thead th {
+            padding: 11px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr { border-bottom: 1px solid var(--border); transition: background .12s; }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(255,255,255,.02); }
+        tbody td { padding: 10px 16px; vertical-align: top; }
+        tbody td code { font-size: 12px; }
+
+        /* ── Callout / Blockquote ─────────────────────────────────── */
+        blockquote {
+            border-left: 3px solid var(--violet);
+            background: rgba(167,139,250,.06);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+            font-style: italic;
+            color: #c4b5fd;
+        }
+
+        /* ── Info Card ────────────────────────────────────────────── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 18px 0;
+        }
+        .card.blue  { border-left: 3px solid var(--blue); }
+        .card.green { border-left: 3px solid var(--green); }
+        .card.violet{ border-left: 3px solid var(--violet); }
+
+        /* ── Lesson items ─────────────────────────────────────────── */
+        .lesson {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 12px 0;
+        }
+        .lesson-num {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: rgba(167,139,250,.15);
+            color: var(--violet);
+            margin-bottom: 6px;
+        }
+        .lesson p { margin: 0; }
+
+        /* ── Footer ───────────────────────────────────────────────── */
+        .doc-footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12.5px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ── Responsive ───────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            #toc { display: none; }
+            #content { margin-left: 0; padding: 28px 18px 60px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SIDEBAR TABLE OF CONTENTS
+════════════════════════════════════════════════════════════════ -->
+<nav id="toc">
+    <div class="toc-logo">
+        <span>InsightForge</span>
+        <small>Technical Doc &amp; Blog Post</small>
+    </div>
+
+    <div class="toc-section-label">Part 1 — Technical Doc</div>
+    <a href="#problem-statement">1. Problem Statement</a>
+    <a href="#project-overview">2. Project Overview</a>
+    <a href="#system-architecture">3. System Architecture</a>
+    <a href="#technology-stack">4. Technology Stack</a>
+    <a href="#data-architecture">5. Data Architecture &amp; Schema</a>
+    <a href="#core-components">6. Core Components</a>
+    <a href="#rag-system">7. RAG System Design</a>
+    <a href="#memory">8. Memory Integration</a>
+    <a href="#llm-orchestration">9. LLM &amp; Prompt Engineering</a>
+    <a href="#analytics-engine">10. Analytics Engine</a>
+    <a href="#visualization">11. Visualization System</a>
+    <a href="#evaluation">12. Model Evaluation &amp; LLMOps</a>
+    <a href="#api-reference">13. API Reference</a>
+    <a href="#frontend">14. Frontend Architecture</a>
+    <a href="#deployment">15. Configuration &amp; Deployment</a>
+    <a href="#performance">16. Performance</a>
+    <a href="#appendix-a" class="sub">Appendix A</a>
+    <a href="#appendix-b" class="sub">Appendix B</a>
+
+    <hr class="toc-divider" />
+
+    <div class="toc-section-label">Part 2 — Blog Post</div>
+    <a href="#blog-problem" class="blog-link">The Problem</a>
+    <a href="#blog-what" class="blog-link">What Is InsightForge?</a>
+    <a href="#blog-architecture" class="blog-link">Architecture</a>
+    <a href="#blog-knowledge" class="blog-link">Knowledge Base</a>
+    <a href="#blog-router" class="blog-link">Smart Query Router</a>
+    <a href="#blog-memory" class="blog-link">Memory</a>
+    <a href="#blog-prompts" class="blog-link">Prompt Engineering</a>
+    <a href="#blog-eval" class="blog-link">QAEvalChain</a>
+    <a href="#blog-lessons" class="blog-link">Key Lessons</a>
+    <a href="#blog-next" class="blog-link">What's Next</a>
+    <a href="#blog-conclusion" class="blog-link">Conclusion</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════════════════════ -->
+<main id="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>InsightForge</h1>
+        <p>AI-Powered Business Intelligence Assistant — Comprehensive Technical Document &amp; Blog Post</p>
+        <div class="badge-row">
+            <span class="badge badge-blue">LangChain</span>
+            <span class="badge badge-blue">RAG</span>
+            <span class="badge badge-violet">LangGraph</span>
+            <span class="badge badge-violet">OpenAI GPT-4</span>
+            <span class="badge badge-green">FastAPI</span>
+            <span class="badge badge-green">pgvector</span>
+            <span class="badge badge-orange">Next.js 13</span>
+            <span class="badge badge-orange">Nivo Charts</span>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PART 1 — TECHNICAL DOCUMENT
+    ══════════════════════════════════════════ -->
+    <div style="margin-bottom:8px;">
+        <h1 style="font-size:clamp(22px,3.5vw,32px);font-weight:800;color:var(--text);line-height:1.25;margin-bottom:6px;">
+            Building InsightForge: A Conversational BI Assistant with LangChain, RAG, and LLMs
+        </h1>
+        <p style="color:var(--muted);font-size:14px;font-style:italic;">From raw CSV data to natural-language insights — the architecture decisions, lessons learned, and why each choice matters.</p>
+    </div>
+
+
+    <!-- §1 Problem Statement -->
+    <div class="section" id="problem-statement">
+        <h2 class="section-title"><span class="sec-num">01</span>Problem Statement</h2>
+
+        <h3>1.1 The Business Intelligence Gap</h3>
+        <p>In today's data-centric business environment, organizations across industries accumulate vast amounts of operational and transactional data. However, the ability to transform this raw data into actionable insights remains a significant challenge — particularly for small to medium-sized enterprises (SMEs) that lack the budget, personnel, and infrastructure for advanced BI tools.</p>
+        <p>Traditional BI solutions require:</p>
+        <ul>
+            <li>Dedicated data analysts with specialized skill sets</li>
+            <li>Complex BI platforms (Tableau, Power BI) with steep learning curves</li>
+            <li>Significant upfront investment in licensing and infrastructure</li>
+            <li>Time-intensive report generation cycles</li>
+        </ul>
+        <p>This creates a <strong>compounding knowledge gap</strong>: the organizations that need data-driven decisions most urgently are precisely those least equipped to generate them.</p>
+
+        <h3>1.2 Opportunity in AI Advancement</h3>
+        <p>Recent breakthroughs in <strong>Large Language Models (LLMs)</strong> and <strong>Retrieval-Augmented Generation (RAG)</strong> systems offer an unprecedented opportunity to democratize business intelligence:</p>
+        <ul>
+            <li><strong>Conversational data exploration</strong> — query data in plain English without SQL knowledge</li>
+            <li><strong>Contextual insight generation</strong> — synthesize patterns across multiple data dimensions simultaneously</li>
+            <li><strong>Grounded responses</strong> — RAG ensures answers are tied to actual business data, not hallucinated</li>
+            <li><strong>Automated visualization</strong> — auto-select and render appropriate charts for each query</li>
+        </ul>
+
+        <h3>1.3 The InsightForge Solution</h3>
+        <p>InsightForge addresses these challenges by delivering an <strong>automated, conversational AI Business Intelligence Assistant</strong> that enables any business user — regardless of technical background — to extract meaningful insights from their data through natural language interaction.</p>
+    </div>
+
+    <!-- §2 Project Overview -->
+    <div class="section" id="project-overview">
+        <h2 class="section-title"><span class="sec-num">02</span>Project Overview &amp; Objectives</h2>
+
+        <h3>2.1 Project Summary</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Attribute</th><th>Detail</th></tr></thead>
+            <tbody>
+            <tr><td><strong>Project Name</strong></td><td>InsightForge</td></tr>
+            <tr><td><strong>Type</strong></td><td>AI-Powered Business Intelligence Assistant</td></tr>
+            <tr><td><strong>Primary Technologies</strong></td><td>LangChain, RAG, LLMs (OpenAI GPT-4), FastAPI, Next.js</td></tr>
+            <tr><td><strong>Target Users</strong></td><td>Business analysts, SME owners, operations teams</td></tr>
+            <tr><td><strong>Data Domain</strong></td><td>Sales, product, regional, and customer analytics</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>2.2 Core Objectives</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Objective</th><th>Description</th></tr></thead>
+            <tbody>
+            <tr><td><strong>Analyze Business Data</strong></td><td>Identify key trends and patterns across time, products, regions, and customer demographics</td></tr>
+            <tr><td><strong>Generate Insights &amp; Recommendations</strong></td><td>Use NLP to produce actionable business insights with structured recommendations</td></tr>
+            <tr><td><strong>Visualize Data Insights</strong></td><td>Present findings through interactive charts and dashboards for intuitive interpretation</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>2.3 Project Phases</h3>
+        <div class="card blue">
+            <p><strong>Part 1: AI-Powered Business Intelligence Assistant</strong><br>
+                Steps 1–6: Data preparation → Knowledge base → LLM development → Chain prompts → RAG setup → Memory integration</p>
+        </div>
+        <div class="card violet">
+            <p><strong>Part 2: LLMOps &amp; User Interface</strong><br>
+                Steps 7+: Model evaluation (QAEvalChain) → Data visualization → Next.js UI creation</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="section" id="blog-problem">
+        <h2 class="blog-section-title">The Problem: Data Rich, Insight Poor</h2>
+        <p>Every business generates data. Sales records, customer demographics, regional performance, product metrics — the numbers accumulate in spreadsheets and databases month after month. Yet for most small and medium-sized businesses, that data just sits there.</p>
+        <p>Extracting meaningful insights has traditionally required:</p>
+        <ul>
+            <li>A dedicated analyst (expensive and slow)</li>
+            <li>A BI platform like Tableau or Power BI (steep learning curve)</li>
+            <li>Custom reporting scripts (technical barrier, ongoing maintenance)</li>
+        </ul>
+        <p>What if a business owner could simply <em>ask</em> their data — <em>"Which product is performing best in the South region?"</em> — and get a clear, accurate, actionable answer in seconds?</p>
+        <p>That's exactly what <strong>InsightForge</strong> was built to solve.</p>
+    </div>
+
+    <div class="section" id="blog-what">
+        <h2 class="blog-section-title">What Is InsightForge?</h2>
+        <p>InsightForge is a conversational Business Intelligence Assistant that combines:</p>
+        <ul>
+            <li><strong>LangChain</strong> — to orchestrate LLM workflows and retrieval chains</li>
+            <li><strong>Retrieval-Augmented Generation (RAG)</strong> — to ground every response in real business data</li>
+            <li><strong>OpenAI GPT-4 / GPT-3.5</strong> — for natural language understanding and generation</li>
+        </ul>
+        <p>You upload your sales CSV, ask questions in plain English, and receive structured insights with supporting statistics and visualizations — no SQL, no code required.</p>
+    </div>
+
+    <div class="section" id="blog-architecture">
+        <h2 class="blog-section-title">How It Works: The Architecture</h2>
+        <p>The system is deliberately layered. Every query passes through a smart router before touching the LLM, ensuring the cheapest appropriate tool handles each request:</p>
+        <pre><code>User (Browser)
+      │
+      ▼
+Next.js Frontend  (React + Tailwind + Nivo Charts)
+      │
+      ▼
+FastAPI Backend
+      │
+      ├── Query Router ──► chart keywords?    → ChartEngine
+      │                ──► analytics keywords? → DuckDB SQL
+      │                ──► open-ended?         → RAG + LLM
+      │
+      ├── RAG Pipeline  (embed → pgvector → GPT-3.5)
+      ├── LangGraph     (4-node GPT-4 analysis workflow)
+      ├── BusinessAnalyzer (Pandas + scikit-learn + SciPy)
+      └── Dual-layer Memory (PostgreSQL short-term + summaries)</code></pre>
+        <p>This division of labor is the core architectural insight: <strong>LLMs are synthesizers and communicators, not databases or calculators.</strong> Let DuckDB handle SQL. Let scikit-learn cluster. Let the LLM understand intent and communicate insights.</p>
+    </div>
+
+    <div class="section" id="blog-knowledge">
+        <h2 class="blog-section-title">Building the Knowledge Base</h2>
+        <p>The first design challenge: <em>how do you make a CSV retrievable by an LLM?</em></p>
+        <p>Dumping raw rows into a prompt doesn't scale. Instead, InsightForge uses <strong>semantic chunking by business domain</strong> — when a file is uploaded, the RAG Manager segments the data into four meaning-complete summary types before embedding and storing them in pgvector:</p>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Chunk Type</th><th>Represents</th></tr></thead>
+            <tbody>
+            <tr><td>Category</td><td>Product × Region cross-tabulation statistics</td></tr>
+            <tr><td>Regional</td><td>Total revenue and satisfaction per region</td></tr>
+            <tr><td>Time-based</td><td>Monthly and weekly aggregated trends</td></tr>
+            <tr><td>Product</td><td>Per-product performance and market share</td></tr>
+            </tbody>
+        </table></div>
+        <p>Each chunk carries <em>business intent</em>, not just text. A query about "East region performance" retrieves the chunk built specifically for that context — not a random fragment. This precision is what makes the RAG system reliable rather than noisy.</p>
+    </div>
+
+    <div class="section" id="blog-router">
+        <h2 class="blog-section-title">The Smart Query Router</h2>
+        <p>One of the highest-ROI decisions was building a <strong>three-way router</strong> that intercepts queries before any LLM call:</p>
+        <ul>
+            <li><strong>"Show me a sales chart"</strong> → ChartEngine returns a spec in &lt;5ms (zero LLM cost)</li>
+            <li><strong>"What is total sales by region?"</strong> → DuckDB SQL executes in &lt;10ms (zero LLM cost)</li>
+            <li><strong>"Why might the South be underperforming?"</strong> → Full RAG + LLM (nuanced reasoning needed)</li>
+        </ul>
+        <p>This alone reduces API costs and latency dramatically on the majority of queries, which tend to be structured aggregations rather than open-ended reasoning.</p>
+    </div>
+
+    <div class="section" id="blog-memory">
+        <h2 class="blog-section-title">Memory: Making Conversations Coherent</h2>
+        <p>A one-shot Q&amp;A tool isn't a real BI assistant. Real analysis is iterative — you start broad, then drill down, compare, and follow up. InsightForge maintains two memory layers to support this:</p>
+        <p><strong>Short-term memory</strong> persists every message in PostgreSQL and injects the last N exchanges as <code>chat_history</code> into each new prompt. This enables natural pronoun resolution:</p>
+        <pre><code>User: "What are sales in the North region?"
+AI:   "North had $45,230 in total sales..."
+User: "How does that compare to South?"
+AI:   [Resolves "that" correctly] "Compared to North's $45,230, South had $38,100..."</code></pre>
+        <p><strong>Long-term memory</strong> prevents context overflow in extended sessions. After each exchange, a compressed LLM summary is written to <code>session_summaries</code>, preserving key insights without replaying the full message history.</p>
+        <blockquote>This is the same principle behind ChatGPT's persistent memory: compress what matters, discard what doesn't.</blockquote>
+    </div>
+
+    <div class="section" id="blog-prompts">
+        <h2 class="blog-section-title">Prompt Engineering That Works</h2>
+        <p>Getting reliable business insights out of an LLM requires disciplined prompt design. The core analysis template enforces a consistent, actionable structure:</p>
+        <pre><code>You are a business intelligence expert analyzing data metrics.
+
+Available Metrics: {context}
+User Question:     {question}
+Previous Conversation: {chat_history}
+
+Respond with:
+1. Key Findings:          2–3 main insights
+2. Detailed Analysis:     In-depth explanation
+3. Business Implications: Strategic meaning
+4. Recommendations:       Specific, actionable steps</code></pre>
+        <ol>
+            <li><strong>Explicit expert role</strong> — anchors domain tone and prevents vague responses</li>
+            <li><strong>Mandatory output structure</strong> — forces organized findings over freeform prose</li>
+            <li><strong>Injected context</strong> — retrieved chunks ensure every answer is grounded in actual data</li>
+        </ol>
+    </div>
+
+
+    <!-- §3 System Architecture -->
+    <div class="section" id="system-architecture">
+        <h2 class="section-title"><span class="sec-num">03</span>System Architecture</h2>
+
+        <h3>3.1 High-Level Architecture</h3>
+        <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                        USER LAYER                               │
+│              Next.js Frontend (Port 3000)                       │
+│   ┌──────────┐  ┌───────────┐  ┌──────────┐  ┌─────────────┐  │
+│   │  Chat UI  │  │ Analytics │  │ History  │  │ Evaluation  │  │
+│   └──────────┘  └───────────┘  └──────────┘  └─────────────┘  │
+└────────────────────────────┬────────────────────────────────────┘
+                             │ HTTP/REST
+┌────────────────────────────▼────────────────────────────────────┐
+│                     API GATEWAY LAYER                           │
+│              FastAPI Backend (Port 9100)                        │
+│  /query  /upload  /session  /chart  /evaluate                   │
+│  /analytics  /dashboard  /feedback  /history                    │
+└──────────────┬──────────────────┬───────────────────┬───────────┘
+               │                  │                   │
+    ┌──────────▼──────┐  ┌────────▼────────┐  ┌──────▼──────────┐
+    │   LLM LAYER     │  │ ANALYTICS LAYER │  │  STORAGE LAYER  │
+    │                 │  │                 │  │                 │
+    │ LangChain       │  │ DuckDB (SQL)    │  │ PostgreSQL      │
+    │ LangGraph       │  │ Pandas          │  │ + pgvector      │
+    │ OpenAI GPT-4    │  │ scikit-learn    │  │                 │
+    │ GPT-3.5-turbo   │  │ SciPy           │  │ Sessions,Chunks │
+    │ text-ada-002    │  │ BusinessAnalyzer│  │ Metrics, Sales  │
+    └─────────────────┘  └─────────────────┘  └─────────────────┘</code></pre>
+
+        <h3>3.2 Component Architecture</h3>
+        <pre><code>BusinessAnalytics/
+├── backend/
+│   ├── main.py                    ← App entry point + router registration
+│   ├── models.py                  ← SQLAlchemy ORM (10 tables)
+│   ├── db.py                      ← Database session management
+│   ├── llm/
+│   │   ├── analysis_graph.py      ← LangGraph 4-node analysis workflow
+│   │   ├── business_retriever.py  ← Custom RAG retriever (cosine similarity)
+│   │   ├── rag_manager.py         ← RAG pipeline: embed → retrieve → generate
+│   │   └── business_prompts.py    ← Prompt templates &amp; manager
+│   ├── analysis/
+│   │   └── business_analyzer.py   ← Time-series, products, regions, K-means
+│   ├── visualization/
+│   │   └── chart_engine.py        ← 6 chart types
+│   ├── chains/
+│   │   ├── analysis_chain.py
+│   │   ├── business_analysis_chain.py  ← Memory-integrated chain
+│   │   └── visualization_chain.py
+│   ├── evaluation/
+│   │   ├── qa_eval.py             ← QAEvalChain (4-dimension scoring)
+│   │   └── model_monitor.py       ← Feedback collection &amp; monitoring
+│   ├── utils/
+│   │   ├── embeddings.py, data_processor.py, rag_prompts.py
+│   └── routes/
+│       ├── rag.py, analytics.py, session.py, feedback.py
+│       └── chart.py, upload.py, dashboard.py, evaluate.py
+├── frontend/
+│   ├── pages/                     ← 6 application pages
+│   ├── components/                ← Reusable React components
+│   └── styles/globals.css
+├── sample_sales_data.csv          ← 2,501-record sample dataset
+├── requirements.txt
+└── run_all.sh                     ← Startup orchestration script</code></pre>
+
+        <h3>3.3 Request Routing Flow</h3>
+        <p>Every incoming query is classified before any LLM call is made, routing it to the cheapest appropriate handler:</p>
+        <pre><code>POST /api/query
+    │
+    ├─→ classify_query()
+    │        ├── chart keywords?      → ChartEngine.create_visualization()
+    │        ├── analytics keywords?  → natural_to_sql() → DuckDB execute
+    │        └── default              → RAG Pipeline
+    │                                        │
+    │                                   get_embedding() [OpenAI]
+    │                                   pgvector similarity search
+    │                                   cosine_similarity re-ranking
+    │                                   Top-3 chunks → LLM (GPT-3.5)
+    │                                   Session memory update
+    ▼
+Structured JSON Response → Frontend</code></pre>
+    </div>
+
+    <!-- §4 Technology Stack -->
+    <div class="section" id="technology-stack">
+        <h2 class="section-title"><span class="sec-num">04</span>Technology Stack</h2>
+
+        <h3>4.1 Backend</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Category</th><th>Technology</th><th>Version</th><th>Purpose</th></tr></thead>
+            <tbody>
+            <tr><td>Web Framework</td><td><code>FastAPI</code></td><td>Latest</td><td>Async REST API with Pydantic validation</td></tr>
+            <tr><td>LLM Orchestration</td><td><code>LangChain</code></td><td>Latest</td><td>Chains, retrievers, prompt templates</td></tr>
+            <tr><td>LLM Workflow</td><td><code>LangGraph</code></td><td>Latest</td><td>4-node stateful analysis graph</td></tr>
+            <tr><td>LLM — Deep Analysis</td><td><code>OpenAI GPT-4</code></td><td>Latest</td><td>Complex analysis (temperature=0.2)</td></tr>
+            <tr><td>LLM — Fast Responses</td><td><code>GPT-3.5-turbo</code></td><td>Latest</td><td>RAG synthesis + evaluation</td></tr>
+            <tr><td>Embeddings</td><td><code>text-embedding-ada-002</code></td><td>Latest</td><td>Query &amp; document vectorization (1536-dim)</td></tr>
+            <tr><td>Vector Search</td><td><code>pgvector</code></td><td>Latest</td><td>Semantic similarity search</td></tr>
+            <tr><td>Analytics DB</td><td><code>DuckDB</code></td><td>Latest</td><td>In-memory OLAP SQL queries</td></tr>
+            <tr><td>Data Processing</td><td><code>Pandas</code></td><td>Latest</td><td>DataFrame operations &amp; aggregations</td></tr>
+            <tr><td>Machine Learning</td><td><code>scikit-learn</code></td><td>Latest</td><td>K-means clustering, StandardScaler</td></tr>
+            <tr><td>Statistics</td><td><code>SciPy</code></td><td>Latest</td><td>Skew, kurtosis, statistical moments</td></tr>
+            <tr><td>ORM</td><td><code>SQLAlchemy</code></td><td>Latest</td><td>Database session management</td></tr>
+            <tr><td>Migrations</td><td><code>Alembic</code></td><td>Latest</td><td>Schema version control</td></tr>
+            <tr><td>Server</td><td><code>Uvicorn</code></td><td>Latest</td><td>ASGI server for FastAPI</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>4.2 Frontend</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Category</th><th>Technology</th><th>Version</th><th>Purpose</th></tr></thead>
+            <tbody>
+            <tr><td>Framework</td><td><code>Next.js</code></td><td>13.4.7</td><td>SSR/SSG React framework</td></tr>
+            <tr><td>UI Library</td><td><code>React</code></td><td>18.2.0</td><td>Component-based UI</td></tr>
+            <tr><td>Styling</td><td><code>Tailwind CSS</code></td><td>3.3.2</td><td>Utility-first CSS framework</td></tr>
+            <tr><td>Charts</td><td><code>Nivo</code></td><td>0.99.0</td><td>D3-based data visualization</td></tr>
+            <tr><td>Icons</td><td><code>lucide-react</code></td><td>0.244.0</td><td>SVG icon system</td></tr>
+            <tr><td>Animations</td><td><code>framer-motion</code></td><td>10.12.16</td><td>Smooth transitions</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>4.3 Storage &amp; Infrastructure</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Component</th><th>Technology</th><th>Port</th><th>Purpose</th></tr></thead>
+            <tbody>
+            <tr><td>Primary Database</td><td>PostgreSQL + pgvector</td><td>5432</td><td>Sessions, messages, embeddings, metrics</td></tr>
+            <tr><td>Analytics Engine</td><td>DuckDB</td><td>—</td><td>In-memory OLAP over uploaded CSVs</td></tr>
+            <tr><td>Backend API</td><td>Uvicorn (FastAPI)</td><td>9100</td><td>REST API + Swagger UI at <code>/docs</code></td></tr>
+            <tr><td>Frontend</td><td>Next.js Dev Server</td><td>3000</td><td>React application</td></tr>
+            </tbody>
+        </table></div>
+    </div>
+
+    <!-- §5 Data Architecture -->
+    <div class="section" id="data-architecture">
+        <h2 class="section-title"><span class="sec-num">05</span>Data Architecture &amp; Schema</h2>
+
+        <h3>5.1 Database Schema (PostgreSQL — 10 Tables)</h3>
+        <pre><code>┌──────────────────┐     ┌─────────────────────┐
+│      users       │     │    chat_sessions     │
+├──────────────────┤     ├─────────────────────┤
+│ id (PK)          │◄────│ user_id (FK)         │
+│ email            │     │ id (PK)             │
+│ created_at       │     │ title               │
+└──────────────────┘     │ created_at          │
+                         │ updated_at          │
+                         └──────────┬──────────┘
+                                    │
+            ┌───────────────────────┼──────────────────────┐
+            ▼                       ▼                      ▼
+┌───────────────────┐  ┌──────────────────────┐  ┌─────────────────┐
+│     messages      │  │  session_summaries   │  │    feedback     │
+├───────────────────┤  ├──────────────────────┤  ├─────────────────┤
+│ id (PK)           │  │ session_id (FK, PK)  │  │ id (PK)         │
+│ session_id (FK)   │  │ summary (TEXT)       │  │ session_id (FK) │
+│ role              │  │ updated_at           │  │ message_id (FK) │
+│ content (TEXT)    │  └──────────────────────┘  │ rating (1–5)    │
+│ created_at        │                            │ feedback_text   │
+└───────────────────┘                            └─────────────────┘
+
+┌──────────────────────┐    ┌─────────────────────┐
+│  business_documents  │    │   document_chunks   │
+├──────────────────────┤    ├─────────────────────┤
+│ id (PK)              │◄───│ document_id (FK)    │
+│ source_type          │    │ chunk_text (TEXT)   │
+│ title / raw_content  │    │ chunk_index         │
+│ metadata_json        │    │ embedding (vector)  │
+└──────────────────────┘    └─────────────────────┘
+
+┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+│ business_metrics │   │  sales_records   │   │    products      │
+├──────────────────┤   ├──────────────────┤   ├──────────────────┤
+│ metric_name      │   │ order_date       │   │ product_id (PK)  │
+│ definition       │   │ region           │   │ product_name     │
+│ formula / owner  │   │ product_id (FK)  │   │ category         │
+└──────────────────┘   │ revenue, qty     │   └──────────────────┘
+                       └──────────────────┘   ┌──────────────────┐
+                                               │   customers      │
+                                               ├──────────────────┤
+                                               │ customer_id (PK) │
+                                               │ segment          │
+                                               │ geography        │
+                                               │ demographic_group│
+                                               └──────────────────┘</code></pre>
+
+        <h3>5.2 Sample Dataset</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Column</th><th>Type</th><th>Values / Range</th></tr></thead>
+            <tbody>
+            <tr><td><code>Date</code></td><td>DATE</td><td>YYYY-MM-DD (from 2022-01-01)</td></tr>
+            <tr><td><code>Product</code></td><td>STRING</td><td>Widget A, B, C, D</td></tr>
+            <tr><td><code>Region</code></td><td>STRING</td><td>North, South, East, West</td></tr>
+            <tr><td><code>Sales</code></td><td>FLOAT</td><td>Transaction amount</td></tr>
+            <tr><td><code>Customer_Age</code></td><td>INT</td><td>18–80</td></tr>
+            <tr><td><code>Customer_Gender</code></td><td>STRING</td><td>Male, Female</td></tr>
+            <tr><td><code>Customer_Satisfaction</code></td><td>FLOAT</td><td>1.0–5.0</td></tr>
+            </tbody>
+        </table></div>
+        <p>2,501 records · 4 products × 4 regions × 3 demographic groups × time series = dozens of analytical dimensions from a simple 7-column file.</p>
+
+        <h3>5.3 Column Alias Normalization</h3>
+        <pre><span class="lang-label">python</span><code><span class="var">_COLUMN_ALIASES</span> = {
+    <span class="str">"date"</span>: <span class="str">"Date"</span>,  <span class="str">"product"</span>: <span class="str">"Product"</span>,  <span class="str">"region"</span>: <span class="str">"Region"</span>,
+    <span class="str">"sales"</span>: <span class="str">"Sales"</span>,  <span class="str">"revenue"</span>: <span class="str">"Sales"</span>,  <span class="str">"units"</span>: <span class="str">"Sales"</span>,
+    <span class="str">"customer_age"</span>: <span class="str">"Customer_Age"</span>,  <span class="str">"age"</span>: <span class="str">"Customer_Age"</span>,
+    <span class="str">"customer_gender"</span>: <span class="str">"Customer_Gender"</span>,  <span class="str">"gender"</span>: <span class="str">"Customer_Gender"</span>,
+    <span class="str">"customer_satisfaction"</span>: <span class="str">"Customer_Satisfaction"</span>,
+    <span class="str">"satisfaction"</span>: <span class="str">"Customer_Satisfaction"</span>
+}</code></pre>
+    </div>
+
+    <!-- §6 Core Components -->
+    <div class="section" id="core-components">
+        <h2 class="section-title"><span class="sec-num">06</span>Core Components</h2>
+
+        <h3>6.1 RAG Manager <code>backend/llm/rag_manager.py</code></h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Method</th><th>Description</th></tr></thead>
+            <tbody>
+            <tr><td><code>process_business_data()</code></td><td>Splits data into 4 semantic chunk types and stores embeddings in pgvector</td></tr>
+            <tr><td><code>get_relevant_context()</code></td><td>Cosine similarity search against stored embeddings; returns top-k chunks</td></tr>
+            <tr><td><code>generate_response()</code></td><td>Assembles context + session history into an LLM prompt and returns the answer</td></tr>
+            <tr><td><code>extract_insights()</code></td><td>Parses structured insight fields from raw LLM response text</td></tr>
+            </tbody>
+        </table></div>
+        <p><strong>Embedding model:</strong> <code>text-embedding-ada-002</code> (1,536-dim vectors). Token usage tracked via <code>get_openai_callback()</code>.</p>
+
+        <h3>6.2 Custom Business Retriever <code>backend/llm/business_retriever.py</code></h3>
+        <pre><span class="lang-label">python</span><code><span class="kw">class</span> <span class="cls">BusinessRetriever</span>(<span class="cls">BaseRetriever</span>):
+
+    <span class="kw">def</span> <span class="fn">_get_time_based_metrics</span>(self, df) -> dict:
+        <span class="cm"># 7-day / 30-day moving averages</span>
+        <span class="cm"># Day-of-week seasonality patterns</span>
+        <span class="cm"># Month-over-month growth rates</span>
+        <span class="cm"># Peak day identification</span>
+
+    <span class="kw">def</span> <span class="fn">_get_product_metrics</span>(self, df) -> dict:
+        <span class="cm"># Product × Region cross-tabulation</span>
+        <span class="cm"># Age-based segmentation analysis</span>
+        <span class="cm"># Satisfaction–sales correlation</span>
+
+    <span class="kw">def</span> <span class="fn">_get_customer_metrics</span>(self, df) -> dict:
+        <span class="cm"># Age segment profiling (young/middle/senior)</span>
+        <span class="cm"># Satisfaction tiers (low/medium/high)</span>
+        <span class="cm"># Purchase behavior patterns</span>
+
+    <span class="kw">def</span> <span class="fn">get_relevant_documents</span>(self, query: str) -> List[Document]:
+        <span class="cm"># 1. Embed query with OpenAI</span>
+        <span class="cm"># 2. Cosine similarity vs. all stored chunk embeddings</span>
+        <span class="cm"># 3. Return top-2 most relevant metric documents</span></code></pre>
+
+        <h3>6.3 LangGraph Analysis Workflow <code>backend/llm/analysis_graph.py</code></h3>
+        <pre><code>              ┌──────────────────┐
+              │  route_by_type() │  ← Classifies query by keywords
+              └────────┬─────────┘
+       ┌───────────────┼───────────────┬──────────────┐
+       ▼               ▼               ▼              ▼
+  ┌─────────┐   ┌───────────┐   ┌──────────┐  ┌──────────┐
+  │  Trend  │   │Comparative│   │Predictive│  │ General  │
+  │Analysis │   │ Analysis  │   │ Analysis │  │ Analysis │
+  └────┬────┘   └─────┬─────┘   └────┬─────┘  └────┬─────┘
+       └───────────────┴──────────────┴──────────────┘
+                              │
+                     ┌────────▼────────┐
+                     │  GPT-4 Synthesis │
+                     │  (temp = 0.2)   │
+                     └─────────────────┘</code></pre>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Analysis Type</th><th>Routing Keywords</th></tr></thead>
+            <tbody>
+            <tr><td>Trend</td><td>"trend", "over time", "growth", "decline"</td></tr>
+            <tr><td>Comparative</td><td>"compare", "vs", "difference", "better", "worse"</td></tr>
+            <tr><td>Predictive</td><td>"predict", "forecast", "future", "expect"</td></tr>
+            <tr><td>General</td><td><em>(default fallback)</em></td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>6.4 Business Analyzer <code>backend/analysis/business_analyzer.py</code></h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Method</th><th>What It Computes</th></tr></thead>
+            <tbody>
+            <tr><td><code>analyze_time_series()</code></td><td>Daily aggregations, 7-day rolling avg, MoM growth, trend direction via <code>np.polyfit</code></td></tr>
+            <tr><td><code>analyze_products()</code></td><td>Revenue per product, market share (%), top/bottom performers, satisfaction scores</td></tr>
+            <tr><td><code>analyze_regions()</code></td><td>Revenue by region, satisfaction per region, product mix, performance index</td></tr>
+            <tr><td><code>analyze_customer_segments()</code></td><td>K-means (n=3) on age + revenue after StandardScaler normalization</td></tr>
+            <tr><td><code>calculate_statistics()</code></td><td>Mean, median, std, skewness, kurtosis, Q1, Q3, IQR for each numeric column</td></tr>
+            </tbody>
+        </table></div>
+    </div>
+
+    <!-- §7 RAG System -->
+    <div class="section" id="rag-system">
+        <h2 class="section-title"><span class="sec-num">07</span>RAG System Design</h2>
+
+        <h3>7.1 End-to-End RAG Pipeline</h3>
+        <pre><code>━━━━ PHASE 1: INDEXING (at upload time) ━━━━━━━━━━━━━━━━━━━━━
+
+CSV Upload → POST /api/upload
+    │
+    ▼
+RAGManager.process_business_data()
+    ├── Category Summary    (Product × Region cross-tabs)
+    ├── Regional Summary    (revenue + satisfaction per region)
+    ├── Time-based Summary  (monthly/weekly aggregates)
+    └── Product Summary     (per-product performance metrics)
+    │
+    ▼
+Text serialization → OpenAI text-embedding-ada-002
+    │
+    ▼
+1536-dim vectors → INSERT INTO document_chunks (pgvector)
+
+━━━━ PHASE 2: RETRIEVAL (at query time) ━━━━━━━━━━━━━━━━━━━━━
+
+User Query → Embed with text-embedding-ada-002
+    │
+    ▼
+pgvector approximate search → cosine_similarity() re-ranking
+    │
+    ▼
+Top-3 most relevant chunks returned as context
+
+━━━━ PHASE 3: GENERATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Context chunks + session history + user query
+    │
+    ▼
+BusinessPromptManager assembles prompt → GPT-3.5-turbo
+    │
+    ▼
+Structured response with insights</code></pre>
+
+        <h3>7.2 Semantic Chunk Strategy</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Chunk Type</th><th>Content</th><th>Example</th></tr></thead>
+            <tbody>
+            <tr><td><strong>Category</strong></td><td>Product × Region stats</td><td>"Widget A in North: 150 sales, avg satisfaction 3.2"</td></tr>
+            <tr><td><strong>Regional</strong></td><td>Revenue + satisfaction</td><td>"South region: $45,230 total, 3.4/5 satisfaction"</td></tr>
+            <tr><td><strong>Time-based</strong></td><td>Monthly trends</td><td>"January 2022: 210 transactions, 12% MoM growth"</td></tr>
+            <tr><td><strong>Product</strong></td><td>Per-product metrics</td><td>"Widget B: 28% market share, top performer in East"</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>7.3 Cosine Similarity</h3>
+        <pre><span class="lang-label">python</span><code><span class="kw">def</span> <span class="fn">cosine_similarity</span>(a, b):
+    a, b = np.<span class="fn">array</span>(a), np.<span class="fn">array</span>(b)
+    <span class="kw">return</span> np.<span class="fn">dot</span>(a, b) / (np.linalg.<span class="fn">norm</span>(a) * np.linalg.<span class="fn">norm</span>(b))
+
+<span class="cm"># Applied during retrieval:</span>
+similarities = [<span class="fn">cosine_similarity</span>(query_emb, chunk.embedding) <span class="kw">for</span> chunk <span class="kw">in</span> all_chunks]
+top_k = <span class="fn">sorted</span>(<span class="fn">zip</span>(similarities, chunks), reverse=<span class="kw">True</span>)[:<span class="num">3</span>]</code></pre>
+        <p><strong>Range:</strong> −1 to +1. Scores above ~0.75 are considered highly relevant for this business domain.</p>
+    </div>
+
+    <!-- §8 Memory -->
+    <div class="section" id="memory">
+        <h2 class="section-title"><span class="sec-num">08</span>Memory Integration</h2>
+        <p>InsightForge uses a <strong>dual-layer memory architecture</strong> so multi-turn conversations remain coherent across both short and long spans.</p>
+
+        <h3>8.1 Short-Term Memory (Conversation Buffer)</h3>
+        <p>Every user query and assistant response is persisted as a <code>Message</code> row linked to the active <code>ChatSession</code>. The last N messages are injected as <code>chat_history</code> into every new LLM prompt.</p>
+        <pre><span class="lang-label">python</span><code><span class="cm"># Stored on every exchange:</span>
+<span class="cls">Message</span>(session_id=sid, role=<span class="str">"user"</span>,      content=query)
+<span class="cls">Message</span>(session_id=sid, role=<span class="str">"assistant"</span>, content=answer)</code></pre>
+
+        <h3>8.2 Long-Term Memory (Session Summarization)</h3>
+        <p>After each exchange, a compressed LLM summary of the session is stored in <code>session_summaries</code>, preventing token-window overflow while preserving key analytical context.</p>
+        <pre><span class="lang-label">python</span><code>existing_summary = <span class="kw">await</span> <span class="fn">get_session_summary</span>(session_id)
+new_summary      = <span class="kw">await</span> llm.<span class="fn">compress</span>(existing_summary + new_messages)
+<span class="kw">await</span> <span class="fn">update_session_summary</span>(session_id, new_summary)</code></pre>
+
+        <h3>8.3 Memory Architecture</h3>
+        <pre><code>┌──────────────────────────────────────────────────────────┐
+│                    MEMORY LAYERS                         │
+│                                                          │
+│  Short-Term (messages table)   Long-Term (summaries)     │
+│  ┌──────────────────────┐      ┌─────────────────────┐   │
+│  │ [msg 1] user         │      │ Compressed session  │   │
+│  │ [msg 2] assistant    │─LLM─▶│ context snapshot    │   │
+│  │ [msg N] assistant    │compress                    │   │
+│  └──────────┬───────────┘      └──────────┬──────────┘   │
+│             └─────────────────────────────┘              │
+│                               ▼                          │
+│                    ┌─────────────────────┐               │
+│                    │  Combined Context   │               │
+│                    │  injected into LLM  │               │
+│                    └─────────────────────┘               │
+└──────────────────────────────────────────────────────────┘</code></pre>
+
+        <h3>8.4 Memory in Practice</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>User Action</th><th>Memory Role</th></tr></thead>
+            <tbody>
+            <tr><td>"Which product did we discuss earlier?"</td><td>Short-term buffer recalls previous turn</td></tr>
+            <tr><td>Region → product → trend drill-down</td><td>Each step builds on accumulated context</td></tr>
+            <tr><td>Resuming a session later</td><td>Long-term summary preserves key findings</td></tr>
+            <tr><td>Long analysis spanning many queries</td><td>Summarization prevents prompt overflow</td></tr>
+            </tbody>
+        </table></div>
+    </div>
+
+    <!-- §9 LLM Orchestration -->
+    <div class="section" id="llm-orchestration">
+        <h2 class="section-title"><span class="sec-num">09</span>LLM Orchestration &amp; Prompt Engineering</h2>
+
+        <h3>9.1 Core Analysis Prompt Template</h3>
+        <pre><code>You are a business intelligence expert analyzing data metrics.
+
+Available Metrics:
+{context}
+
+User Question: {question}
+
+Previous Conversation:
+{chat_history}
+
+Provide a detailed analysis following these guidelines:
+1. Focus on the specific metrics relevant to the question
+2. Identify key trends, patterns, or anomalies
+3. Provide actionable insights based on the data
+4. Highlight statistical significance where applicable
+5. Suggest potential business implications
+
+Response Format:
+1. Key Findings:          [2-3 main insights]
+2. Detailed Analysis:     [In-depth explanation]
+3. Business Implications: [Strategic meaning]
+4. Recommendations:       [Specific, actionable steps]</code></pre>
+        <ul>
+            <li><strong>Explicit role</strong> — anchors the LLM's tone and domain expertise</li>
+            <li><strong>Structured output format</strong> — forces organized findings rather than freeform prose</li>
+            <li><strong>Context injection</strong> — retrieved chunks ground every answer in real data</li>
+        </ul>
+
+        <h3>9.2 System Prompts by Context</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Context</th><th>System Prompt</th></tr></thead>
+            <tbody>
+            <tr><td>RAG Query</td><td>"You are a business analytics assistant. Provide clear, data-driven responses."</td></tr>
+            <tr><td>Analysis Graph</td><td>"You are a business intelligence analyst. Use tools to analyze data and provide insights."</td></tr>
+            <tr><td>Evaluation</td><td>"You are an expert evaluator for a business intelligence AI assistant."</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>9.3 Chain Architecture</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Chain</th><th>File</th><th>Memory</th></tr></thead>
+            <tbody>
+            <tr><td>General analysis</td><td><code>analysis_chain.py</code></td><td>No</td></tr>
+            <tr><td>Business analysis with history</td><td><code>business_analysis_chain.py</code></td><td>Yes — ConversationBufferMemory</td></tr>
+            <tr><td>Chart type recommendation</td><td><code>visualization_chain.py</code></td><td>No</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>9.4 Model Selection</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Task</th><th>Model</th><th>Rationale</th></tr></thead>
+            <tbody>
+            <tr><td>Deep analysis (LangGraph)</td><td>GPT-4, temp=0.2</td><td>Highest accuracy; deterministic outputs</td></tr>
+            <tr><td>RAG synthesis</td><td>GPT-3.5-turbo</td><td>Speed + cost balance for frequent queries</td></tr>
+            <tr><td>Evaluation scoring</td><td>GPT-3.5-turbo</td><td>Reliable structured output parsing</td></tr>
+            <tr><td>All embeddings</td><td>text-embedding-ada-002</td><td>Standard, high-quality 1536-dim vectors</td></tr>
+            </tbody>
+        </table></div>
+    </div>
+
+    <!-- §10 Analytics Engine -->
+    <div class="section" id="analytics-engine">
+        <h2 class="section-title"><span class="sec-num">10</span>Analytics Engine</h2>
+
+        <h3>10.1 Query Classification</h3>
+        <pre><span class="lang-label">python</span><code><span class="kw">def</span> <span class="fn">classify_query</span>(query: str) -> Literal[<span class="str">"analytics"</span>, <span class="str">"chart"</span>, <span class="str">"rag"</span>]:
+    analytics_kw = [<span class="str">"total"</span>, <span class="str">"average"</span>, <span class="str">"sum"</span>, <span class="str">"trend"</span>, <span class="str">"compare"</span>, <span class="str">"top"</span>,
+                    <span class="str">"by region"</span>, <span class="str">"by product"</span>, <span class="str">"sales"</span>, <span class="str">"revenue"</span>,
+                    <span class="str">"how many"</span>, <span class="str">"count"</span>, <span class="str">"highest"</span>, <span class="str">"lowest"</span>]
+    chart_kw     = [<span class="str">"chart"</span>, <span class="str">"plot"</span>, <span class="str">"graph"</span>, <span class="str">"visualize"</span>, <span class="str">"show me"</span>]
+
+    q = query.lower()
+    <span class="kw">if</span> <span class="fn">any</span>(kw <span class="kw">in</span> q <span class="kw">for</span> kw <span class="kw">in</span> chart_kw):     <span class="kw">return</span> <span class="str">"chart"</span>
+    <span class="kw">if</span> <span class="fn">any</span>(kw <span class="kw">in</span> q <span class="kw">for</span> kw <span class="kw">in</span> analytics_kw): <span class="kw">return</span> <span class="str">"analytics"</span>
+    <span class="kw">return</span> <span class="str">"rag"</span></code></pre>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Query Type</th><th>Handler</th><th>Typical Latency</th></tr></thead>
+            <tbody>
+            <tr><td>Chart request</td><td>ChartEngine spec</td><td>&lt;5ms</td></tr>
+            <tr><td>Aggregation / comparison</td><td>DuckDB SQL</td><td>&lt;10ms</td></tr>
+            <tr><td>Open-ended / reasoning</td><td>RAG + LLM</td><td>2–5s</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>10.2 DuckDB SQL Analytics</h3>
+        <pre><span class="lang-label">python</span><code><span class="cm"># "trend over time"  → GROUP BY Date ORDER BY Date</span>
+<span class="cm"># "by product"       → GROUP BY Product</span>
+<span class="cm"># "satisfaction"     → AVG(Customer_Satisfaction) GROUP BY Region</span>
+<span class="cm"># "top N"            → ORDER BY Sales DESC LIMIT N</span></code></pre>
+
+        <h3>10.3 Statistical Analysis Suite</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Measure</th><th>Method</th><th>Business Use</th></tr></thead>
+            <tbody>
+            <tr><td>Mean / Median</td><td><code>df.mean()</code> / <code>df.median()</code></td><td>Baseline benchmarks</td></tr>
+            <tr><td>Std Deviation</td><td><code>df.std()</code></td><td>Volatility / consistency</td></tr>
+            <tr><td>Skewness</td><td><code>scipy.stats.skew()</code></td><td>Detect revenue outlier bias</td></tr>
+            <tr><td>Kurtosis</td><td><code>scipy.stats.kurtosis()</code></td><td>Detect extreme value concentration</td></tr>
+            <tr><td>Q1 / Q3 / IQR</td><td><code>df.quantile()</code></td><td>Outlier detection range</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>10.4 K-Means Customer Segmentation</h3>
+        <pre><span class="lang-label">python</span><code><span class="kw">from</span> sklearn.cluster <span class="kw">import</span> <span class="cls">KMeans</span>
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> <span class="cls">StandardScaler</span>
+
+features = df.<span class="fn">groupby</span>(<span class="str">'Customer_Age'</span>).<span class="fn">agg</span>(
+    {<span class="str">'Sales'</span>: <span class="str">'sum'</span>, <span class="str">'Customer_Satisfaction'</span>: <span class="str">'mean'</span>}
+).<span class="fn">reset_index</span>()
+
+scaler  = <span class="cls">StandardScaler</span>()
+X       = scaler.<span class="fn">fit_transform</span>(features[[<span class="str">'Sales'</span>, <span class="str">'Customer_Satisfaction'</span>]])
+kmeans  = <span class="cls">KMeans</span>(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>)
+features[<span class="str">'Segment'</span>] = kmeans.<span class="fn">fit_predict</span>(X)
+<span class="cm"># Segments → Young (18–35) | Middle-aged (36–55) | Senior (56+)</span></code></pre>
+    </div>
+
+
+
+    <!-- §12 Evaluation -->
+    <div class="section" id="evaluation">
+        <h2 class="section-title"><span class="sec-num">12</span>Model Evaluation &amp; LLMOps</h2>
+
+        <h3>12.1 QAEvalChain Evaluator</h3>
+        <pre><span class="lang-label">python</span><code><span class="kw">class</span> <span class="cls">BusinessInsightEvaluator</span>:
+    <span class="kw">async def</span> <span class="fn">evaluate_response</span>(self, question, answer, ground_truth):
+        <span class="cm"># 1. Build rubric prompt with all three inputs</span>
+        <span class="cm"># 2. Call GPT-3.5-turbo</span>
+        <span class="cm"># 3. Parse 4 scores via regex</span>
+        <span class="cm"># 4. Generate improvement recommendations</span>
+        <span class="cm"># 5. Append to metrics_history</span></code></pre>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Metric</th><th>Scale</th><th>Criteria</th></tr></thead>
+            <tbody>
+            <tr><td><strong>Accuracy</strong></td><td>1–5</td><td>Factual correctness vs. ground truth</td></tr>
+            <tr><td><strong>Completeness</strong></td><td>1–5</td><td>Coverage of all relevant aspects</td></tr>
+            <tr><td><strong>Relevance</strong></td><td>1–5</td><td>Direct address of the question asked</td></tr>
+            <tr><td><strong>Business Value</strong></td><td>1–5</td><td>Actionability and strategic utility</td></tr>
+            </tbody>
+        </table></div>
+        <p><strong>Thresholds:</strong> &lt;3.0 → critical · &lt;4.0 → advisory · ≥4.0 → satisfactory</p>
+
+        <h3>12.2 Evaluation Pipeline</h3>
+        <pre><code>POST /api/evaluate  { question, answer, ground_truth }
+    │
+    ▼
+BusinessInsightEvaluator.evaluate_response()
+    ├── Assemble rubric prompt
+    ├── Call GPT-3.5-turbo
+    ├── Parse scores: r"(accuracy|completeness|relevance|business_value):\s*(\d+)"
+    ├── Identify improvement areas (threshold-based)
+    └── Append to metrics_history
+    │
+    ▼
+{
+  metrics:           { accuracy: 4.2, completeness: 3.8, relevance: 4.5, business_value: 3.9 },
+  feedback:          "The response demonstrates...",
+  improvement_areas: ["Consider adding quantitative specifics..."]
+}</code></pre>
+
+        <h3>12.3 Monitoring Signals</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Signal</th><th>Source</th></tr></thead>
+            <tbody>
+            <tr><td>User ratings (1–5 stars)</td><td><code>feedback</code> table</td></tr>
+            <tr><td>Per-session feedback text</td><td><code>feedback</code> table</td></tr>
+            <tr><td>QAEvalChain score history</td><td><code>metrics_history</code> in-memory list</td></tr>
+            <tr><td>Token usage</td><td>OpenAI callback per request</td></tr>
+            </tbody>
+        </table></div>
+    </div>
+
+    <!-- §13 API Reference -->
+    <div class="section" id="api-reference">
+        <h2 class="section-title"><span class="sec-num">13</span>API Reference</h2>
+
+        <h3>13.1 Endpoint Catalog</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+            <tbody>
+            <tr><td><code>POST</code></td><td><code>/api/query</code></td><td>Classify → route → RAG/SQL/chart → respond</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/analytics</code></td><td>DuckDB SQL analytics query</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/dashboard/metrics</code></td><td>Summary metrics + 6 chart datasets</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/chart/{metric_id}</code></td><td>Generate chart spec for a saved metric</td></tr>
+            <tr><td><code>POST</code></td><td><code>/api/upload</code></td><td>Upload CSV/Excel data file</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/session/{id}</code></td><td>Retrieve session with full message history</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/history</code></td><td>List all sessions (newest first)</td></tr>
+            <tr><td><code>POST</code></td><td><code>/api/feedback</code></td><td>Submit star rating + feedback text</td></tr>
+            <tr><td><code>GET</code></td><td><code>/api/feedback/{session_id}</code></td><td>Retrieve all feedback for a session</td></tr>
+            <tr><td><code>POST</code></td><td><code>/api/evaluate</code></td><td>Run QAEvalChain evaluation</td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>13.2 POST /api/query — Primary Query Endpoint</h3>
+        <pre><span class="lang-label">json</span><code>{
+  <span class="str">"query"</span>: <span class="str">"What are the top-performing products by region?"</span>,
+  <span class="str">"session_id"</span>: <span class="str">"uuid-optional"</span>
+}
+
+<span class="cm">// Response:</span>
+{
+  <span class="str">"answer"</span>: <span class="str">"Widget B leads in the East region with 28% market share..."</span>,
+  <span class="str">"citations"</span>: [<span class="str">"Regional summary chunk"</span>, <span class="str">"Product analysis chunk"</span>],
+  <span class="str">"chart_spec"</span>: { <span class="str">"type"</span>: <span class="str">"bar"</span>, <span class="str">"data"</span>: [...], <span class="str">"title"</span>: <span class="str">"..."</span> },
+  <span class="str">"follow_up_questions"</span>: [<span class="str">"What is Widget B's satisfaction score in the East?"</span>],
+  <span class="str">"session_id"</span>: <span class="str">"uuid-generated"</span>,
+  <span class="str">"type"</span>: <span class="str">"rag"</span>
+}</code></pre>
+    </div>
+
+
+
+    <!-- §15 Deployment -->
+    <div class="section" id="deployment">
+        <h2 class="section-title"><span class="sec-num">15</span>Configuration &amp; Deployment</h2>
+
+        <h3>15.1 Environment Variables</h3>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Variable</th><th>Purpose</th><th>Example</th></tr></thead>
+            <tbody>
+            <tr><td><code>DATABASE_URL</code></td><td>PostgreSQL connection</td><td><code>postgresql+psycopg2://user:pass@localhost:5432/insightforge</code></td></tr>
+            <tr><td><code>OPENAI_API_KEY</code></td><td>OpenAI authentication</td><td><code>sk-...</code></td></tr>
+            <tr><td><code>OPENAI_BASE_URL</code></td><td>API endpoint (proxy-friendly)</td><td><code>https://openai.vocareum.com/v1</code></td></tr>
+            </tbody>
+        </table></div>
+
+        <h3>15.2 Deployment Steps</h3>
+        <pre><span class="lang-label">bash</span><code><span class="cm"># 1. Python environment</span>
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+
+<span class="cm"># 2. Database setup</span>
+createdb insightforge
+cd backend &amp;&amp; alembic upgrade head
+
+<span class="cm"># 3. Environment variables</span>
+cp backend/.env.example backend/.env
+<span class="cm"># Set DATABASE_URL and OPENAI_API_KEY</span>
+
+<span class="cm"># 4. Frontend dependencies</span>
+cd ../frontend &amp;&amp; npm install
+
+<span class="cm"># 5. Start all services</span>
+./run_all.sh
+<span class="cm"># Backend  → http://localhost:9100</span>
+<span class="cm"># Frontend → http://localhost:3000</span>
+<span class="cm"># API docs → http://localhost:9100/docs</span></code></pre>
+    </div>
+
+
+    <hr />
+
+    <!-- ══════════════════════════════════════
+         PART 2 — BLOG POST
+    ══════════════════════════════════════════ -->
+
+    <div class="section" id="blog-eval">
+        <h2 class="blog-section-title">Measuring Quality with QAEvalChain</h2>
+        <p>Building the system is only half the work. Knowing whether it's <em>good</em> requires an evaluation framework.</p>
+        <p>InsightForge implements a QAEvalChain-style evaluator that scores responses across four dimensions (each 1–5) using GPT-3.5-turbo as the judge:</p>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Dimension</th><th>What It Measures</th></tr></thead>
+            <tbody>
+            <tr><td>Accuracy</td><td>Factual correctness vs. ground truth</td></tr>
+            <tr><td>Completeness</td><td>Coverage of all relevant aspects</td></tr>
+            <tr><td>Relevance</td><td>How directly it addresses the question</td></tr>
+            <tr><td>Business Value</td><td>Actionability and strategic utility</td></tr>
+            </tbody>
+        </table></div>
+        <p>Scores below 3.0 are flagged as critical; below 4.0 as advisory. This creates a continuous improvement loop — every poor-scoring response points to a specific, fixable gap.</p>
+    </div>
+
+    <div class="section" id="blog-lessons">
+        <h2 class="blog-section-title">Key Lessons Learned</h2>
+        <div class="lesson"><span class="lesson-num">Lesson 1</span><p><strong>Smart routing beats universal RAG.</strong> Not every question deserves an LLM call. Routing simple aggregations to DuckDB SQL cuts latency by ~95% for those queries with no quality loss.</p></div>
+        <div class="lesson"><span class="lesson-num">Lesson 2</span><p><strong>Domain-semantic chunking beats fixed-size windows.</strong> Chunks that represent complete business domains retrieve far more precisely than arbitrary 512-token text slices. The chunk carries <em>intent</em>.</p></div>
+        <div class="lesson"><span class="lesson-num">Lesson 3</span><p><strong>Temperature matters more than model version.</strong> GPT-4 at temperature=0.2 for analysis; GPT-3.5 at temperature=0.3 for generation. Low temperature is what delivers factual accuracy.</p></div>
+        <div class="lesson"><span class="lesson-num">Lesson 4</span><p><strong>Memory is what separates Q&amp;A from analysis.</strong> Users naturally ask multi-turn questions. The dual-layer architecture — short-term buffer plus long-term summaries — is what makes InsightForge feel like a genuine analyst.</p></div>
+        <div class="lesson"><span class="lesson-num">Lesson 5</span><p><strong>Evaluation is not an afterthought.</strong> Without a scoring framework, there's no feedback loop. Building QAEvalChain in from the start created a reliable signal for where the system was failing and why.</p></div>
+        <div class="lesson"><span class="lesson-num">Lesson 6</span><p><strong>Structured prompts beat longer prompts.</strong> The four-section output format (Findings → Analysis → Implications → Recommendations) consistently outperforms longer unstructured prompts.</p></div>
+    </div>
+
+
+    <div class="section" id="blog-conclusion">
+        <h2 class="blog-section-title">Conclusion</h2>
+        <p>InsightForge shows that combining RAG, LLMs, and classical analytics tools solves a real-world problem: making business intelligence accessible without enterprise budgets or dedicated data teams.</p>
+        <p>The key insight: each technology does what it does best. DuckDB handles SQL. scikit-learn handles clustering. The LLM handles intent understanding and communication. Memory makes it conversational. Evaluation makes it trustworthy. Structured prompting makes it actionable.</p>
+        <p>That division of responsibility — not a single monolithic LLM call for everything — is what transforms a language model into a genuine business intelligence assistant.</p>
+
+        <div class="doc-footer">
+            <span>Built with LangChain · RAG · OpenAI GPT-4 · FastAPI · Next.js</span>
+            <span>April 2026</span>
+        </div>
+    </div>
+
+</main>
+
+<!-- Active TOC link highlighting -->
+<script>
+    const sections = document.querySelectorAll('.section[id]');
+    const links    = document.querySelectorAll('#toc a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                links.forEach(l => l.classList.remove('active'));
+                const id = entry.target.id;
+                const active = document.querySelector(`#toc a[href="#${id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -75% 0px' });
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

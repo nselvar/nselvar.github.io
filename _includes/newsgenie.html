@@ -38,7 +38,7 @@
                             NewsGenie implements a three-level fallback chain: GNews → DuckDuckGo → graceful message.
                         </li>
                     </ul>
- 
+
                     <h3 id="1-2-system-goals">1.2 System Goals</h3>
                     <table>
                         <thead>
@@ -259,8 +259,8 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
 
                 <hr>
 
-                <h2 id="4-newsgeniestate-the-shared-notepad">4. NewsGenieState — The Shared Notepad</h2>
-                <h3 id="4-1-the-central-design-decision">4.1 The Central Design Decision</h3>
+                <h3 id="4-newsgeniestate-the-shared-notepad">4. NewsGenieState — The Shared Notepad</h3>
+                <h4 id="4-1-the-central-design-decision">4.1 The Central Design Decision</h4>
                 <p>
                     The most important architectural decision in NewsGenie is that <strong>all inter-agent communication happens
                     through a single shared state object</strong> — no agent ever calls another agent directly.
@@ -269,7 +269,7 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
                 <p><code>NewsGenieState</code> is defined as a Python <code>TypedDict</code> in <code>state.py</code>:</p>
                 <figure style="text-align:center;">
                     <img src="../../assets/images/state-ai.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
-                         style="width:85%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
+                         style="width:50%;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.25);">
                 </figure>
 
                 <h3 id="4-4-state-lifecycle">4.2 State Lifecycle</h3>
