@@ -15,7 +15,7 @@ I am an AI & Machine Learning Engineer based in San Francisco, California, with 
 I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and Retrieval-Augmented Generation (RAG), integrating large language models with real data sources, memory systems, and evaluation frameworks. I believe the most impactful AI systems are not the ones powered by the biggest models, but the ones with the most thoughtful architecture.
 
 <div style="text-align:center;">
-<img src="../../assets/images/myphoto.jpeg" width="50%" alt="Nisha Selvarajan" title="Nisha Selvarajan">
+<img src="../../assets/images/myphoto.jpeg" width="25%" alt="Nisha Selvarajan" title="Nisha Selvarajan">
 </div>
 
 <h2 class='about-h2'>Education</h2>
