@@ -1,323 +1,306 @@
 <style>
-    /* ── Reset & Base ─────────────────────────────────────────── */
-    :root {
-        --bg:        #0a0a0f;
-        --surface:   #12121a;
-        --surface2:  #1a1a26;
-        --border:    rgba(255,255,255,0.08);
-        --text:      #e8e8f0;
-        --muted:     #8888aa;
-        --blue:      #60a5fa;
-        --violet:    #a78bfa;
-        --green:     #34d399;
-        --orange:    #fb923c;
-        --pink:      #f472b6;
-        --code-bg:   #0d1117;
-        --toc-w:     260px;
-        --max-w:     860px;
+    /* ── InsightForge scoped vars ─────────────────────────────── */
+    .if-wrapper {
+        --if-bg:        #ffffff;
+        --if-surface:   #f5f5f5;
+        --if-surface2:  #ececec;
+        --if-border:    #dddddd;
+        --if-text:      #222222;
+        --if-muted:     #666666;
+        --if-accent:    #03425c;
+        --if-code-bg:   #f6f6f6;
+        --if-toc-w:     240px;
+        --if-max-w:     860px;
     }
     html { scroll-behavior: smooth; }
+
+    /* ── Wrapper layout ───────────────────────────────────────── */
+    .if-wrapper {
+        display: flex;
+        width: 100%;
+        background: #ffffff;
+        color: #222222;
+        font-family: Avenir, 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-size: 15px;
+        line-height: 1.75;
+    }
 
     /* ── Sidebar TOC ──────────────────────────────────────────── */
     #if-toc {
         position: fixed;
-        top: 0; left: 0;
-        width: var(--toc-w);
-        height: 100vh;
+        top: 50px;
+        left: 0;
+        width: var(--if-toc-w);
+        height: calc(100vh - 50px);
         overflow-y: auto;
-        background: var(--surface);
-        border-right: 1px solid var(--border);
-        padding: 24px 0 40px;
-        z-index: 100;
+        background: #ffffff;
+        border-right: 1px solid #dddddd;
+        padding: 20px 0 40px;
+        z-index: 99;
         scrollbar-width: thin;
-        scrollbar-color: var(--border) transparent;
+        scrollbar-color: #dddddd transparent;
     }
     #if-toc::-webkit-scrollbar { width: 4px; }
     #if-toc::-webkit-scrollbar-track { background: transparent; }
-    #if-toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    #if-toc::-webkit-scrollbar-thumb { background: #dddddd; border-radius: 2px; }
+
     .if-toc-logo {
-        padding: 0 20px 20px;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 16px;
+        padding: 0 16px 16px;
+        border-bottom: 1px solid #dddddd;
+        margin-bottom: 12px;
     }
     .if-toc-logo span {
         display: block;
         font-size: 13px;
         font-weight: 700;
-        letter-spacing: .12em;
+        letter-spacing: .08em;
         text-transform: uppercase;
-        background: linear-gradient(135deg, var(--blue), var(--violet));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #03425c;
     }
     .if-toc-logo small {
         display: block;
         font-size: 11px;
-        color: var(--muted);
-        margin-top: 3px;
-        -webkit-text-fill-color: var(--muted);
+        color: #666666;
+        margin-top: 2px;
     }
     .if-toc-section-label {
-        padding: 10px 20px 4px;
+        padding: 10px 16px 4px;
         font-size: 10px;
         font-weight: 700;
-        letter-spacing: .12em;
+        letter-spacing: .1em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: #999999;
     }
     #if-toc a {
         display: block;
-        padding: 5px 20px;
+        padding: 5px 16px;
         font-size: 12.5px;
-        color: var(--muted);
+        color: #444444;
         text-decoration: none;
         border-left: 2px solid transparent;
         transition: all .15s;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-family: Avenir, sans-serif;
     }
-    #if-toc a:hover, #if-toc a.active {
-        color: var(--blue);
-        border-left-color: var(--blue);
-        background: rgba(96,165,250,.06);
+    #if-toc a:hover,
+    #if-toc a.active {
+        color: #03425c;
+        border-left-color: #03425c;
+        background: rgba(3,66,92,.06);
+        text-decoration: none;
     }
-    #if-toc a.sub {
-        padding-left: 32px;
-        font-size: 12px;
-    }
-    #if-toc a.blog-link:hover, #if-toc a.blog-link.active {
-        color: var(--violet);
-        border-left-color: var(--violet);
-        background: rgba(167,139,250,.06);
+    #if-toc a.if-blog-link:hover,
+    #if-toc a.if-blog-link.active {
+        color: #03425c;
+        border-left-color: #03425c;
+        background: rgba(3,66,92,.04);
     }
     .if-toc-divider {
-        margin: 12px 20px;
+        margin: 10px 16px;
         border: none;
-        border-top: 1px solid var(--border);
+        border-top: 1px solid #dddddd;
     }
 
     /* ── Main Content ─────────────────────────────────────────── */
     #if-content {
-        margin-left: var(--toc-w);
+        margin-left: var(--if-toc-w);
         flex: 1;
         min-width: 0;
-        padding: 56px clamp(24px, 5vw, 64px) 100px;
-        max-width: calc(var(--toc-w) + var(--max-w) + 128px);
+        padding: 32px clamp(20px, 4vw, 56px) 80px;
+        max-width: calc(var(--if-toc-w) + var(--if-max-w) + 112px);
     }
 
     /* ── Page Header ──────────────────────────────────────────── */
     .if-page-header {
-        margin-bottom: 56px;
-        padding-bottom: 40px;
-        border-bottom: 1px solid var(--border);
+        margin-bottom: 40px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid #dddddd;
     }
     .if-page-header h1 {
-        font-size: clamp(26px, 4vw, 38px);
+        font-size: clamp(24px, 3.5vw, 34px);
         font-weight: 800;
-        background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 50%, var(--green) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #03425c;
         line-height: 1.2;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+        font-family: Avenir, sans-serif;
     }
     .if-page-header p {
-        color: var(--muted);
-        font-size: 15px;
+        color: #666666;
+        font-size: 14px;
     }
-    .if-badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .if-badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .if-badge {
         font-size: 11px;
         font-weight: 600;
         padding: 3px 10px;
         border-radius: 20px;
         letter-spacing: .04em;
+        border: 1px solid #dddddd;
+        color: #444444;
+        background: #f5f5f5;
     }
-    .if-badge-blue   { background: rgba(96,165,250,.15); color: var(--blue); border: 1px solid rgba(96,165,250,.25); }
-    .if-badge-violet { background: rgba(167,139,250,.15); color: var(--violet); border: 1px solid rgba(167,139,250,.25); }
-    .if-badge-green  { background: rgba(52,211,153,.15); color: var(--green); border: 1px solid rgba(52,211,153,.25); }
-    .if-badge-orange { background: rgba(251,146,60,.15); color: var(--orange); border: 1px solid rgba(251,146,60,.25); }
-
-    /* ── Part Dividers ────────────────────────────────────────── */
-    .if-part-header {
-        margin: 64px 0 40px;
-        padding: 24px 28px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        position: relative;
-        overflow: hidden;
-    }
-    .if-part-header::before {
-        content: '';
-        position: absolute; inset: 0;
-        opacity: .06;
-    }
-    .if-part-header.tech::before  { background: linear-gradient(135deg, var(--blue), var(--green)); }
-    .if-part-header.blog::before  { background: linear-gradient(135deg, var(--violet), var(--pink)); }
-    .if-part-header h2 {
-        font-size: 22px;
-        font-weight: 700;
-        margin: 0;
-    }
-    .if-part-header.tech h2  { color: var(--blue); }
-    .if-part-header.blog h2  { color: var(--violet); }
-    .if-part-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
     /* ── Section Headings ─────────────────────────────────────── */
     .if-section {
-        margin-bottom: 56px;
-        scroll-margin-top: 24px;
+        margin-bottom: 48px;
+        scroll-margin-top: 70px;
     }
     h2.if-section-title {
-        font-size: 22px;
+        font-size: 1.4em;
         font-weight: 700;
-        color: var(--text);
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--border);
+        color: #222222;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #dddddd;
         display: flex;
         align-items: center;
         gap: 10px;
+        font-family: Avenir, sans-serif;
     }
     h2.if-section-title .if-sec-num {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
-        padding: 2px 8px;
-        border-radius: 6px;
-        background: rgba(96,165,250,.12);
-        color: var(--blue);
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: #ececec;
+        color: #03425c;
         flex-shrink: 0;
     }
     h2.if-blog-section-title {
-        font-size: 22px;
+        font-size: 1.4em;
         font-weight: 700;
-        color: var(--text);
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--border);
+        color: #222222;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #dddddd;
+        font-family: Avenir, sans-serif;
     }
     .if-section h3 {
-        font-size: 16px;
+        font-size: 1.1em;
         font-weight: 600;
-        color: var(--text);
-        margin: 28px 0 12px;
+        color: #222222;
+        margin: 24px 0 10px;
+        font-family: Avenir, sans-serif;
     }
     .if-section h3::before {
         content: '›';
-        color: var(--blue);
-        margin-right: 8px;
-        font-size: 18px;
+        color: #03425c;
+        margin-right: 7px;
+        font-size: 1.1em;
     }
 
     /* ── Typography ───────────────────────────────────────────── */
-    .if-section p { margin-bottom: 14px; color: var(--text); }
-    .if-section strong { color: #fff; font-weight: 600; }
-    .if-section em { color: var(--muted); font-style: italic; }
-    .if-section a { color: var(--blue); text-decoration: none; }
+    .if-section p  { margin-bottom: 14px; color: #222222; }
+    .if-section strong { color: #111111; font-weight: 700; }
+    .if-section em { color: #555555; font-style: italic; }
+    .if-section a  { color: #03425c; text-decoration: none; }
     .if-section a:hover { text-decoration: underline; }
-    .if-section ul, .if-section ol { padding-left: 22px; margin-bottom: 14px; }
+    .if-section ul, .if-section ol { padding-left: 22px; margin-bottom: 14px; color: #222222; }
     .if-section li { margin-bottom: 5px; }
-    .if-section hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+    .if-section hr { border: none; border-top: 1px solid #dddddd; margin: 32px 0; }
 
     /* ── Inline Code ──────────────────────────────────────────── */
     .if-section code {
-        font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-        font-size: 13px;
-        background: rgba(255,255,255,.07);
-        color: var(--green);
-        padding: 2px 6px;
-        border-radius: 4px;
-        border: 1px solid var(--border);
+        font-family: 'Menlo', 'Consolas', 'Andale Mono', monospace;
+        font-size: .88em;
+        background: #f0f0f0;
+        color: #03425c;
+        padding: 2px 5px;
+        border-radius: 3px;
+        border: 1px solid #e0e0e0;
     }
 
     /* ── Code Blocks ──────────────────────────────────────────── */
     .if-section pre {
-        background: var(--code-bg);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 20px 22px;
+        background: #f6f6f6;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 16px 18px;
         overflow-x: auto;
-        margin: 16px 0 20px;
+        margin: 14px 0 18px;
         position: relative;
     }
     .if-section pre code {
         background: none;
         border: none;
         padding: 0;
-        color: #c9d1d9;
-        font-size: 13px;
-        line-height: 1.7;
+        color: #333333;
+        font-size: .87em;
+        line-height: 1.65;
     }
     .if-lang-label {
         position: absolute;
-        top: 10px; right: 14px;
+        top: 8px; right: 12px;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: var(--muted);
-        opacity: .7;
+        color: #999999;
     }
-    /* Syntax highlight tokens */
-    .if-section .kw  { color: #ff7b72; }
-    .if-section .fn  { color: #d2a8ff; }
-    .if-section .str { color: #a5d6ff; }
-    .if-section .cm  { color: #8b949e; font-style: italic; }
-    .if-section .num { color: #79c0ff; }
-    .if-section .op  { color: #ff7b72; }
-    .if-section .cls { color: #ffa657; }
-    .if-section .var { color: #c9d1d9; }
+    /* Syntax highlight tokens — readable on white */
+    .if-section .kw  { color: #d73a49; }
+    .if-section .fn  { color: #6f42c1; }
+    .if-section .str { color: #032f62; }
+    .if-section .cm  { color: #6a737d; font-style: italic; }
+    .if-section .num { color: #005cc5; }
+    .if-section .op  { color: #d73a49; }
+    .if-section .cls { color: #e36209; }
+    .if-section .var { color: #24292e; }
 
     /* ── Tables ───────────────────────────────────────────────── */
-    .if-table-wrap { overflow-x: auto; margin: 16px 0 20px; border-radius: 10px; border: 1px solid var(--border); }
+    .if-table-wrap { overflow-x: auto; margin: 14px 0 18px; border-radius: 6px; border: 1px solid #e0e0e0; }
     .if-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-    .if-table-wrap thead tr { background: var(--surface2); }
+    .if-table-wrap thead tr { background: #f5f5f5; }
     .if-table-wrap thead th {
-        padding: 11px 16px;
+        padding: 9px 14px;
         text-align: left;
-        font-weight: 600;
-        font-size: 12px;
-        letter-spacing: .04em;
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: .05em;
         text-transform: uppercase;
-        color: var(--muted);
-        border-bottom: 1px solid var(--border);
+        color: #555555;
+        border-bottom: 1px solid #e0e0e0;
     }
-    .if-table-wrap tbody tr { border-bottom: 1px solid var(--border); transition: background .12s; }
+    .if-table-wrap tbody tr { border-bottom: 1px solid #efefef; transition: background .1s; }
     .if-table-wrap tbody tr:last-child { border-bottom: none; }
-    .if-table-wrap tbody tr:hover { background: rgba(255,255,255,.02); }
-    .if-table-wrap tbody td { padding: 10px 16px; vertical-align: top; }
-    .if-table-wrap tbody td code { font-size: 12px; }
+    .if-table-wrap tbody tr:hover { background: #fafafa; }
+    .if-table-wrap tbody td { padding: 9px 14px; vertical-align: top; color: #222222; }
+    .if-table-wrap tbody td code { font-size: .85em; }
 
     /* ── Callout / Blockquote ─────────────────────────────────── */
     .if-section blockquote {
-        border-left: 3px solid var(--violet);
-        background: rgba(167,139,250,.06);
-        padding: 14px 18px;
-        border-radius: 0 8px 8px 0;
-        margin: 16px 0;
+        border-left: 3px solid #03425c;
+        background: rgba(3,66,92,.04);
+        padding: 12px 16px;
+        border-radius: 0 4px 4px 0;
+        margin: 14px 0;
         font-style: italic;
-        color: #c4b5fd;
+        color: #444444;
     }
+    .if-section blockquote::before { display: none; }
 
     /* ── Info Card ────────────────────────────────────────────── */
     .if-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 18px 22px;
-        margin: 18px 0;
+        background: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 16px 20px;
+        margin: 16px 0;
+        color: #222222;
     }
-    .if-card.blue  { border-left: 3px solid var(--blue); }
-    .if-card.green { border-left: 3px solid var(--green); }
-    .if-card.violet{ border-left: 3px solid var(--violet); }
+    .if-card p { margin: 0; color: #222222; }
+    .if-card.blue   { border-left: 3px solid #03425c; }
+    .if-card.violet { border-left: 3px solid #555555; }
 
     /* ── Lesson items ─────────────────────────────────────────── */
     .if-lesson {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin: 12px 0;
+        background: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 14px 18px;
+        margin: 10px 0;
     }
     .if-lesson-num {
         display: inline-block;
@@ -325,41 +308,29 @@
         font-weight: 700;
         padding: 2px 8px;
         border-radius: 20px;
-        background: rgba(167,139,250,.15);
-        color: var(--violet);
+        background: #ececec;
+        color: #03425c;
         margin-bottom: 6px;
     }
-    .if-lesson p { margin: 0; }
+    .if-lesson p { margin: 0; color: #222222; }
 
     /* ── Footer ───────────────────────────────────────────────── */
     .if-doc-footer {
-        margin-top: 64px;
-        padding-top: 24px;
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-        font-size: 12.5px;
+        margin-top: 56px;
+        padding-top: 20px;
+        border-top: 1px solid #dddddd;
+        color: #888888;
+        font-size: 12px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 8px;
     }
 
-    /* ── Wrapper layout ───────────────────────────────────────── */
-    .if-wrapper {
-        display: flex;
-        width: 100%;
-        background: var(--bg);
-        color: var(--text);
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        font-size: 15px;
-        line-height: 1.75;
-        min-height: 100vh;
-    }
-
     /* ── Responsive ───────────────────────────────────────────── */
     @media (max-width: 768px) {
         #if-toc { display: none; }
-        #if-content { margin-left: 0; padding: 28px 18px 60px; }
+        #if-content { margin-left: 0; padding: 24px 16px 60px; }
     }
 </style>
 
@@ -374,34 +345,42 @@
         <small>Technical Doc &amp; Blog Post</small>
     </div>
 
-    <div class="if-toc-section-label">Part 1 — Technical Doc</div>
+    <div class="if-toc-section-label">Technical Doc</div>
     <a href="#if-problem-statement">1. Problem Statement</a>
     <a href="#if-project-overview">2. Project Overview</a>
-    <a href="#if-system-architecture">3. System Architecture</a>
-    <a href="#if-technology-stack">4. Technology Stack</a>
-    <a href="#if-data-architecture">5. Data Architecture &amp; Schema</a>
-    <a href="#if-core-components">6. Core Components</a>
-    <a href="#if-rag-system">7. RAG System Design</a>
-    <a href="#if-memory">8. Memory Integration</a>
-    <a href="#if-llm-orchestration">9. LLM &amp; Prompt Engineering</a>
-    <a href="#if-analytics-engine">10. Analytics Engine</a>
-    <a href="#if-evaluation">12. Model Evaluation &amp; LLMOps</a>
-    <a href="#if-api-reference">13. API Reference</a>
-    <a href="#if-deployment">15. Configuration &amp; Deployment</a>
 
     <hr class="if-toc-divider" />
 
-    <div class="if-toc-section-label">Part 2 — Blog Post</div>
-    <a href="#if-blog-problem" class="blog-link">The Problem</a>
-    <a href="#if-blog-what" class="blog-link">What Is InsightForge?</a>
-    <a href="#if-blog-architecture" class="blog-link">Architecture</a>
-    <a href="#if-blog-knowledge" class="blog-link">Knowledge Base</a>
-    <a href="#if-blog-router" class="blog-link">Smart Query Router</a>
-    <a href="#if-blog-memory" class="blog-link">Memory</a>
-    <a href="#if-blog-prompts" class="blog-link">Prompt Engineering</a>
-    <a href="#if-blog-eval" class="blog-link">QAEvalChain</a>
-    <a href="#if-blog-lessons" class="blog-link">Key Lessons</a>
-    <a href="#if-blog-conclusion" class="blog-link">Conclusion</a>
+    <div class="if-toc-section-label">Blog Post</div>
+    <a href="#if-blog-problem" class="if-blog-link">The Problem</a>
+    <a href="#if-blog-what" class="if-blog-link">What Is InsightForge?</a>
+    <a href="#if-blog-architecture" class="if-blog-link">Architecture</a>
+    <a href="#if-blog-knowledge" class="if-blog-link">Knowledge Base</a>
+    <a href="#if-blog-router" class="if-blog-link">Smart Query Router</a>
+    <a href="#if-blog-memory" class="if-blog-link">Memory</a>
+    <a href="#if-blog-prompts" class="if-blog-link">Prompt Engineering</a>
+
+    <hr class="if-toc-divider" />
+
+    <div class="if-toc-section-label">Technical Doc (cont.)</div>
+    <a href="#if-system-architecture">3. System Architecture</a>
+    <a href="#if-technology-stack">4. Technology Stack</a>
+    <a href="#if-data-architecture">5. Data Architecture</a>
+    <a href="#if-core-components">6. Core Components</a>
+    <a href="#if-rag-system">7. RAG System</a>
+    <a href="#if-memory">8. Memory Integration</a>
+    <a href="#if-llm-orchestration">9. LLM &amp; Prompts</a>
+    <a href="#if-analytics-engine">10. Analytics Engine</a>
+    <a href="#if-evaluation">11. Evaluation &amp; LLMOps</a>
+    <a href="#if-api-reference">12. API Reference</a>
+    <a href="#if-deployment">13. Deployment</a>
+
+    <hr class="if-toc-divider" />
+
+    <div class="if-toc-section-label">Blog Post (cont.)</div>
+    <a href="#if-blog-eval" class="if-blog-link">QAEvalChain</a>
+    <a href="#if-blog-lessons" class="if-blog-link">Key Lessons</a>
+    <a href="#if-blog-conclusion" class="if-blog-link">Conclusion</a>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -414,22 +393,22 @@
         <h1>InsightForge</h1>
         <p>AI-Powered Business Intelligence Assistant — Comprehensive Technical Document &amp; Blog Post</p>
         <div class="if-badge-row">
-            <span class="if-badge if-badge-blue">LangChain</span>
-            <span class="if-badge if-badge-blue">RAG</span>
-            <span class="if-badge if-badge-violet">LangGraph</span>
-            <span class="if-badge if-badge-violet">OpenAI GPT-4</span>
-            <span class="if-badge if-badge-green">FastAPI</span>
-            <span class="if-badge if-badge-green">pgvector</span>
-            <span class="if-badge if-badge-orange">Next.js 13</span>
-            <span class="if-badge if-badge-orange">Nivo Charts</span>
+            <span class="if-badge">LangChain</span>
+            <span class="if-badge">RAG</span>
+            <span class="if-badge">LangGraph</span>
+            <span class="if-badge">OpenAI GPT-4</span>
+            <span class="if-badge">FastAPI</span>
+            <span class="if-badge">pgvector</span>
+            <span class="if-badge">Next.js 13</span>
+            <span class="if-badge">Nivo Charts</span>
         </div>
     </div>
 
-    <div style="margin-bottom:8px;">
-        <h1 style="font-size:clamp(22px,3.5vw,32px);font-weight:800;color:var(--text);line-height:1.25;margin-bottom:6px;">
+    <div style="margin-bottom:24px;">
+        <h1 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:#222222;line-height:1.25;margin-bottom:6px;font-family:Avenir,sans-serif;">
             Building InsightForge: A Conversational BI Assistant with LangChain, RAG, and LLMs
         </h1>
-        <p style="color:var(--muted);font-size:14px;font-style:italic;">From raw CSV data to natural-language insights — the architecture decisions, lessons learned, and why each choice matters.</p>
+        <p style="color:#666666;font-size:14px;font-style:italic;">From raw CSV data to natural-language insights — the architecture decisions, lessons learned, and why each choice matters.</p>
     </div>
 
     <!-- §1 Problem Statement -->
