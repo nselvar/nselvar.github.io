@@ -14,8 +14,8 @@ I am an AI & Machine Learning Engineer based in San Francisco, California, with 
 
 I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and Retrieval-Augmented Generation (RAG), integrating large language models with real data sources, memory systems, and evaluation frameworks. I believe the most impactful AI systems are not the ones powered by the biggest models, but the ones with the most thoughtful architecture.
 
-<div class='image'>
-<img src="../../assets/images/myphoto.jpeg" width="100%" alt="Nisha Selvarajan" title="Nisha Selvarajan">
+<div style="text-align:center;">
+<img src="../../assets/images/myphoto.jpeg" width="50%" alt="Nisha Selvarajan" title="Nisha Selvarajan">
 </div>
 
 <h2 class='about-h2'>Education</h2>
@@ -145,58 +145,43 @@ I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and
     </div>
   </div>
 
-  <div class='skills'>
-    <div class='skills-col'>
-      <div class="skills-cat">Programming</div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/python.png" width="30" alt="Python" title="Python">
-        Python
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/r.png" width="30" alt="R" title="R">
-        R
-      </div>
+  <div style="margin-bottom:1.2em;">
+    <div class="skills-cat">Programming</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Python</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">R</span>
     </div>
-    <div class='skills-col'>
-      <div class="skills-cat">ML / DL</div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/sklearn.png" width="30" alt="Scikit Learn" title="Scikit Learn">
-        Scikit Learn
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/tf.png" width="30" alt="TensorFlow" title="TensorFlow">
-        TensorFlow
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/keras.png" width="30" alt="Keras" title="Keras">
-        Keras
-      </div>
+  </div>
+
+  <div style="margin-bottom:1.2em;">
+    <div class="skills-cat">ML / DL</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Scikit Learn</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">TensorFlow</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Keras</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Deep Learning</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Neural Networks</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">NLP</span>
     </div>
-    <div class='skills-col'>
-      <div class="skills-cat">Data & Analytics</div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/pandas.png" width="30" alt="Pandas" title="Pandas">
-        Pandas
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/np.png" width="30" alt="NumPy" title="NumPy">
-        NumPy
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/scipy.png" width="30" alt="SciPy" title="SciPy">
-        SciPy
-      </div>
+  </div>
+
+  <div style="margin-bottom:1.2em;">
+    <div class="skills-cat">Data & Analytics</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Pandas</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">NumPy</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">SciPy</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Statistical Analysis</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Feature Engineering</span>
     </div>
-    <div class='skills-col'>
-      <div class="skills-cat">Visualization</div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/matplotlib.png" width="30" alt="Matplotlib" title="Matplotlib">
-        Matplotlib
-      </div>
-      <div class="skills-item">
-        <img src="../../assets/images/icons/plotly.png" width="30" alt="Plotly" title="Plotly">
-        Plotly
-      </div>
+  </div>
+
+  <div style="margin-bottom:0.5em;">
+    <div class="skills-cat">Visualization</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Matplotlib</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Plotly</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Nivo Charts</span>
     </div>
   </div>
 
