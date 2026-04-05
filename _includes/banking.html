@@ -295,6 +295,58 @@
     }
 
     /* ── Footer ───────────────────────────────────────────────── */
+    /* ── Demo Video ───────────────────────────────────────────── */
+    .sb-demo-wrap {
+        margin: 20px 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .sb-demo-wrap video {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 560px;
+    }
+
+    /* ── Source Code Callout ──────────────────────────────────── */
+    .sb-source-callout {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid #03425c;
+        border-radius: 6px;
+        padding: 16px 20px;
+        margin: 24px 0 20px;
+        color: #03425c;
+    }
+    .sb-source-callout div { flex: 1; }
+    .sb-source-callout strong {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        color: #03425c;
+        margin-bottom: 4px;
+    }
+    .sb-source-callout p {
+        margin: 0 0 8px;
+        font-size: 13.5px;
+        color: #444444;
+    }
+    .sb-source-callout a {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #03425c;
+        text-decoration: none;
+        word-break: break-all;
+    }
+    .sb-source-callout a:hover { text-decoration: underline; }
+
+    /* ── Footer ───────────────────────────────────────────────── */
     .sb-doc-footer {
         margin-top: 56px;
         padding-top: 20px;
@@ -371,6 +423,7 @@
     <a href="#the-bigger-lesson">The Bigger Lesson</a>
     <a href="#what-i-would-do-differently">What I'd Change</a>
     <a href="#try-it-yourself">Try It Yourself</a>
+    <a href="#sb-demo">Live Demo</a>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -396,9 +449,9 @@
 
     <!-- ── Banking content (verbatim) ─────────────────────────── -->
     <div class="sb-section">
-<h1 id="i-built-a-multi-agent-ai-system-for-banking-customer-support-here-s-everything-i-learned">I Built a Multi-Agent AI System for Banking Customer Support — Here&#39;s Everything I Learned</h1>
+<h1 id="i-built-a-multi-agent-ai-system-for-banking-customer-support-here-s-everything-i-learned">Built a Multi-Agent AI System for  Customer Support — Here&#39;s Everything I Learned</h1>
 <blockquote>
-<p><strong>Capstone Project — Applied Generative AI Specialisation</strong><br>Stack: Claude · LangGraph · FAISS · MCP · FastAPI · React</p>
+<p><br>Stack: Claude · LangGraph · FAISS · MCP · FastAPI · React</p>
 </blockquote>
 <hr>
 <p>When a bank customer fires off &quot;My debit card hasn&#39;t arrived in three weeks!&quot;, something deceptively complex needs to happen. The system must understand that this is a complaint — not a question — empathise with the frustration, generate a unique ticket, persist it to a database, and respond with warmth and a reference number. All in under four seconds. All without a human in the loop.</p>
@@ -1761,6 +1814,32 @@ cd ../ui &amp;&amp; npm install &amp;&amp; npm <span class="hljs-keyword">run</s
 <p>Each message shows a different agent path, different tools called, and different confidence scores in the trace panel.</p>
 <hr>
     </div><!-- .sb-section -->
+
+    <!-- Live Demo -->
+    <div id="sb-demo" style="margin-bottom:48px;scroll-margin-top:70px;">
+        <h2 style="font-size:1.4em;font-weight:700;color:#222222;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #dddddd;font-family:Avenir,sans-serif;">Live Demo</h2>
+        <p style="margin-bottom:14px;color:#222222;">The video below walks through SecureBank AI end-to-end — sending customer messages, watching the agent graph route in real time, seeing tickets created automatically, and observing the RAG confidence score on policy queries.</p>
+        <div class="sb-demo-wrap">
+            <video controls playsinline preload="metadata">
+                <source src="/assets/videos/demoforbanking.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Source Code -->
+    <div class="sb-source-callout">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0;margin-top:1px;">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <div>
+            <strong>Source Code</strong>
+            <p>The full source code for SecureBank AI is available on GitHub. Refer to the repository for implementation details, setup instructions, and the complete codebase.</p>
+            <a href="https://github.com/nselvar/AICustomerSupport" target="_blank" rel="noopener noreferrer">
+                github.com/nselvar/AICustomerSupport
+            </a>
+        </div>
+    </div>
 
     <div class="sb-doc-footer">
         <span>SecureBank AI — Capstone Project Write-Up</span>
