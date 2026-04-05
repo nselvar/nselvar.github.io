@@ -1,7 +1,55 @@
+<style>
+.ya-wrap { display: flex; width: 100%; }
+#ya-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#ya-toc::-webkit-scrollbar { width: 4px; }
+#ya-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ya-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#ya-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#ya-toc a.indent { padding-left: 26px; }
+#ya-toc a:hover, #ya-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#ya-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#ya-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #ya-toc { display: none; } #ya-content { margin-left: 0; } }
+</style>
+<div class="ya-wrap">
+<nav id="ya-toc" aria-label="Table of Contents">
+  <div class="ya-toc-title">Contents</div>
+  <a href="#ya-title">Yelp Reviews — Naive Bayes</a>
+  <a href="#ya-requirements">Requirements</a>
+  <a href="#ya-dataset">Data Set</a>
+  <a href="#ya-naive-bayes-intro">Naive Bayes Overview</a>
+  <a href="#ya-data-description">Data Description</a>
+  <a href="#ya-naive-bayes">Naive Bayes Model</a>
+  <a href="#ya-results">Results & Prediction Accuracy</a>
+  <a href="#ya-insights">Overall Insights</a>
+</nav>
+<div id="ya-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">
+            <h2 class="text-center" id="ya-title">
                Naive Bayes - Predict Ratings based on Yelp Restaurant Reviews
             </h2>
             Does the Rating and Review match in Yelp? On famous websites like Amazon and Yelp, many products and businesses receive tens
@@ -17,7 +65,7 @@
             You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/PredictRatingsYelpReviews" rel="noopener noreferrer" target="_blank">Github repo</a>
 
 
-            <h4>Requirements</h4>
+            <h4 id="ya-requirements">Requirements</h4>
 
 
             <div class='card-section'>
@@ -51,7 +99,7 @@
             </div>
             
 
-            <h4>Data set</h4>
+            <h4 id="ya-dataset">Data set</h4>
 
             <p>
                 33K Rows, with 17 columns. You can download data on the link https://www.kaggle.com/shikhar42/yelps-dataset
@@ -162,14 +210,14 @@
             </table>
 
 
-            <h4>Using Naive Bayes to validate the review and ratings</h4>
+            <h4 id="ya-naive-bayes-intro">Using Naive Bayes to validate the review and ratings</h4>
 
 
             <p><strong><em>Does the Rating and Review match in Yelp?</em></strong> On famous websites like Amazon and Yelp, many products and businesses receive tens or hundreds of reviews, making it impossible for readers to read all of them.Generally, readers prefer to look at the star ratings only and ignore the text. However, the relationship between the text and the rating is not obvious. In particular, several questions may be asked: why exactly did this reviewer give the restaurant 3/5 stars? In addition to the quality of food, variety, size and service time, what other features of the restaurant did the user implicitly consider, and what was the relative importance given to each of them? How does this relationship change if we consider a different user’s rating and text review? The process of predicting this relationship for a generic user is called Review Rating Prediction</p>
             <p>The main challenge which we will solve is building a good predictor which effectivelys extract useful features of the product from the text reviews and then quantify their relative importance with respect to the rating.</p>
         </div>
         <div id="data-description" class="section level3">
-            <h3>Data Description</h3>
+            <h3 id="ya-data-description">Data Description</h3>
             <ul>
                 <li>33K Rows, with 17 columns. You can download data on the link <a href="https://www.kaggle.com/shikhar42/yelps-dataset" class="uri">https://www.kaggle.com/shikhar42/yelps-dataset</a></li>
             </ul>
@@ -297,7 +345,7 @@ kbl(df) %&gt;%
             </table>
         </div>
         <div id="using-naive-bayes-to-validate-the-review-and-ratings" class="section level3">
-            <h3>Using Naive Bayes to validate the review and ratings</h3>
+            <h3 id="ya-naive-bayes">Using Naive Bayes to validate the review and ratings</h3>
             <ul>
                 <li><strong><em>Step 1: import dataset</em></strong></li>
             </ul>
@@ -544,7 +592,7 @@ model</code></pre>
 ## ---------------------------------------------------------------------------------</code></pre>
         </div>
         <div id="interpretation-of-the-results-and-prediction-accuracy-achieved" class="section level3">
-            <h3>Interpretation of the results and prediction accuracy achieved</h3>
+            <h3 id="ya-results">Interpretation of the results and prediction accuracy achieved</h3>
             <ul>
                 <li><strong><em>Evaluate the model performance using confusionMatrix</em></strong></li>
                 <li>The accuracy of our model on the testing set is 72%.</li>
@@ -615,7 +663,7 @@ CrossTable(model_predict, dataset_test$positive,
 ## </code></pre>
         </div>
         <div id="overall-insights-obtained-from-the-implemented-project" class="section level3">
-            <h3>Overall insights obtained from the implemented project</h3>
+            <h3 id="ya-insights">Overall insights obtained from the implemented project</h3>
             <ul>
                 <li>Overall accuracy of the model is 72%.It is safe to assume that naive bayes models can be trained on to find the rating of the restaurant based on the reviews.</li>
                 <li>Sensitivity for finding ratings is 0.4760.</li>
@@ -633,4 +681,23 @@ CrossTable(model_predict, dataset_test$positive,
 
 
 </div>
+</div><!-- /ya-content -->
+</div><!-- /ya-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#ya-content [id]');
+    var links = document.querySelectorAll('#ya-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#ya-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 

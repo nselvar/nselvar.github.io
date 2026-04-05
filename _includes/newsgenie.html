@@ -1,3 +1,71 @@
+<style>
+.ng-wrap { display: flex; width: 100%; }
+#ng-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#ng-toc::-webkit-scrollbar { width: 4px; }
+#ng-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ng-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+.ng-toc-label {
+    padding: 8px 14px 3px; font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: #999;
+}
+#ng-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#ng-toc a:hover, #ng-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#ng-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#ng-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) {
+    #ng-toc { display: none; }
+    #ng-content { margin-left: 0; }
+}
+</style>
+<div class="ng-wrap">
+<nav id="ng-toc">
+    <div class="ng-toc-title">NewsGenie</div>
+    <div class="ng-toc-label">Overview</div>
+    <a href="#1-introduction">1. Introduction</a>
+    <a href="#1-1-overview">1.1 Overview</a>
+    <a href="#1-2-system-goals">1.2 System Goals</a>
+    <a href="#1-3-high-level-architecture">1.3 High-Level Architecture</a>
+    <hr>
+    <div class="ng-toc-label">Architecture</div>
+    <a href="#2-why-a-team-of-agents-">2. Why a Team of Agents?</a>
+    <a href="#3-langgraph-the-conductor">3. LangGraph</a>
+    <a href="#4-newsgeniestate-the-shared-notepad">4. NewsGenieState</a>
+    <hr>
+    <div class="ng-toc-label">Core Features</div>
+    <a href="#5-session-memory">5. Session Memory</a>
+    <a href="#6-complete-query-processing-flow">6. Query Processing</a>
+    <a href="#7-ai-chatbot-design">7. AI Chatbot Design</a>
+    <a href="#8-real-time-news-integration">8. Real-Time News</a>
+    <a href="#9-workflow-and-error-handling">9. Error Handling</a>
+    <a href="#10-full-execution-flow">10. Execution Flow</a>
+    <hr>
+    <div class="ng-toc-label">Wrap-up</div>
+    <a href="#14-conclusion">14. Conclusion</a>
+    <a href="#15-demo">15. Demo</a>
+</nav>
+<div id="ng-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
@@ -11,10 +79,10 @@
 
             <section id="1-introduction">
 
-                <h2 style="margin-bottom: 0;">1. Introduction</h2>
+                <h2 id="1-introduction" data-toc-ng style="margin-bottom: 0;">1. Introduction</h2>
 
                 <article>
-                    <h3 id="1-1-overview" style="margin-top: 0.5rem;">1.1 Overview</h3>
+                    <h3 id="1-1-overview" data-toc-ng style="margin-top: 0.5rem;">1.1 Overview</h3>
                     <p>
                         NewsGenie is an AI-powered news chatbot that combines large language model reasoning with real-time news
                         retrieval to deliver contextually accurate, up-to-date answers to user queries. Rather than relying on a
@@ -39,7 +107,7 @@
                         </li>
                     </ul>
 
-                    <h3 id="1-2-system-goals">1.2 System Goals</h3>
+                    <h3 id="1-2-system-goals" data-toc-ng>1.2 System Goals</h3>
                     <table>
                         <thead>
                         <tr>
@@ -81,7 +149,7 @@
 
             <section id="2-why-a-team-of-agents">
 
-                <h3 id="1-3-high-level-architecture">1.3 High-Level Architecture</h3>
+                <h3 id="1-3-high-level-architecture" data-toc-ng>1.3 High-Level Architecture</h3>
                 <p>The application is structured into five distinct layers:</p>
 
                 <figure style="text-align:center;">
@@ -92,7 +160,7 @@
 
                 <hr>
 
-                <h2 id="2-why-a-team-of-agents-">2. Why a Team of Agents?</h2>
+                <h2 id="2-why-a-team-of-agents-" data-toc-ng>2. Why a Team of Agents?</h2>
                 <h3 id="2-1-the-problem-with-a-single-ai">2.1 The Problem with a Single AI</h3>
                 <p>
                     A naive chatbot architecture routes every user message to one AI model that simultaneously interprets, retrieves,
@@ -190,7 +258,7 @@
                 <hr>
 
 
-                <h2 id="3-langgraph-the-conductor">3. LangGraph — The Conductor</h2>
+                <h2 id="3-langgraph-the-conductor" data-toc-ng>3. LangGraph — The Conductor</h2>
                 <h3 id="3-1-what-langgraph-does">3.1 What LangGraph Does</h3>
                 <p>
                     LangGraph is the orchestration framework that connects all agents into a directed, stateful workflow graph. Think
@@ -259,7 +327,7 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
 
                 <hr>
 
-                <h3 id="4-newsgeniestate-the-shared-notepad">4. NewsGenieState — The Shared Notepad</h3>
+                <h3 id="4-newsgeniestate-the-shared-notepad" data-toc-ng>4. NewsGenieState — The Shared Notepad</h3>
                 <h4 id="4-1-the-central-design-decision">4.1 The Central Design Decision</h4>
                 <p>
                     The most important architectural decision in NewsGenie is that <strong>all inter-agent communication happens
@@ -328,7 +396,7 @@ workflow = <span class="hljs-keyword">graph</span>.<span class="hljs-keyword">co
                 <hr>
 
 
-                <h2 id="5-session-memory">5. Session Memory</h2>
+                <h2 id="5-session-memory" data-toc-ng>5. Session Memory</h2>
                 <h3 id="5-1-the-problem-session-memory-solves">5.1 The Problem Session Memory Solves</h3>
                 <p>Without memory, every user message is treated as the first message ever received. The exchange:</p>
                 <blockquote>
@@ -398,7 +466,7 @@ history_text = <span class="hljs-string">"\n"</span>.join(
                 <hr>
 
 
-                <h2 id="6-complete-query-processing-flow">6. Complete Query Processing Flow</h2>
+                <h2 id="6-complete-query-processing-flow" data-toc-ng>6. Complete Query Processing Flow</h2>
                 <h3 id="6-1-end-to-end-sequence-diagram">6.1 End-to-End Sequence Diagram</h3>
                 <p>Every user submission follows this exact sequence from button click to rendered result:</p>
 
@@ -508,7 +576,7 @@ history_text = <span class="hljs-string">"\n"</span>.join(
                 <hr>
 
 
-                <h2 id="7-ai-chatbot-design">7. AI Chatbot Design</h2>
+                <h2 id="7-ai-chatbot-design" data-toc-ng>7. AI Chatbot Design</h2>
                 <h3 id="7-1-conversation-management">7.1 Conversation Management</h3>
                 <h4 id="7-1-1-the-role-of-chat-history">7.1.1 The Role of Chat History</h4>
                 <p>
@@ -647,7 +715,7 @@ return {
                 <hr>
 
 
-                <h2 id="8-real-time-news-integration">8. Real-Time News Integration</h2>
+                <h2 id="8-real-time-news-integration" data-toc-ng>8. Real-Time News Integration</h2>
                 <h3 id="8-1-gnews-api-integration">8.1 GNews API Integration</h3>
                 <p>The <code>news_agent</code> fetches up to five articles per query from the GNews API:</p>
                 <pre><code class="lang-python"><span class="hljs-attr">url</span> = <span class="hljs-string">"https://gnews.io/api/v4/search"</span>
@@ -743,7 +811,7 @@ Respond ONLY with valid JSON:
 
                 <hr>
 
-                <h2 id="9-workflow-and-error-handling">9. Workflow and Error Handling</h2>
+                <h2 id="9-workflow-and-error-handling" data-toc-ng>9. Workflow and Error Handling</h2>
                 <h3 id="9-1-api-integration-architecture">9.1 API Integration Architecture</h3>
                 <h4 id="9-1-1-openai-client-configuration">9.1.1 OpenAI Client Configuration</h4>
                 <p>All GPT calls flow through a single <code>OpenAI</code> client instance configured in <code>config.py</code>:</p>
@@ -807,7 +875,7 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
 
                 <hr>
 
-                <h2 id="10-full-execution-flow">10. Full Execution Flow</h2>
+                <h2 id="10-full-execution-flow" data-toc-ng>10. Full Execution Flow</h2>
 
                 <figure style="text-align:center;">
                     <img src="../../assets/images/RoutingFlowAIS.png" alt="Evaluation Dashboard: Judge Scores × Metrics"
@@ -816,7 +884,7 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
 
                 <hr>
 
-                <h2 id="14-conclusion">14. Conclusion</h2>
+                <h2 id="14-conclusion" data-toc-ng>14. Conclusion</h2>
                 <h3 id="14-1-what-newsgenie-demonstrates">14.1 What NewsGenie Demonstrates</h3>
                 <p>
                     NewsGenie demonstrates that the quality of an AI application is determined primarily by
@@ -826,7 +894,7 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
                     concerns.
                 </p>
 
-                <h2 id="15-demo">15. Demo</h2>
+                <h2 id="15-demo" data-toc-ng>15. Demo</h2>
                 <hr>
 
                 <div style="display:flex;align-items:flex-start;gap:14px;background:#f5f5f5;border:1px solid #e0e0e0;border-left:4px solid #03425c;border-radius:6px;padding:16px 20px;margin:24px 0;">
@@ -848,3 +916,22 @@ except Timeou<span class="hljs-variable">t:</span>            #   <span class="h
         </div>
     </div>
 </div>
+</div><!-- #ng-content -->
+</div><!-- .ng-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('[data-toc-ng]');
+    var links = document.querySelectorAll('#ng-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#ng-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>

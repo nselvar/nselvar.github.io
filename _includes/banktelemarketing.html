@@ -1,7 +1,57 @@
+<style>
+.bt-wrap { display: flex; width: 100%; }
+#bt-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#bt-toc::-webkit-scrollbar { width: 4px; }
+#bt-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.bt-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#bt-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#bt-toc a.indent { padding-left: 26px; }
+#bt-toc a:hover, #bt-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#bt-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#bt-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #bt-toc { display: none; } #bt-content { margin-left: 0; } }
+</style>
+<div class="bt-wrap">
+<nav id="bt-toc" aria-label="Table of Contents">
+  <div class="bt-toc-title">Contents</div>
+  <a href="#bt-title">Bank Telemarketing Analysis</a>
+  <a href="#data-analysis">Data Analysis</a>
+  <a href="#variable-importance-crossplot-to-deposit">Variable Importance</a>
+  <a href="#prepare-data-for-classification">Prepare Data</a>
+  <a href="#machine-learning-classification-using-neural-networks">Neural Networks</a>
+  <a href="#machine-learning-classification-using-svm">SVM Classification</a>
+  <a href="#svm-classifier-using-linear-kernel" class="indent">Linear Kernel</a>
+  <a href="#svm-classifier-using-non-linear-kernel" class="indent">Non-Linear Kernel</a>
+  <a href="#comparision-between-svm-models" class="indent">SVM Comparison</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+<div id="bt-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">
+            <h2 class="text-center" id="bt-title">
                 Neural Networks & SVM - Data Driven Approach To Predict Success Of Bank Telemarketing
             </h2>
 
@@ -566,4 +616,23 @@ SVM_LINEAR 0.1811203 0.2504363 0.2763777 0.2837249 0.3243298 0.3717218    0</cod
 
 
 </div>
+</div><!-- /bt-content -->
+</div><!-- /bt-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#bt-content [id]');
+    var links = document.querySelectorAll('#bt-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#bt-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 

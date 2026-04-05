@@ -1,13 +1,68 @@
+<style>
+.iq-wrap { display: flex; width: 100%; }
+#iq-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#iq-toc::-webkit-scrollbar { width: 4px; }
+#iq-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.iq-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#iq-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#iq-toc a.indent { padding-left: 26px; }
+#iq-toc a:hover, #iq-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#iq-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#iq-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #iq-toc { display: none; } #iq-content { margin-left: 0; } }
+</style>
+<div class="iq-wrap">
+<nav id="iq-toc" aria-label="Table of Contents">
+  <div class="iq-toc-title">Contents</div>
+  <a href="#iq-title">Interview Question Generator</a>
+  <a href="#iq-project-description">Project Description</a>
+  <a href="#iq-system-components">System Components</a>
+  <a href="#iq-system-workflow">System Workflow</a>
+  <a href="#iq-advantages">Advantages of Flowise</a>
+  <a href="#iq-no-code-builder">No-Code Builder</a>
+  <a href="#iq-llm-orchestration">LLM Orchestration</a>
+  <a href="#iq-build-chatbots">Build No-Code Chatbots</a>
+  <a href="#iq-ai-model-integration">AI Model Integration</a>
+  <a href="#iq-ai-model-config">AI Model Configuration</a>
+  <a href="#iq-supervisor-agent">Supervisor Agent</a>
+  <a href="#iq-execution-flow">Execution Flow</a>
+  <a href="#iq-execution">Execution</a>
+  <a href="#iq-project-summary">Project Summary</a>
+  <a href="#iq-final-thoughts">Final Thoughts</a>
+</nav>
+<div id="iq-content">
 
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">No-Code Flowise LLM App : Interview Question Generator</h2>
+            <h2 id="iq-title" class="text-center">No-Code Flowise LLM App : Interview Question Generator</h2>
 
-        <h3>🚀 Project Description</h3>
+        <h3 id="iq-project-description">🚀 Project Description</h3>
         <p>The Interview Question Generator Agents project is a multi-agent system designed to generate Java programming interview questions, create test cases, and provide solutions. It uses Flowise AI, which integrates supervisory AI models, worker agents, and LLM-based reasoning to automate the question-generation pipeline.</p>
 
-        <h3>🔧 System Components</h3>
+        <h3 id="iq-system-components">🔧 System Components</h3>
         <h4>📂 Supervisor Agent</h4>
         <ul>
             <li>Manages multi-agent coordination.</li>
@@ -40,7 +95,7 @@
             </tr>
         </table>
 
-        <h3>⚙️ System Workflow</h3>
+        <h3 id="iq-system-workflow">⚙️ System Workflow</h3>
         <ol>
             <li>User selects a data structure (Arrays, Linked Lists, Trees, Graphs).</li>
             <li>Supervisor Agent assigns the task to the DataStructure Inquiry Agent.</li>
@@ -56,7 +111,7 @@
             <li>Supervisor validates the output and returns it to the user.</li>
         </ol>
 
-        <h3>🔥 Advantages of Flowise</h3>
+        <h3 id="iq-advantages">🔥 Advantages of Flowise</h3>
         <ul>
             <li>🚀 **No-Code AI Workflow Builder** - Allows easy creation of AI-powered workflows with a drag-and-drop interface.</li>
             <li>📡 **LLM Orchestration** - Connects **LLMs with memory, data loaders, cache, moderation, and more.**</li>
@@ -65,7 +120,7 @@
             <li>📊 **Scalability & Deployment** - Deploys on **Docker, Kubernetes, and cloud services like AWS and GCP**.</li>
         </ul>
 
-        <h3>🛠 How Flowise is a No-Code Builder</h3>
+        <h3 id="iq-no-code-builder">🛠 How Flowise is a No-Code Builder</h3>
         <ul>
             <li>📌 **Drag-and-Drop Interface** - Users can build complex AI workflows without coding.</li>
             <li>🖱 **Visual Workflow Editor** - Allows connecting nodes for data flow.</li>
@@ -73,7 +128,7 @@
             <li>🔧 **Customizable with Code** - Advanced users can extend functionality via **custom Python & JavaScript modules**.</li>
         </ul>
 
-        <h3>🤖 Flowise LLM Orchestration</h3>
+        <h3 id="iq-llm-orchestration">🤖 Flowise LLM Orchestration</h3>
         <ul>
             <li>🔄 **Memory Management** - Allows persistent memory for chatbot sessions.</li>
             <li>⚡ **Data Loaders** - Fetches structured/unstructured data dynamically.</li>
@@ -81,7 +136,7 @@
             <li>📡 **Caching & Latency Optimization** - Reduces token usage and improves response speed.</li>
         </ul>
 
-        <h3>🚀 How to Build No-Code Chatbots Using Flowise</h3>
+        <h3 id="iq-build-chatbots">🚀 How to Build No-Code Chatbots Using Flowise</h3>
         <ol>
             <li>🖱 **Open Flowise UI** - Start a new project.</li>
             <li>📡 **Select LLM Provider** - Choose **OpenAI, Mistral, or Google AI**.</li>
@@ -91,7 +146,7 @@
         </ol>
 
 
-        <h3>📡 AI Model Integration</h3>
+        <h3 id="iq-ai-model-integration">📡 AI Model Integration</h3>
         <p>The system uses OpenAI’s LLM models (e.g., gpt-4o, gpt-3.5-turbo) to:</p>
         <ul>
             <li>Generate logically sound questions.</li>
@@ -100,7 +155,7 @@
             <li>Provide explanations and feedback.</li>
         </ul>
 
-        <h3>🔗 AI Model Configuration</h3>
+        <h3 id="iq-ai-model-config">🔗 AI Model Configuration</h3>
         <pre><code>
 {
   "id": "chatOpenAI_0",
@@ -113,7 +168,7 @@
 }
     </code></pre>
 
-        <h3>🕵️‍♂️ Supervisor Agent Configuration</h3>
+        <h3 id="iq-supervisor-agent">🕵️‍♂️ Supervisor Agent Configuration</h3>
         <pre><code>
 {
   "id": "supervisor_0",
@@ -126,7 +181,7 @@
 }
     </code></pre>
 
-        <h3>🔄 Execution Flow & Connectivity</h3>
+        <h3 id="iq-execution-flow">🔄 Execution Flow & Connectivity</h3>
         <pre><code>
 {
   "edges": [
@@ -138,14 +193,14 @@
 }
     </code></pre>
 
-        <h3>🔎 Execution</h3>
+        <h3 id="iq-execution">🔎 Execution</h3>
         <h4>🚀 Start the Chatflow</h4>
         <pre><code>
       sudo npx flowise start --PORT=3000 --DEBUG=true
       http://localhost:3000/
     </code></pre>
 
-        <h3>🎯 Project Summary</h3>
+        <h3 id="iq-project-summary">🎯 Project Summary</h3>
         <table>
             <tr>
                 <th>Feature</th>
@@ -173,7 +228,7 @@
             </tr>
         </table>
 
-        <h3>🚀 Final Thoughts</h3>
+        <h3 id="iq-final-thoughts">🚀 Final Thoughts</h3>
         <p>The **Interview Question Generator Agents** project optimizes Java interview question generation using Flowise AI’s **multi-agent workflow**. With **no-code orchestration**, **LLM-powered decision-making**, and **scalable chatbot building**, Flowise enhances **AI-driven automation**.</p>
         <h4>🚀 Demo Videos</h4>
         <div class="video-container">
@@ -191,3 +246,22 @@
 
     </div>
 
+</div><!-- /iq-content -->
+</div><!-- /iq-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#iq-content [id]');
+    var links = document.querySelectorAll('#iq-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#iq-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>

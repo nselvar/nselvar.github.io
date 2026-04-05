@@ -1,8 +1,60 @@
+<style>
+.sh-wrap { display: flex; width: 100%; }
+#sh-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#sh-toc::-webkit-scrollbar { width: 4px; }
+#sh-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.sh-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#sh-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#sh-toc a.indent { padding-left: 26px; }
+#sh-toc a:hover, #sh-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#sh-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#sh-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #sh-toc { display: none; } #sh-content { margin-left: 0; } }
+</style>
+<div class="sh-wrap">
+<nav id="sh-toc" aria-label="Table of Contents">
+  <div class="sh-toc-title">Contents</div>
+  <a href="#sh-title">AI Student Helper</a>
+  <a href="#sh-introduction">Introduction</a>
+  <a href="#sh-system-architecture">System Architecture</a>
+  <a href="#sh-high-level-diagram">High Level Diagram</a>
+  <a href="#sh-technologies-used">Technologies Used</a>
+  <a href="#sh-workflow-execution">Workflow Execution</a>
+  <a href="#sh-request-handling" class="indent">5.1 Request Handling</a>
+  <a href="#sh-graph-execution" class="indent">5.2 Graph Execution</a>
+  <a href="#sh-key-components">Key Components</a>
+  <a href="#sh-workflow-execution-2">6. Workflow Execution</a>
+  <a href="#sh-deployment">Deployment</a>
+  <a href="#sh-demo-videos">Demo Videos</a>
+</nav>
+<div id="sh-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">AI Student Helper</h2>
-    <h4>🚀 Introduction</h4>
+            <h2 id="sh-title" class="text-center">AI Student Helper</h2>
+    <h4 id="sh-introduction">🚀 Introduction</h4>
     <p>AI Student Helper is a <strong>multi-agent automation system</strong> built with <strong>LangGraph</strong> to
         assist students and professionals in automating academic and career-related tasks. It follows a <strong>graph-based
             workflow execution model</strong>, ensuring efficient <strong>task routing and execution</strong>.
@@ -13,11 +65,11 @@
         <li><strong>Specialized Agents</strong> execute specific tasks based on <strong>user input</strong>.</li>
         <li>A <strong>graph-based workflow</strong> dynamically determines <strong>execution paths</strong>.</li>
     </ul>
-    <h4>🚀 System Architecture</h4>
+    <h4 id="sh-system-architecture">🚀 System Architecture</h4>
     <img src="../../assets/images/image.png" width="1000" alt="Architecture Diagram" title="Architecture Diagram/">
-    <h4>🚀 High Level Diagram</h4>
+    <h4 id="sh-high-level-diagram">🚀 High Level Diagram</h4>
     <img src="../../assets/images/block.png" width="1000" alt="Architecture Diagram" title="Architecture Diagram/">
-    <h4>🚀 Technologies Used</h4>
+    <h4 id="sh-technologies-used">🚀 Technologies Used</h4>
         <div class="container">
             <table>
                 <tr>
@@ -56,10 +108,10 @@
         </div>
 
     <div class="container">
-        <h4>🚀 5. Workflow Execution</h4>
+        <h4 id="sh-workflow-execution">🚀 5. Workflow Execution</h4>
 
         <div class="workflow-step">
-            <h4>📌 5.1 Request Handling Flow</h4>
+            <h4 id="sh-request-handling">📌 5.1 Request Handling Flow</h4>
             <ul>
                 <li><strong>User enters a request</strong> (e.g., "summarize a PDF").</li>
                 <li><strong>Supervisor Agent extracts intent</strong>.</li>
@@ -70,7 +122,7 @@
         </div>
 
         <div class="workflow-step">
-            <h4>📌 5.2 Graph Execution with LangGraph</h4>
+            <h4 id="sh-graph-execution">📌 5.2 Graph Execution with LangGraph</h4>
             <ul>
                 <li>Each <strong>node in the graph</strong> represents an <strong>agent</strong>.</li>
                 <li>The <strong>edges define execution logic</strong> based on user input.</li>
@@ -81,7 +133,7 @@
     </div>
 
 
-    <h4>🚀 Key Components</h4>
+    <h4 id="sh-key-components">🚀 Key Components</h4>
     <h5>📌 Supervisor Agent</h5>
     <ul>
     <li>Routes user requests to the correct specialized agent, analyzes user input using an LLM, triggers corresponding
@@ -154,7 +206,7 @@ class PDFAnalyzer:
         self.TEST_PAGES = test_pages
         self.client = OpenAI()
         </code></pre>
-                    <h4>6. Workflow Execution</h4>
+                    <h4 id="sh-workflow-execution-2">6. Workflow Execution</h4>
                     <ol>
                         <li>User provides a PDF file for processing.</li>
                         <li>PDFAnalyzer extracts text using PyMuPDF.</li>
@@ -555,7 +607,7 @@ st.markdown("""
 
 
 
-    <h4>🚀 Deployment</h4>
+    <h4 id="sh-deployment">🚀 Deployment</h4>
     <p>To install and run:</p>
     <pre>
         git clone https://github.com/your-repo/ai-student-helper.git
@@ -563,7 +615,7 @@ st.markdown("""
         pip install -r requirements.txt
         python3 SupervisorLangGraph.py
         </pre>
-    <h4>🚀 Demo Videos</h4>
+    <h4 id="sh-demo-videos">🚀 Demo Videos</h4>
     <div class="video-container">
 
         <figure>
@@ -600,3 +652,22 @@ st.markdown("""
 
     </div>
 </div>
+</div><!-- /sh-content -->
+</div><!-- /sh-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#sh-content [id]');
+    var links = document.querySelectorAll('#sh-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#sh-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>

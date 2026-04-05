@@ -1,11 +1,61 @@
+<style>
+.ma-wrap { display: flex; width: 100%; }
+#ma-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#ma-toc::-webkit-scrollbar { width: 4px; }
+#ma-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ma-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#ma-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#ma-toc a.indent { padding-left: 26px; }
+#ma-toc a:hover, #ma-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#ma-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#ma-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #ma-toc { display: none; } #ma-content { margin-left: 0; } }
+</style>
+<div class="ma-wrap">
+<nav id="ma-toc" aria-label="Table of Contents">
+  <div class="ma-toc-title">Contents</div>
+  <a href="#ma-title">TensorFlow Sentiment Analysis</a>
+  <a href="#ma-requirements">Requirements</a>
+  <a href="#ma-dataset">Data Set</a>
+  <a href="#ma-phases">Phases of the Project</a>
+  <a href="#ma-data-preparation">Data Preparation</a>
+  <a href="#ma-cleaning" class="indent">Cleaning the Data Set</a>
+  <a href="#ma-dictionary" class="indent">Dictionary of Words</a>
+  <a href="#ma-sentences" class="indent">Preparing Sentences</a>
+  <a href="#ma-model-creation">Model Creation</a>
+  <a href="#ma-using-model">Using the Model</a>
+</nav>
+<div id="ma-content">
 <div class="project-container">
         <div class="content-box">
             <div class="project-content">
-                <h2 class="text-center">
+                <h2 id="ma-title" class="text-center">
                    TensorFlow Sentimental Analysis Using Tweets
                 </h2>
 
-                <h4>Requirements</h4>
+                <h4 id="ma-requirements">Requirements</h4>
                 You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/TensorFlowSentimentalAnalysisUsingTweets/tree/master/Project" rel="noopener noreferrer" target="_blank">Github repo</a>
 
                 <div class='card-section'>
@@ -57,7 +107,7 @@
 
 
 
-                <h4>Data set</h4>
+                <h4 id="ma-dataset">Data set</h4>
 
                 <p>
                 The data set that is used is from a Stanford project called Sentiment140. This is also where the data set can be downloaded from,and it contains 1.6 million rows with positive and negative sentences
@@ -75,7 +125,7 @@
                 </p>
 
 
-                <h4>Phases Of The Project</h4>
+                <h4 id="ma-phases">Phases Of The Project</h4>
 
                 <img src="../../assets/images/200.png" width="1000" alt="Code Structure" title="Code Structure">
 
@@ -87,9 +137,9 @@
                 </ul>
 
 
-                <h4>Data preparation</h4>
+                <h4 id="ma-data-preparation">Data preparation</h4>
 
-                    <h4>Cleaning the data set</h4>
+                    <h4 id="ma-cleaning">Cleaning the data set</h4>
 
                 <p>
 
@@ -97,7 +147,7 @@
                 trained properly. For this example, weuse the Pandas library and then write to the output file that is provided for the ods parameter.
                 </p>
 
-                <h4>Generating the dictionary of words</h4>
+                <h4 id="ma-dictionary">Generating the dictionary of words</h4>
 
                 <p>With the cleaned data set generated, the next step is to create the dictionary of words (knownas a lexicon).
 
@@ -110,7 +160,7 @@
 
 
 
-                <h4>Preparing the sentences</h4>
+                <h4 id="ma-sentences">Preparing the sentences</h4>
 
                 <p>The last phase of the process is to read each sentence and transform it into a numeric vector.In this process, each sentence becomes a vector of zeros with the same size as the dictionary of words. This vector contains the number of each word in the dictionary of words.This number is in the same index position as the word is in the dictionary of words vector.For example, assume that the data set contains two sentences:I want to drink water with you.They like to drink coffee with me at home.From the data set, we create a dictionary of words (do not apply any kind of process or exclude words for simplicity). The result can be the following list, assuming that you start from the first sentence:[I, want, to, drink, water, with, you, they, like, coffee, me, at, home]Next, transform the first sentence into a hot vector. Create a list (or vector) with the same size as the word dictionary, in this case a list of size 13 filled with zeros: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -126,7 +176,7 @@
                 </p>
 
 
-                <h4>Model creation</h4>
+                <h4 id="ma-model-creation">Model creation</h4>
 
                 <p>
                 Now, we must build the example TensorFlow-based model. In the data preparation phase, we
@@ -182,7 +232,7 @@
                 <img src="../../assets/images/201.png" width="1000" alt="Data preparation flow" title="Data preparation flow">
 
 
-                <h4>Using the model</h4>
+                <h4 id="ma-using-model">Using the model</h4>
 
                 <p>
                 With the trained model saved and ready to use, a function that is called get_sentiment is
@@ -206,3 +256,22 @@
         </div>
     </div>
 </div>
+</div><!-- /ma-content -->
+</div><!-- /ma-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#ma-content [id]');
+    var links = document.querySelectorAll('#ma-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#ma-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>

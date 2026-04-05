@@ -1,9 +1,63 @@
+<style>
+.ca-wrap { display: flex; width: 100%; }
+#ca-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#ca-toc::-webkit-scrollbar { width: 4px; }
+#ca-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ca-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#ca-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#ca-toc a.indent { padding-left: 26px; }
+#ca-toc a:hover, #ca-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#ca-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#ca-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #ca-toc { display: none; } #ca-content { margin-left: 0; } }
+</style>
+<div class="ca-wrap">
+<nav id="ca-toc" aria-label="Table of Contents">
+  <div class="ca-toc-title">Contents</div>
+  <a href="#ca-title">Video Game Sales Analysis</a>
+  <a href="#ca-introduction">Introduction</a>
+  <a href="#ca-requirements">Requirements</a>
+  <a href="#ca-data-source">Data Source</a>
+  <a href="#ca-glimpse-data">Glimpse of Data</a>
+  <a href="#ca-data-cleaning">Data Cleaning</a>
+  <a href="#ca-data-analysis">Data Analysis</a>
+  <a href="#ca-data-correlation">Data Correlation</a>
+  <a href="#ca-ml-problems">ML Problems</a>
+  <a href="#ca-scatter-plot">Scatter Plot Comparison</a>
+  <a href="#ca-second-ml-problem">Second ML Problem</a>
+  <a href="#ca-confusion-matrix">Confusion Matrix</a>
+  <a href="#ca-classification-report">Classification Report</a>
+  <a href="#ca-roc-curve">ROC Curve</a>
+</nav>
+<div id="ca-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h1 class="text-center">Analysis of Video Game Sales</h1>
+            <h1 id="ca-title" class="text-center">Analysis of Video Game Sales</h1>
 
-    <h4>Introduction</h4>
+    <h4 id="ca-introduction">Introduction</h4>
 
     <p>
     In this project, we propose to build a model that can predict video games sales based on
@@ -18,7 +72,7 @@
     </p>
 
 
-    <h4>Requirements</h4>
+    <h4 id="ca-requirements">Requirements</h4>
     You can find the code I used on my&nbsp;<a href="https://github.com/nselvar/COMPSCIX433.6-007-Introduction-to-Machine-Learning-Using-Python" rel="noopener noreferrer" target="_blank">Github repo</a>
 
     <div class='card-section'>
@@ -48,7 +102,7 @@
     </div>
 
 
-    <h4>Data Source</h4>
+    <h4 id="ca-data-source">Data Source</h4>
 
     <p>
     The original dataset has games ranging from 1980 to 2020 with 11,493 different game titles.
@@ -61,11 +115,11 @@
     </p>
 
 
-    <h4>Glimpse of the data</h4>
+    <h4 id="ca-glimpse-data">Glimpse of the data</h4>
 
     <img src="../../assets/images/301.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data/">
 
-    <h4>Data Cleaning</h4>
+    <h4 id="ca-data-cleaning">Data Cleaning</h4>
 
     <p>
         <b>Changing data type:</b> From the overall review of our data set, we can see that the
@@ -102,18 +156,18 @@
 
 
 
-    <h4>Data Analysis</h4>
+    <h4 id="ca-data-analysis">Data Analysis</h4>
 
     <p>Below are few of the analytic questions which the dataset can answer </p>
 
     <img src="../../assets/images/304.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data"/>
     <img src="../../assets/images/305.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data"/>
 
-    <h4>Data Correlation</h4>
+    <h4 id="ca-data-correlation">Data Correlation</h4>
 
     <img src="../../assets/images/306.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data"/>
 
-    <h4>ML Problems</h4>
+    <h4 id="ca-ml-problems">ML Problems</h4>
 
 
     <p>
@@ -159,12 +213,12 @@
         </tr>
     </table>
 
-    <h4>Scatter Plot Comparision for Linear Regression,Ridge Regression,Random Forest Regression</h4>
+    <h4 id="ca-scatter-plot">Scatter Plot Comparision for Linear Regression,Ridge Regression,Random Forest Regression</h4>
 
     <img src="../../assets/images/307.png" width="1000" alt="Glimse Of Data" title="Glimse Of Data"/>
 
 
-    <h4>Second ML Problem:</h4>
+    <h4 id="ca-second-ml-problem">Second ML Problem:</h4>
 
     <p>
         Does a game hit gets affected by Year_of_Release Critic_Score
@@ -209,17 +263,17 @@
     </table>
 
 
-    <h4>Confusion Matrix</h4>
+    <h4 id="ca-confusion-matrix">Confusion Matrix</h4>
 
     <img src="../../assets/images/308.png" width="1000" alt="Confusion Matrix" title="Confusion Matrix"/>
 
 
-    <h4>Classification Report</h4>
+    <h4 id="ca-classification-report">Classification Report</h4>
 
     <img src="../../assets/images/309.png" width="1000" alt="Classification Report" title="Classification Report"/>
 
 
-    <h4> Receiver Operating Characteristic curve</h4>
+    <h4 id="ca-roc-curve"> Receiver Operating Characteristic curve</h4>
 
     <p>This type of graph is called a Receiver Operating Characteristic curve (or ROC curve.) It is
         a plot of the true positive rate against the false positive rate for the different possible
@@ -229,3 +283,22 @@
         </div>
     </div>
 </div>
+</div><!-- /ca-content -->
+</div><!-- /ca-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#ca-content [id]');
+    var links = document.querySelectorAll('#ca-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#ca-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>

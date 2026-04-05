@@ -1,7 +1,58 @@
+<style>
+.bf-wrap { display: flex; width: 100%; }
+#bf-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#bf-toc::-webkit-scrollbar { width: 4px; }
+#bf-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.bf-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#bf-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#bf-toc a.indent { padding-left: 26px; }
+#bf-toc a:hover, #bf-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#bf-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#bf-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #bf-toc { display: none; } #bf-content { margin-left: 0; } }
+</style>
+<div class="bf-wrap">
+<nav id="bf-toc" aria-label="Table of Contents">
+  <div class="bf-toc-title">Contents</div>
+  <a href="#bf-title">APRIORI Algorithm</a>
+  <a href="#association-rule-mining">Association Rule Mining</a>
+  <a href="#challenge" class="indent">Challenge</a>
+  <a href="#data-description" class="indent">Data Description</a>
+  <a href="#data-analysis-clean-up" class="indent">Data Analysis & Clean Up</a>
+  <a href="#exploratory-data-analysis" class="indent">Exploratory Data Analysis</a>
+  <a href="#frequency-distribution-by-product-category" class="indent">Frequency Distribution</a>
+  <a href="#impleentation-of-apriori" class="indent">Implementation of APRIORI</a>
+  <a href="#item-frequency-plot" class="indent">Item Frequency Plot</a>
+  <a href="#what-rules-lead-to-consequent" class="indent">Rules to Consequent</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+<div id="bf-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">
+            <h2 id="bf-title" class="text-center">
                 APRIORI - An Algorithm behind you may also like!
             </h2>
             <div id="blackfriday---customer-purchasing-behavior" class="section level2">
@@ -494,4 +545,23 @@ inspect(rules_filtered)</code></pre>
 
 
 </div>
+</div><!-- /bf-content -->
+</div><!-- /bf-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#bf-content [id]');
+    var links = document.querySelectorAll('#bf-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#bf-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 

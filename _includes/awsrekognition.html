@@ -1,19 +1,62 @@
+<style>
+.ar-wrap { display: flex; width: 100%; }
+#ar-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#ar-toc::-webkit-scrollbar { width: 4px; }
+#ar-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.ar-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#ar-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#ar-toc a:hover, #ar-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#ar-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #ar-toc { display: none; } #ar-content { margin-left: 0; } }
+</style>
+<div class="ar-wrap">
+<nav id="ar-toc" aria-label="Table of Contents">
+  <div class="ar-toc-title">Contents</div>
+  <a href="#ar-title">Detect Objects with AWS</a>
+  <a href="#ar-what-is-rekognition">What is AWS Rekognition?</a>
+  <a href="#ar-lets-start">Let's Start!</a>
+  <a href="#ar-custom-labels">Custom Labels</a>
+  <a href="#ar-demo">Demo</a>
+</nav>
+<div id="ar-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 class="text-center">
+            <h2 class="text-center" id="ar-title">
                 Detect Objects and Text in an Image
             </h2>
 
 
-            <p><strong><em> What is AWS Rekognition?</em></strong></p>
+            <p id="ar-what-is-rekognition"><strong><em> What is AWS Rekognition?</em></strong></p>
             <p> Amazon Rekognition is an image and video analysis solution in the Artificial Intelligence/Machine Learning category.
                 It  uses machine deep learning to identify objects in an image. Amazon Rekognition is a highly scalable solution capable of quickly analyzing the image and identifying the objects in the image or video.
             It requires no knowledge of machine learning to use, and behind the scenes Amazon’s computer vision scientists are constantly analyzing new images and videos, improving upon the deep learning model and adding new features to the service.</p>
 
             <p></p>
 
-            <p><strong><em> Let's Start!</em></strong></p>
+            <p id="ar-lets-start"><strong><em> Let's Start!</em></strong></p>
 
 
             <p>
@@ -47,7 +90,7 @@
 
             <br>
 
-            <p> Amazon Rekognition Custom Labels lets you extend the detection and classification capabilities of the Amazon Rekognition pre-trained APIs by using data to train a custom CV model specific to your business needs. With the latest update to support single object training, Amazon Rekognition Custom Labels now lets you create a custom object detection model with single object classes.
+            <p id="ar-custom-labels"> Amazon Rekognition Custom Labels lets you extend the detection and classification capabilities of the Amazon Rekognition pre-trained APIs by using data to train a custom CV model specific to your business needs. With the latest update to support single object training, Amazon Rekognition Custom Labels now lets you create a custom object detection model with single object classes.
   To create our custom model, we follow these steps:
 
             <li>Create a project in Amazon Rekognition Custom Labels.</li>
@@ -69,12 +112,30 @@
             <img src="../../assets/images/Code2.png" alt="Glimse Of Data" title="Glimse Of Data"/>
 
 
-            <p> I have recorded the output from Amazon Rekognition using predefined & custom trained models.</p>
+            <p id="ar-demo"> I have recorded the output from Amazon Rekognition using predefined & custom trained models.</p>
             <p><iframe width="420" height="375" src="https://www.youtube.com/embed/FLuarhxQSNk"  allowfullscreen></iframe></p>
             </div>
 
-           
+
         </div>
     </div>
-
+</div><!-- /ar-content -->
+</div><!-- /ar-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#ar-content [id]');
+    var links = document.querySelectorAll('#ar-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#ar-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 

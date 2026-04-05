@@ -656,7 +656,73 @@ summary {
 
 <body><div id="MathJax_Message" style="display: none;"></div>
 
-
+<style>
+.cc-wrap { display: flex; width: 100%; }
+#cc-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#cc-toc::-webkit-scrollbar { width: 4px; }
+#cc-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.cc-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#cc-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#cc-toc a.indent { padding-left: 26px; }
+#cc-toc a:hover, #cc-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#cc-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#cc-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #cc-toc { display: none; } #cc-content { margin-left: 0; } }
+</style>
+<div class="cc-wrap">
+<nav id="cc-toc" aria-label="Table of Contents">
+  <div class="cc-toc-title">Contents</div>
+  <a href="#challenge">Challenge</a>
+  <a href="#data-description">Data Description</a>
+  <a href="#data-analysis">Data Analysis</a>
+  <a href="#prepare-data-for-regression">Prepare Data for Regression</a>
+  <a href="#linear-regression-to-predict-market-price">Linear Regression To Predict Market Price</a>
+  <a href="#residual-analysis-in-linear-regression" class="indent">Residual Analysis in Linear Regression</a>
+  <a href="#linear-regression-prediction-accuracy." class="indent">Linear Regression Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#polynominal-regression">Polynominal Regression</a>
+  <a href="#polynomial-regression-prediction-accuracy" class="indent">Polynomial Regression Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#spline-regression">Spline Regression</a>
+  <a href="#spline-regression-prediction-accuracy" class="indent">Spline Regression Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#generalized-linear-model">Generalized Linear Model</a>
+  <a href="#gam-regression-prediction-accuracy" class="indent">GAM Regression Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#scatter-plot-3d-visualization">Scatter Plot 3D Visualization</a>
+  <hr>
+  <a href="#penalized-cubic-regression-spline">Penalized Cubic Regression Spline</a>
+  <a href="#cubic-regression-spline-prediction-accuracy" class="indent">Cubic Regression Spline Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#extreme-gradient-boosting">Extreme Gradient Boosting</a>
+  <a href="#extreme-gradient-boosting-prediction-accuracy" class="indent">Extreme Gradient Boosting Prediction &amp; Accuracy</a>
+  <hr>
+  <a href="#compare-regression-models">Compare Regression Models</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+<div id="cc-content">
 <div class="container-fluid main-container">
 
 
@@ -1444,4 +1510,23 @@ $(document).ready(function () {
 
 
 
+</div><!-- /cc-content -->
+</div><!-- /cc-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#cc-content [id]');
+    var links = document.querySelectorAll('#cc-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#cc-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 </body></html>

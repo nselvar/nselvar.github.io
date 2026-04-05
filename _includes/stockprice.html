@@ -1,6 +1,77 @@
 
 
-   <div class="project-container">
+<style>
+.sp-wrap { display: flex; width: 100%; }
+#sp-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#sp-toc::-webkit-scrollbar { width: 4px; }
+#sp-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.sp-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#sp-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#sp-toc a.indent { padding-left: 26px; }
+#sp-toc a:hover, #sp-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#sp-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#sp-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #sp-toc { display: none; } #sp-content { margin-left: 0; } }
+</style>
+<div class="sp-wrap">
+<nav id="sp-toc" aria-label="Table of Contents">
+  <div class="sp-toc-title">Contents</div>
+  <a href="#decision-tree-to-trade-bank-of-america-stock-real-time-value-analysis">Decision Tree: Bank of America</a>
+  <a href="#building-a-strategy" class="indent">Building a Strategy</a>
+  <a href="#trained-decision-tree-classifier-results" class="indent">Decision Tree Results</a>
+  <a href="#plot-decision-tree" class="indent">Plot Decision Tree</a>
+  <hr>
+  <a href="#arima-forecasting-expedia-stock-price-incorporating-covid-19-real-time">ARIMA: Expedia Stock</a>
+  <a href="#graphical-representation-of-data" class="indent">Graphical Data</a>
+  <a href="#arima-model" class="indent">ARIMA Model</a>
+  <a href="#diagnostic-measures" class="indent">Diagnostic Measures</a>
+  <a href="#augmented-dickey-fuller-kwiatkowski-phillips-schmidt-shin" class="indent">ADF & KPSS Tests</a>
+  <a href="#forecasting-with-holtwinters" class="indent">HoltWinters Forecast</a>
+  <a href="#conclusion-2" class="indent">Conclusion</a>
+  <hr>
+  <a href="#using-a-neural-network-to-model-the-amazon-stock-price-change-real-time-analysis">Neural Network: Amazon</a>
+  <a href="#normalize-data" class="indent">Normalize Data</a>
+  <a href="#machine-learning-classification-using-neural-networks" class="indent">NN Classification</a>
+  <a href="#accuracy-of-neural-network-model" class="indent">NN Accuracy</a>
+  <a href="#conclusion-3" class="indent">Conclusion</a>
+  <hr>
+  <a href="#using-svm-to-predict-price-change-for-walmart-real-time-analysis">SVM: Walmart Stock</a>
+  <a href="#machine-learning-classification-using-svm" class="indent">SVM Classification</a>
+  <a href="#svm-classifier-using-linear-kernel" class="indent">Linear Kernel</a>
+  <a href="#svm-classifier-using-non-linear-kernel" class="indent">Non-Linear Kernel</a>
+  <a href="#comparision-between-svm-models" class="indent">SVM Comparison</a>
+  <a href="#conclusion-4" class="indent">Conclusion</a>
+  <hr>
+  <a href="#amazon-price-trend-predict---random-forest-real-time-analysis">Random Forest: Amazon</a>
+  <a href="#methadology" class="indent">Methodology</a>
+  <a href="#prediction-accuracy." class="indent">Prediction & Accuracy</a>
+  <a href="#ensemble-method-for-random-forest" class="indent">Ensemble Method</a>
+  <a href="#overall-insights-obtained-from-the-implemented-project-2" class="indent">Overall Insights</a>
+</nav>
+<div id="sp-content">
+<div class="project-container">
         <div class="content-box">
             <div class="project-content">
                 <h2 class="text-center">
@@ -1096,6 +1167,25 @@ The final value used for the model was mtry = 9.</code></pre>
 
 
 
+</div><!-- /sp-content -->
+</div><!-- /sp-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#sp-content [id]');
+    var links = document.querySelectorAll('#sp-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#sp-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 
 
 

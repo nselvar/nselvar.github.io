@@ -1,7 +1,52 @@
+<style>
+.sa-wrap { display: flex; width: 100%; }
+#sa-toc {
+    position: fixed; top: 50px; left: 0;
+    width: 220px; height: calc(100vh - 50px);
+    overflow-y: auto; background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px 0 40px; z-index: 99;
+    scrollbar-width: thin;
+}
+#sa-toc::-webkit-scrollbar { width: 4px; }
+#sa-toc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+.sa-toc-title {
+    padding: 0 14px 12px; margin-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: #03425c;
+    font-family: Avenir, sans-serif;
+}
+#sa-toc a {
+    display: block; padding: 4px 14px;
+    font-size: 12px; color: #555; text-decoration: none;
+    border-left: 2px solid transparent; transition: all .15s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: Avenir, sans-serif;
+}
+#sa-toc a.indent { padding-left: 26px; }
+#sa-toc a:hover, #sa-toc a.active {
+    color: #03425c; border-left-color: #03425c;
+    background: rgba(3,66,92,.05); text-decoration: none;
+}
+#sa-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
+#sa-content { margin-left: 220px; flex: 1; min-width: 0; }
+@media (max-width: 768px) { #sa-toc { display: none; } #sa-content { margin-left: 0; } }
+</style>
+<div class="sa-wrap">
+<nav id="sa-toc" aria-label="Table of Contents">
+  <div class="sa-toc-title">Contents</div>
+  <a href="#sa-title">Spotify Song Popularity (KNN)</a>
+  <a href="#sa-requirements">Requirements</a>
+  <a href="#sa-dataset">Data Set</a>
+  <a href="#sa-knn-model">KNN Model</a>
+  <a href="#sa-insights">Overall Insights</a>
+</nav>
+<div id="sa-content">
 <div class="project-container">
         <div class="content-box">
             <div class="project-content">
-                <h2 class="text-center">
+                <h2 class="text-center" id="sa-title">
                    Predicting Song popularity in Spotify using KNN
                 </h2>
 
@@ -17,7 +62,7 @@
 
                 You can find the code I used in my&nbsp;<a href="https://github.com/nselvar/spotify-data-analysis" rel="noopener noreferrer" target="_blank">Github repo</a>
 
-                <h4>Requirements</h4>
+                <h4 id="sa-requirements">Requirements</h4>
                 <div class='card-section'>
 
                     <div class='skills'>
@@ -48,7 +93,7 @@
                     </div>
                 </div>
 
-                <h4>Data set</h4>
+                <h4 id="sa-dataset">Data set</h4>
 
                 <p>
                     27K Rows, with 14 columns. You can download data from the link <a href="https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks" class="uri">https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks</a>
@@ -194,7 +239,7 @@
 
 
                 <div id="using-k-nearest-neighbours-to-predict-the-song-popularity" class="section level3">
-                    <h3>Using k-nearest neighbours to predict the song popularity</h3>
+                    <h3 id="sa-knn-model">Using k-nearest neighbours to predict the song popularity</h3>
                     <ul>
                         <li><strong><em>Step 1: Import the dataset from kaggle</em></strong></li>
                     </ul>
@@ -363,7 +408,7 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
 
 
                 <div id="overall-insights-obtained-from-the-implemented-project" class="section level3">
-                    <h3>Overall insights obtained from the implemented project</h3>
+                    <h3 id="sa-insights">Overall insights obtained from the implemented project</h3>
                     <ul>
                         <li>Overall accuracy of the model is 88%.It is safe to assume that knn models can be trained on the audio feature data to predict the popularity.</li>
                         <li>Sensitivity for popular song is 0.52030 and for unpopular song is 0.9571.</li>
@@ -377,4 +422,23 @@ spotify$popularity&lt;-as.factor(spotify$popularity)
 
 
 </div>
+</div><!-- /sa-content -->
+</div><!-- /sa-wrap -->
+<script>
+(function(){
+    var sections = document.querySelectorAll('#sa-content [id]');
+    var links = document.querySelectorAll('#sa-toc a');
+    if(!sections.length || !links.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                links.forEach(function(l){ l.classList.remove('active'); });
+                var a = document.querySelector('#sa-toc a[href="#'+e.target.id+'"]');
+                if(a) a.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
 
