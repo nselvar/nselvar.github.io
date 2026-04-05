@@ -8,14 +8,50 @@ summary: "Nisha Selvarajan <br>AI & ML Engineer <br> San Francisco, US"
 active: about
 ---
 
-<h2 class='about-h2'>About Me</h2>
+<style>
+.about-hero {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin: 1em 0 1.5em;
+}
+.about-hero-img {
+    flex-shrink: 0;
+    width: 200px;
+}
+.about-hero-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+}
+.about-hero-text {
+    flex: 1;
+}
+.about-hero-text h2 {
+    margin-top: 0;
+}
+@media (max-width: 600px) {
+    .about-hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .about-hero-img {
+        width: 140px;
+    }
+}
+</style>
 
-I am an AI & Machine Learning Engineer based in San Francisco, California, with a passion for building intelligent systems that solve real-world problems. My focus is on **Generative AI**, **LLM application development**, and **multi-agent systems** — designing architectures that go beyond simple text generation to deliver reliable, grounded, and production-ready AI solutions.
-
-I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and Retrieval-Augmented Generation (RAG), integrating large language models with real data sources, memory systems, and evaluation frameworks. I believe the most impactful AI systems are not the ones powered by the biggest models, but the ones with the most thoughtful architecture.
-
-<div style="text-align:center;">
-<img src="../../assets/images/myphoto.jpeg" width="25%" alt="Nisha Selvarajan" title="Nisha Selvarajan">
+<div class="about-hero">
+  <div class="about-hero-img">
+    <img src="../../assets/images/myphoto.jpeg" alt="Nisha Selvarajan" title="Nisha Selvarajan">
+  </div>
+  <div class="about-hero-text">
+    <h2 class='about-h2'>About Me</h2>
+    <p>I am an AI &amp; Machine Learning Engineer based in San Francisco, California, with a passion for building intelligent systems that solve real-world problems. My focus is on <strong>Generative AI</strong>, <strong>LLM application development</strong>, and <strong>multi-agent systems</strong> — designing architectures that go beyond simple text generation to deliver reliable, grounded, and production-ready AI solutions.</p>
+    <p>I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and Retrieval-Augmented Generation (RAG), integrating large language models with real data sources, memory systems, and evaluation frameworks. I believe the most impactful AI systems are not the ones powered by the biggest models, but the ones with the most thoughtful architecture.</p>
+  </div>
 </div>
 
 <h2 class='about-h2'>Education</h2>
@@ -146,14 +182,6 @@ I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and
   </div>
 
   <div style="margin-bottom:1.2em;">
-    <div class="skills-cat">Programming</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
-      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Python</span>
-      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">R</span>
-    </div>
-  </div>
-
-  <div style="margin-bottom:1.2em;">
     <div class="skills-cat">ML / DL</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
       <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Scikit Learn</span>
@@ -176,12 +204,20 @@ I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and
     </div>
   </div>
 
-  <div style="margin-bottom:0.5em;">
+  <div style="margin-bottom:1.2em;">
     <div class="skills-cat">Visualization</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
       <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Matplotlib</span>
       <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Plotly</span>
       <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Nivo Charts</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:0.5em;">
+    <div class="skills-cat">Programming</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">Python</span>
+      <span style="background:#f0f4f8;border:1px solid #d0dbe6;border-radius:20px;padding:4px 12px;font-size:0.82em;font-weight:600;color:#03425c;">R</span>
     </div>
   </div>
 
@@ -207,6 +243,19 @@ I specialise in building end-to-end AI pipelines using LangChain, LangGraph, and
     <a href="https://www.linkedin.com/in/nishaselvarajan/">
         <div class='connect-text'>
             Connect on LinkedIn (Nisha Selvarajan)
+        </div>
+    </a>
+</div>
+
+<div class='connect'>
+    <div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#333" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+    </div>
+    <a href="https://github.com/nselvar" target="_blank" rel="noopener noreferrer">
+        <div class='connect-text'>
+            View my projects on GitHub (nselvar)
         </div>
     </a>
 </div>
