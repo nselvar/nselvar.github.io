@@ -1,0 +1,1365 @@
+<h1 id="i-built-a-multi-agent-ai-system-for-banking-customer-support-here-s-everything-i-learned">I Built a Multi-Agent AI System for Banking Customer Support — Here&#39;s Everything I Learned</h1>
+<blockquote>
+<p><strong>Capstone Project — Applied Generative AI Specialisation</strong><br>Stack: Claude · LangGraph · FAISS · MCP · FastAPI · React</p>
+</blockquote>
+<hr>
+<p>When a bank customer fires off &quot;My debit card hasn&#39;t arrived in three weeks!&quot;, something deceptively complex needs to happen. The system must understand that this is a complaint — not a question — empathise with the frustration, generate a unique ticket, persist it to a database, and respond with warmth and a reference number. All in under four seconds. All without a human in the loop.</p>
+<p>That&#39;s what I set out to build for my Applied Generative AI capstone: a <strong>production-grade, multi-agent customer support system for a bank</strong>. No monolithic prompt. No single-agent loop. A directed graph of specialised AI agents, each owning exactly one job.</p>
+<p>This post walks through what I built, every feature it has, the architectural decisions behind it, and — most importantly — <strong>why I chose RAG, why I chose MCP, and why those choices matter</strong> beyond this project.</p>
+<hr>
+<h2 id="the-problem-with-just-use-an-llm-">The Problem With &quot;Just Use an LLM&quot;</h2>
+<p>The first instinct for an AI customer support system is to stuff everything into one prompt:</p>
+<pre><code><span class="hljs-comment">"You are a banking support assistant. </span>
+Classify the message, respond empathetically, 
+check the database <span class="hljs-keyword">if</span> needed, create tickets <span class="hljs-keyword">if</span> needed...<span class="hljs-comment">"</span>
+</code></pre><p>This breaks in production for three reasons:</p>
+<p><strong>1. Reliability collapses at complexity.</strong> A single prompt trying to classify, retrieve data, write to a database, <em>and</em> generate a response will occasionally fail at one step — and you&#39;ll have no idea which step failed or why.</p>
+<p><strong>2. No auditability.</strong> Banking is a regulated domain. When something goes wrong, you need to know: did the classifier misfire? Did the database write fail? Did the LLM hallucinate a policy? A monolithic prompt gives you none of that.</p>
+<p><strong>3. No knowledge of your bank.</strong> Claude was trained on public internet data. It has zero knowledge of your bank&#39;s KYC document requirements, SLA commitments, or card replacement procedures. Ask it, and it will confidently make something up.</p>
+<p>The solution is a <strong>multi-agent architecture</strong> with three key technologies: <strong>LangGraph</strong> for orchestration, <strong>RAG</strong> for grounded knowledge, and <strong>MCP</strong> for tool abstraction. Let me explain each.</p>
+<hr>
+<h2 id="what-i-built-securebank-ai">What I Built: SecureBank AI</h2>
+<p>SecureBank AI handles six real customer scenarios with distinct agent paths:</p>
+<table>
+<thead>
+<tr>
+<th>Customer Says</th>
+<th>What Happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Thank you, your team was amazing!&quot;</td>
+<td>Classifier → Positive feedback agent → Personalised warm reply</td>
+</tr>
+<tr>
+<td>&quot;My debit card hasn&#39;t arrived in 3 weeks&quot;</td>
+<td>Classifier → Negative feedback agent → Empathetic reply + auto-created ticket</td>
+</tr>
+<tr>
+<td>&quot;What documents do I need for KYC?&quot;</td>
+<td>Classifier → Query router → RAG agent → Grounded answer from policy docs</td>
+</tr>
+<tr>
+<td>&quot;What is the status of ticket TKT042?&quot;</td>
+<td>Classifier → Query router → Ticket lookup → Live DB response</td>
+</tr>
+<tr>
+<td>&quot;Please close ticket TKT042&quot;</td>
+<td>Classifier → Query router → Close ticket (with ownership validation)</td>
+</tr>
+<tr>
+<td>&quot;Why was my forex card blocked abroad?&quot;</td>
+<td>Classifier → Query router → RAG → Low confidence → Fallback ticket</td>
+</tr>
+</tbody>
+</table>
+<p>Every single one of these paths is handled by a different agent — or combination of agents — each with a specific system prompt, specific tools, and specific failure modes.</p>
+<hr>
+<h2 id="2-tech-stack-full-rationale">2. Tech Stack — Full Rationale</h2>
+<h3 id="backend-decision-matrix">Backend Decision Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Chosen</th>
+<th>Alternatives Considered</th>
+<th>Why This Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM</strong></td>
+<td>Claude claude-sonnet-4-5</td>
+<td>GPT-4o, Gemini 1.5 Pro, Mistral</td>
+<td>Reliable structured JSON output (critical for classifier), strong instruction following, low hallucination rate on constrained prompts</td>
+</tr>
+<tr>
+<td><strong>Agent Orchestration</strong></td>
+<td>LangGraph 0.2.28</td>
+<td>LangChain AgentExecutor, CrewAI, AutoGen, custom DAG</td>
+<td>Explicit stateful graph with TypedDict — full auditability required for banking; conditional edges map directly to routing logic; no &quot;reasoning loop&quot; ambiguity</td>
+</tr>
+<tr>
+<td><strong>LLM Client</strong></td>
+<td>Anthropic SDK 0.34.2</td>
+<td>LangChain ChatAnthropic</td>
+<td>Direct SDK avoids LangChain abstraction overhead; simpler retry logic; cleaner streaming interface</td>
+</tr>
+<tr>
+<td><strong>Vector Store</strong></td>
+<td>FAISS-CPU 1.9.0</td>
+<td>Pinecone, Weaviate, Chroma, Qdrant</td>
+<td>Zero infrastructure — single Python process, no network calls; in-process L2 search at &lt;5 ms; deployable without external services; swappable via LangChain interface</td>
+</tr>
+<tr>
+<td><strong>Embedding Model</strong></td>
+<td>all-MiniLM-L6-v2 (sentence-transformers)</td>
+<td>OpenAI text-embedding-ada-002, Cohere embed, bge-large-en</td>
+<td>Local execution (no API key, zero cost, no latency); 384 dimensions sufficient for 5-doc corpus; pre-normalised vectors</td>
+</tr>
+<tr>
+<td><strong>RAG Framework</strong></td>
+<td>LangChain 0.3.1</td>
+<td>LlamaIndex, Haystack</td>
+<td>FAISS + RecursiveCharacterTextSplitter integration is standard; only used for ingestion utilities — retrieval logic is custom</td>
+</tr>
+<tr>
+<td><strong>API Framework</strong></td>
+<td>FastAPI 0.115.0</td>
+<td>Flask, Django REST, Starlette</td>
+<td>Auto OpenAPI docs (swagger at /docs); Pydantic v2 native; async support for future streaming; dependency injection for DB sessions</td>
+</tr>
+<tr>
+<td><strong>Database ORM</strong></td>
+<td>SQLAlchemy 2.0.35</td>
+<td>Tortoise-ORM, Peewee, raw sqlite3</td>
+<td>Mature, battle-tested; WAL mode support; easy migration path to PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>SQLite (WAL)</td>
+<td>PostgreSQL, MySQL</td>
+<td>Zero infrastructure for a capstone demo; WAL mode handles two processes (port 8000 and 8001) reading/writing concurrently; trivial migration path</td>
+</tr>
+<tr>
+<td><strong>HTTP Client (agent→MCP)</strong></td>
+<td>httpx 0.27.2</td>
+<td>requests, aiohttp</td>
+<td>Sync + async in one library; connection pooling; HTTPX timeout control critical for MCP call reliability</td>
+</tr>
+<tr>
+<td><strong>Retry Logic</strong></td>
+<td>tenacity 8.x</td>
+<td>custom loops, backoff library</td>
+<td>Declarative <code>@retry</code> decorator with exponential backoff; used on Claude API calls</td>
+</tr>
+<tr>
+<td><strong>Validation</strong></td>
+<td>Pydantic v2 2.9.2</td>
+<td>dataclasses, attrs, marshmallow</td>
+<td>V2 performance improvement; native FastAPI integration; used in both API schemas and MCP schemas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="frontend-decision-matrix">Frontend Decision Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Chosen</th>
+<th>Alternatives Considered</th>
+<th>Why This Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UI Framework</strong></td>
+<td>React 18</td>
+<td>Vue 3, Svelte, SolidJS</td>
+<td>Widest ecosystem; hooks model clean for chat + streaming state; team familiarity in most settings</td>
+</tr>
+<tr>
+<td><strong>Build Tool</strong></td>
+<td>Vite 5</td>
+<td>Create React App, Webpack, Parcel</td>
+<td>Sub-100 ms HMR; first-class TypeScript; native ESM in dev</td>
+</tr>
+<tr>
+<td><strong>State Management</strong></td>
+<td>Zustand 5</td>
+<td>Redux Toolkit, Jotai, Recoil, Context</td>
+<td>Minimal boilerplate; no provider wrapping; perfect for chat message array + customer ID</td>
+</tr>
+<tr>
+<td><strong>HTTP</strong></td>
+<td>Axios 1.7.7</td>
+<td>Fetch API, SWR, React Query</td>
+<td>Interceptors for error handling; automatic JSON parsing; cleaner TypeScript generics</td>
+</tr>
+<tr>
+<td><strong>Styling</strong></td>
+<td>Tailwind CSS 3</td>
+<td>styled-components, CSS Modules, Emotion</td>
+<td>Utility-first prevents style drift; design tokens via config; no JS-in-CSS overhead</td>
+</tr>
+<tr>
+<td><strong>Icons</strong></td>
+<td>Lucide React</td>
+<td>Heroicons, Feather, React Icons</td>
+<td>Consistent line-weight; tree-shakeable; named imports</td>
+</tr>
+<tr>
+<td><strong>Router</strong></td>
+<td>React Router v6</td>
+<td>TanStack Router, Next.js</td>
+<td>Standard SPA routing; declarative route tree</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="the-agent-graph-8-nodes-3-decision-points">The Agent Graph: 8 Nodes, 3 Decision Points</h2>
+<p>The system is a <strong>directed acyclic graph</strong> built with LangGraph. Think of it as a flowchart where every box is an AI agent and every arrow is a conditional routing decision.</p>
+<pre><code>                    <span class="hljs-selector-tag">Customer</span> <span class="hljs-selector-tag">Message</span>
+                           │
+                  ┌────────▼─────────┐
+                  │   <span class="hljs-selector-tag">CLASSIFIER</span>     │  ← <span class="hljs-selector-tag">Claude</span> <span class="hljs-selector-tag">reads</span> <span class="hljs-selector-tag">the</span> <span class="hljs-selector-tag">message</span>,
+                  │     <span class="hljs-selector-tag">AGENT</span>        │    <span class="hljs-selector-tag">outputs</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">JSON</span> <span class="hljs-selector-tag">label</span>
+                  └────────┬─────────┘
+                           │
+         ┌─────────────────┼──────────────────┐
+         ▼                 ▼                  ▼
+  <span class="hljs-selector-attr">[Positive Feedback]</span> <span class="hljs-selector-attr">[Negative Feedback]</span> <span class="hljs-selector-attr">[Query Router]</span>
+      <span class="hljs-selector-tag">Agent</span>               <span class="hljs-selector-tag">Agent</span>               <span class="hljs-selector-tag">Agent</span>
+   (warm reply)      (empathy + ticket)   (intent flags)
+                                               │
+                           ┌───────────────────┼──────────────────┐
+                           ▼                   ▼                  ▼
+                    <span class="hljs-selector-attr">[Close Ticket]</span>       <span class="hljs-selector-attr">[Ticket Lookup]</span>       <span class="hljs-selector-attr">[RAG Agent]</span>
+                       <span class="hljs-selector-tag">Agent</span>                <span class="hljs-selector-tag">Agent</span>             (FAISS search)
+                                                                   │
+                                                      ┌────────────┴────────────┐
+                                                      ▼                         ▼
+                                               <span class="hljs-selector-attr">[Grounded             [Fallback Ticket]</span>
+                                                <span class="hljs-selector-tag">Answer</span>]                  <span class="hljs-selector-tag">Agent</span>
+                                           (conf ≥ <span class="hljs-number">0.55</span>)            (conf &lt; <span class="hljs-number">0.55</span>)
+                                                      │
+                                                      └──────► <span class="hljs-selector-attr">[LOG NODE]</span> ──► <span class="hljs-selector-tag">END</span>
+</code></pre><p>Three things make this powerful:</p>
+<p><strong>Every node is replaceable.</strong> Want to swap Claude for Gemini on the classifier? Change one function. The rest of the graph is untouched.</p>
+<p><strong>State flows through the entire graph.</strong> Every node reads from and writes to a shared <code>AgentState</code> TypedDict. By the time the response reaches the user, the state carries the customer ID, classification label, RAG confidence score, ticket ID, route chain, tool called, and list of agents invoked — all assembled automatically.</p>
+<p><strong>Routing is explicit, not inferred.</strong> In reasoning-loop architectures (like ReAct agents), the LLM decides what to do next. Here, conditional Python functions make those decisions. This matters enormously in banking: you want deterministic, auditable routing — not an LLM that occasionally takes a creative detour.</p>
+<hr>
+<h2 id="feature-1-intent-classification">Feature 1: Intent Classification</h2>
+<p>Every message enters through the same gate: the <strong>Classifier Agent</strong>.</p>
+<pre><code><span class="hljs-symbol">Input:</span>  <span class="hljs-string">"My debit card hasn't arrived in 3 weeks"</span>
+<span class="hljs-symbol">Output:</span> { <span class="hljs-string">"classification"</span>: <span class="hljs-string">"negative_feedback"</span> }
+
+<span class="hljs-symbol">Input:</span>  <span class="hljs-string">"Thank you so much for your help!"</span>
+<span class="hljs-symbol">Output:</span> { <span class="hljs-string">"classification"</span>: <span class="hljs-string">"positive_feedback"</span> }
+
+<span class="hljs-symbol">Input:</span>  <span class="hljs-string">"What is the status of ticket TKT042?"</span>
+<span class="hljs-symbol">Output:</span> { <span class="hljs-string">"classification"</span>: <span class="hljs-string">"query"</span> }
+</code></pre><p>The system prompt is deliberately minimal:</p>
+<blockquote>
+<p><em>&quot;You are a classifier. Categorise the message into exactly one of: positive_feedback, negative_feedback, query. Return only valid JSON: <code>{&quot;classification&quot;: &quot;&lt;label&gt;&quot;}</code>&quot;</em></p>
+</blockquote>
+<p>The constraint to output <strong>only JSON</strong> is critical. No preamble, no explanation — just the label. This makes the classifier composable: the routing function after it reads <code>state[&quot;classification&quot;]</code> and picks the next node. If the LLM outputs natural language instead, the routing breaks. The JSON-only instruction prevents that.</p>
+<hr>
+<h2 id="feature-2-personalised-positive-feedback">Feature 2: Personalised Positive Feedback</h2>
+<p>When the classifier returns <code>positive_feedback</code>, the system does something small but meaningful: it fetches the customer&#39;s name from the database before generating the reply.</p>
+<pre><code>MCP <span class="hljs-keyword">cal</span><span class="hljs-variable">l:</span> GET /mcp/get_customer_profile/CUST001
+← { customer_name: <span class="hljs-string">"Priya Sharma"</span>, segmen<span class="hljs-variable">t:</span> <span class="hljs-string">"PREMIUM"</span> }
+
+Claude generate<span class="hljs-variable">s:</span> <span class="hljs-comment">"Thank you for your kind words, Priya! We're absolutely </span>
+delighted <span class="hljs-keyword">to</span> hear about your positive experience with SecureBank. Your 
+satisfaction means the world <span class="hljs-keyword">to</span> us...<span class="hljs-comment">"</span>
+</code></pre><p>The difference between &quot;Thank you for your feedback!&quot; and &quot;Thank you, Priya!&quot; seems minor. In customer support, it&#39;s the entire experience.</p>
+<hr>
+<h2 id="feature-3-negative-feedback-auto-ticket">Feature 3: Negative Feedback + Auto-Ticket</h2>
+<p>This is where the system earns its keep. When a complaint comes in, three things happen automatically:</p>
+<ol>
+<li>A unique ticket number is generated (<code>TKT042</code> — 3 uppercase letters + 3 digits = 17.5 million combinations)</li>
+<li>The ticket is written to the database with status <code>OPEN</code></li>
+<li>Claude generates an empathetic response that includes the ticket number</li>
+</ol>
+<pre><code><span class="hljs-attribute">Customer</span>: "My debit card replacement still hasn't arrived after 3 weeks!"
+
+<span class="vim">System:
+→ MCP: generate_ticket_number()    → <span class="hljs-string">"TKT042"</span>
+→ MCP: create_support_ticket(...)  → ticket persisted, status = OPEN
+→ Claude: <span class="hljs-comment">"We sincerely apologize for the inconvenience, Priya. We've </span>
+   created ticket TKT042 <span class="hljs-keyword">for</span> your debit card replacement. Our team will 
+   follow <span class="hljs-keyword">up</span> within <span class="hljs-number">24</span> hours...<span class="hljs-comment">"</span></span>
+</code></pre><p>No human had to read the complaint, assess it, or create a ticket. The entire triage happened in under 3 seconds.</p>
+<hr>
+<h2 id="feature-4-rag-grounded-policy-q-a">Feature 4: RAG-Grounded Policy Q&amp;A</h2>
+<p>This is the most technically interesting feature — and the one that required the most thought.</p>
+<p>When a customer asks <em>&quot;What documents do I need for KYC at SecureBank?&quot;</em>, Claude has no idea. It was trained on generic internet data, not your bank&#39;s specific policies. If you ask it without grounding, it will either refuse or hallucinate a plausible-sounding answer that may be completely wrong.</p>
+<p><strong>RAG (Retrieval-Augmented Generation)</strong> solves this. Here&#39;s how it works end to end:</p>
+<h3 id="step-1-ingest-policy-documents-run-once-">Step 1: Ingest Policy Documents (Run Once)</h3>
+<p>The bank&#39;s policy documents are chunked into ~100 overlapping pieces of 512 characters each, then converted to 384-dimensional vectors using a local embedding model (<code>all-MiniLM-L6-v2</code>). These vectors are stored in a FAISS index on disk.</p>
+<pre><code><span class="hljs-selector-tag">debit_card_policy</span><span class="hljs-selector-class">.txt</span>  (5<span class="hljs-selector-class">.4</span> <span class="hljs-selector-tag">KB</span>)  ─┐
+<span class="hljs-selector-tag">kyc_guidelines</span><span class="hljs-selector-class">.txt</span>     (6<span class="hljs-selector-class">.2</span> <span class="hljs-selector-tag">KB</span>)  ─┤   → ~100 <span class="hljs-selector-tag">text</span> <span class="hljs-selector-tag">chunks</span>
+<span class="hljs-selector-tag">dispute_resolution</span><span class="hljs-selector-class">.txt</span> (6<span class="hljs-selector-class">.9</span> <span class="hljs-selector-tag">KB</span>)  ─┤   → 100 × 384<span class="hljs-selector-tag">-dim</span> <span class="hljs-selector-tag">vectors</span>
+<span class="hljs-selector-tag">net_banking_reset</span><span class="hljs-selector-class">.txt</span>  (5<span class="hljs-selector-class">.8</span> <span class="hljs-selector-tag">KB</span>)  ─┤   → <span class="hljs-selector-tag">FAISS</span> <span class="hljs-selector-tag">index</span> (<span class="hljs-selector-tag">saved</span> <span class="hljs-selector-tag">to</span> <span class="hljs-selector-tag">disk</span>)
+<span class="hljs-selector-tag">sla_commitments</span><span class="hljs-selector-class">.txt</span>    (6<span class="hljs-selector-class">.8</span> <span class="hljs-selector-tag">KB</span>)  ─┘
+</code></pre><h3 id="step-2-retrieve-on-every-query">Step 2: Retrieve on Every Query</h3>
+<p>When the customer asks a question, it&#39;s embedded with the same model and compared against all 100 stored vectors using L2 distance. The four closest chunks are returned in ~5 milliseconds.</p>
+<h3 id="step-3-ground-claude-s-answer">Step 3: Ground Claude&#39;s Answer</h3>
+<p>Claude never reads the original documents. It only sees the retrieved chunks, with a strict instruction:</p>
+<blockquote>
+<p><em>&quot;Base your answer STRICTLY on the provided context documents. Do NOT use external knowledge or make assumptions. If the context does not contain enough information, say so.&quot;</em></p>
+</blockquote>
+<p>The result: Claude answers with the bank&#39;s actual policies, and cannot invent content it wasn&#39;t given.</p>
+<h3 id="step-4-confidence-gate">Step 4: Confidence Gate</h3>
+<p>This is the part most RAG tutorials skip. Not every customer question is answerable from the knowledge base. A query about &quot;why my forex card was blocked in Singapore&quot; might not appear in any policy document.</p>
+<p>The system computes a confidence score after retrieval:</p>
+<pre><code>confidence = <span class="hljs-number">0.7</span> × (<span class="hljs-built_in">top</span> <span class="hljs-keyword">match</span> score) + <span class="hljs-number">0.3</span> × (average of <span class="hljs-built_in">top</span> <span class="hljs-number">3</span> scores)
+</code></pre><p>If confidence ≥ 0.55: answer using the retrieved chunks.<br>If confidence &lt; 0.55: don&#39;t guess — create a fallback ticket for a human specialist.</p>
+<p>This single gate is what prevents the system from confidently hallucinating answers to questions it doesn&#39;t know.</p>
+<hr>
+<h2 id="feature-5-live-ticket-status-lookup">Feature 5: Live Ticket Status Lookup</h2>
+<pre><code><span class="hljs-attribute">Customer</span>: "What is the status of ticket TKT042?"
+
+<span class="vim">→ Query router extracts <span class="hljs-string">"TKT042"</span> from the message
+→ MCP: GET /mcp/get_ticket_status/TKT042
+   ← { statu<span class="hljs-variable">s:</span> <span class="hljs-string">"IN_PROGRESS"</span>, days_open: <span class="hljs-number">2</span>, sla_breached: false }
+→ Claude: <span class="hljs-comment">"Your ticket TKT042 is currently marked as In Progress. </span>
+   It was opened <span class="hljs-number">2</span> days ago <span class="hljs-built_in">and</span> <span class="hljs-keyword">is</span> within our SLA commitment.<span class="hljs-comment">"</span></span>
+</code></pre><p>The SLA breach flag is computed in real time — not stored. If a ticket is <code>OPEN</code> and older than 3 days, <code>sla_breached</code> is <code>true</code>. This means it&#39;s always accurate, with no batch job needed.</p>
+<hr>
+<h2 id="feature-6-ownership-validated-ticket-closure">Feature 6: Ownership-Validated Ticket Closure</h2>
+<p>A subtle but important security feature: customers can only close their own tickets.</p>
+<pre><code>Customer CUST001: "Please close ticket TKT042"
+
+MCP ownership <span class="hljs-keyword">check</span>:
+  ticket.customer_id == <span class="hljs-string">"CUST001"</span>? ✅
+  → <span class="hljs-keyword">UPDATE</span> support_tickets <span class="hljs-keyword">SET</span> <span class="hljs-keyword">status</span>=<span class="hljs-string">'CLOSED'</span> <span class="hljs-keyword">WHERE</span> ticket_id=<span class="hljs-string">'TKT042'</span>
+
+Customer CUST002 trying <span class="hljs-keyword">to</span> <span class="hljs-keyword">close</span> CUST001<span class="hljs-string">'s ticket:
+  ticket.customer_id == "CUST002"? ❌ HTTP 403
+  → "You can only close tickets that belong to your account."</span>
+</code></pre><p>This business rule lives in exactly one place — the MCP tool layer — and is enforced regardless of which agent calls the tool.</p>
+<hr>
+<h2 id="feature-7-full-agent-trace-on-every-response">Feature 7: Full Agent Trace on Every Response</h2>
+<p>Every response the system generates includes a collapsible debug trace in the UI:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"classification"</span>: <span class="hljs-string">"query"</span>,
+  <span class="hljs-attr">"route_taken"</span>: <span class="hljs-string">"classifier → query_router → ticket_lookup(TKT042:IN_PROGRESS)"</span>,
+  <span class="hljs-attr">"rag_confidence"</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">"tool_called"</span>: <span class="hljs-string">"get_ticket_status"</span>,
+  <span class="hljs-attr">"agents_invoked"</span>: [<span class="hljs-string">"classifier_node"</span>, <span class="hljs-string">"query_router_node"</span>, <span class="hljs-string">"ticket_lookup_node"</span>, <span class="hljs-string">"log_node"</span>],
+  <span class="hljs-attr">"latency_ms"</span>: <span class="hljs-number">2341</span>
+}
+</code></pre>
+<p>In a banking context, this isn&#39;t optional — it&#39;s necessary. When a response is wrong, you need to know if the classifier mislabelled, if the query router extracted the wrong ticket number, or if the LLM ignored the retrieved context.</p>
+<hr>
+<h2 id="the-technology-behind-it-three-core-choices">The Technology Behind It: Three Core Choices</h2>
+<h3 id="why-langgraph-">Why LangGraph?</h3>
+<p>LangGraph treats the agent pipeline as a <strong>stateful directed graph</strong>. Each node is a function that receives the full agent state and returns an updated state. Routing decisions are explicit Python functions, not LLM inferences.</p>
+<p>The alternative is a &quot;reasoning loop&quot; agent (like LangChain&#39;s AgentExecutor or AutoGen), where the LLM itself decides what to do next. For general-purpose assistants, that&#39;s fine. For banking — where every decision needs to be auditable and every routing path needs to be testable — explicit graph routing is the right choice.</p>
+<p>LangGraph also gives you the trace for free. Because state grows as it passes through each node (appending to <code>route_taken</code> and <code>agents_invoked</code>), you get a complete audit trail without any extra instrumentation.</p>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Routing</th>
+<th>State</th>
+<th>Auditability</th>
+<th>Banking Suitability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LangGraph</strong></td>
+<td>Explicit conditional edges</td>
+<td>TypedDict, full propagation</td>
+<td>Full trace</td>
+<td>✅ High</td>
+</tr>
+<tr>
+<td>CrewAI</td>
+<td>Agent roles with task assignment</td>
+<td>Per-agent memory</td>
+<td>Medium</td>
+<td>⚠️ Medium</td>
+</tr>
+<tr>
+<td>AutoGen</td>
+<td>Multi-agent conversation</td>
+<td>Message history</td>
+<td>Low</td>
+<td>⚠️ Low</td>
+</tr>
+<tr>
+<td>LangChain AgentExecutor</td>
+<td>ReAct loop (reason-act)</td>
+<td>Tool call history</td>
+<td>Low</td>
+<td>❌ Low</td>
+</tr>
+<tr>
+<td>Custom Python</td>
+<td>Manual if/else</td>
+<td>Dict passing</td>
+<td>Custom</td>
+<td>✅ (if well-built)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-mcp-">Why MCP?</h3>
+<p>MCP (Model Context Protocol) is an architectural pattern where tools — database operations, API calls, business logic — are exposed as HTTP endpoints that agents call over HTTP. Agents never import database models or write SQL.</p>
+<p>Here&#39;s the concrete benefit. Imagine the negative feedback agent needs to check ownership before updating a ticket. Without MCP, that ownership check logic lives inside the agent. If you add a second agent that also updates tickets, you either duplicate the check or extract it into a shared utility. Then a third agent. Then a fourth.</p>
+<p>With MCP, the ownership check lives in one place: the <code>update_ticket_status</code> tool. Every agent that calls this endpoint gets the validation automatically. Change the business rule once; all agents benefit immediately.</p>
+<pre><code> WITHOUT MCP                          WITH MCP
+ ─────────────────────────────────    ──────────────────────────────────────
+ Agent imports db models directly     Agent calls HTTP endpoint
+ Agent writes SQLAlchemy queries      MCP server owns all DB logic
+ Agent knows about TicketStatus <span class="hljs-class"><span class="hljs-keyword">enum</span>  <span class="hljs-title">Agent</span> <span class="hljs-title">only</span> <span class="hljs-title">knows</span> <span class="hljs-title">tool</span> <span class="hljs-title">name</span> + <span class="hljs-title">JSON</span> <span class="hljs-title">shape</span></span>
+ Change DB schema → fix every agent   Change DB schema → fix MCP only
+ Can<span class="hljs-string">'t reuse logic across agents      Any agent can call any tool</span>
+</code></pre><p>The six tools in this system cover the complete lifecycle of a support interaction:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generate_ticket_number</code></td>
+<td>Returns a unique alphanumeric ID</td>
+</tr>
+<tr>
+<td><code>create_support_ticket</code></td>
+<td>Persists a new ticket with deduplication</td>
+</tr>
+<tr>
+<td><code>get_ticket_status</code></td>
+<td>Fetches live status with SLA breach calculation</td>
+</tr>
+<tr>
+<td><code>update_ticket_status</code></td>
+<td>Updates status with ownership validation</td>
+</tr>
+<tr>
+<td><code>get_customer_profile</code></td>
+<td>Returns profile with email masking (PII protection)</td>
+</tr>
+<tr>
+<td><code>log_interaction</code></td>
+<td>Async audit trail — never blocks the response</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-rag-">Why RAG?</h3>
+<p>The short answer: because you cannot fine-tune your way to correctness, and you cannot prompt-engineer your way to accuracy on proprietary policies.</p>
+<p>Fine-tuning would require retraining the model every time a policy changes. RAG requires adding a <code>.txt</code> file and re-running an ingestion script.</p>
+<p>Prompt-stuffing the entire policy corpus into the context window is expensive, slow, and hits token limits. RAG retrieves only the relevant 4 chunks — around 2,000 characters — per query.</p>
+<p>The key insight is that RAG separates <strong>what the model knows how to do</strong> (generate fluent, empathetic text) from <strong>what it knows</strong> (your specific bank&#39;s policies). Claude provides the language skill; the FAISS index provides the knowledge.</p>
+<hr>
+<h2 id="system-level-design">System-Level Design</h2>
+<h3 id="process-topology">Process Topology</h3>
+<pre><code> ┌─────────────────────────────────────────────────────────────────────────────┐
+ │  Client Browser                                                              │
+ │  React SPA (Vite dev <span class="hljs-string">server :</span><span class="hljs-number">5173</span> / <span class="hljs-string">Nginx :</span><span class="hljs-number">80</span> <span class="hljs-keyword">in</span> prod)                      │
+ │                                                                              │
+ │  <span class="hljs-string">Pages:</span>  Chat  │  Tickets  │  Logs  │  Evaluation                           │
+ └──────────────────────────────┬──────────────────────────────────────────────┘
+                                │  HTTP/JSON  (REST over localhost or CDN)
+                                ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │  FastAPI Application Server  (:<span class="hljs-number">8000</span>)                                         │
+ │                                                                              │
+ │  POST <span class="hljs-regexp">/api/</span>query          →  routers/query.py  →  run_graph()               │
+ │  GET  <span class="hljs-regexp">/api/</span>tickets        →  routers/tickets.py                              │
+ │  GET  <span class="hljs-regexp">/api/</span>logs           →  routers/logs.py                                 │
+ │  GET  <span class="hljs-regexp">/api/</span>evaluation     →  routers/evaluation.py                           │
+ │  GET  /health                                                                │
+ │                                                                              │
+ │  ┌────────────────────────────────────────────────────────────────┐         │
+ │  │  LangGraph Orchestrator                                        │         │
+ │  │  (compiled StateGraph, singleton at module <span class="hljs-keyword">import</span>)             │         │
+ │  │                                                                │         │
+ │  │  classifier_node → route_after_classification                  │         │
+ │  │       ├── positive_feedback_node                               │         │
+ │  │       ├── negative_feedback_node                               │         │
+ │  │       └── query_router_node → route_after_query                │         │
+ │  │               ├── ticket_lookup_node                           │         │
+ │  │               ├── close_ticket_node                            │         │
+ │  │               └── rag_node → route_after_rag                   │         │
+ │  │                       ├── log_node → END                       │         │
+ │  │                       └── fallback_ticket_node → log_node      │         │
+ │  └───────────────────┬────────────────────────┬───────────────────┘         │
+ │                      │ httpx                  │ local                       │
+ │                      ▼                        ▼                             │
+ │            MCP Server calls            FAISS Index                          │
+ │          (<span class="hljs-string">localhost:</span><span class="hljs-number">8001</span>)              (rag<span class="hljs-regexp">/faiss_index/</span>)                   │
+ └──────────────────────┬─────────────────────────────────────────────────────┘
+                        │  HTTP/JSON  (inter-process, localhost)
+                        ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │  MCP Tool Server  (:<span class="hljs-number">8001</span>)  — FastAPI app (mcp_app)                          │
+ │                                                                              │
+ │  POST <span class="hljs-regexp">/mcp/</span>generate_ticket_number                                            │
+ │  POST <span class="hljs-regexp">/mcp/</span>create_support_ticket                                             │
+ │  GET  <span class="hljs-regexp">/mcp/</span>get_ticket_status/{ticket_id}                                     │
+ │  POST <span class="hljs-regexp">/mcp/</span>update_ticket_status                                              │
+ │  GET  <span class="hljs-regexp">/mcp/</span>get_customer_profile/{customer_id}                                │
+ │  POST <span class="hljs-regexp">/mcp/</span>log_interaction                                                   │
+ │                                                                              │
+ │  mcp<span class="hljs-regexp">/server.py  →  mcp/</span>tools.py  →  db/crud.py                              │
+ └──────────────────────────────────────┬──────────────────────────────────────┘
+                                        │  SQLAlchemy ORM
+                                        ▼
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │  SQLite  (banking_support.db, WAL mode)                                      │
+ │                                                                              │
+ │  <span class="hljs-string">Tables:</span> customers · support_tickets · interaction_logs                      │
+ └─────────────────────────────────────────────────────────────────────────────┘
+
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │  Anthropic API  (external, HTTPS)                                            │
+ │  claude-sonnet<span class="hljs-number">-4</span><span class="hljs-number">-5</span> — called from llm_client.py by every agent node          │
+ └─────────────────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="request-lifecycle-sequence-diagram">Request Lifecycle — Sequence Diagram</h3>
+<pre><code><span class="hljs-selector-tag">Browser</span>          <span class="hljs-selector-tag">FastAPI</span>(:<span class="hljs-number">8000</span>)    <span class="hljs-selector-tag">LangGraph</span>         <span class="hljs-selector-tag">MCP</span>(:<span class="hljs-number">8001</span>)    <span class="hljs-selector-tag">Anthropic</span> <span class="hljs-selector-tag">API</span>
+  │                   │               │                  │               │
+  │ <span class="hljs-selector-tag">POST</span> /<span class="hljs-selector-tag">api</span>/<span class="hljs-selector-tag">query</span>   │               │                  │               │
+  │ ─────────────────►│               │                  │               │
+  │                   │ <span class="hljs-selector-tag">run_graph</span>()   │                  │               │
+  │                   │──────────────►│                  │               │
+  │                   │               │ <span class="hljs-selector-tag">classify_message</span> │               │
+  │                   │               │─────────────────────────────────►│
+  │                   │               │◄─────────────────────────────────│
+  │                   │               │ (<span class="hljs-attribute">label</span>: <span class="hljs-string">"negative_feedback"</span>)      │
+  │                   │               │                  │               │
+  │                   │               │ <span class="hljs-selector-tag">POST</span> /<span class="hljs-selector-tag">mcp</span>/<span class="hljs-selector-tag">generate_ticket_number</span>  │
+  │                   │               │─────────────────►│               │
+  │                   │               │◄─────────────────│               │
+  │                   │               │ (<span class="hljs-string">"TKT042"</span>)        │               │
+  │                   │               │                  │               │
+  │                   │               │ <span class="hljs-selector-tag">POST</span> /<span class="hljs-selector-tag">mcp</span>/<span class="hljs-selector-tag">create_support_ticket</span>   │
+  │                   │               │─────────────────►│               │
+  │                   │               │◄─────────────────│               │
+  │                   │               │ (ticket created)  │               │
+  │                   │               │                  │               │
+  │                   │               │ <span class="hljs-selector-tag">generate</span> <span class="hljs-selector-tag">empathy</span> <span class="hljs-selector-tag">reply</span>            │
+  │                   │               │─────────────────────────────────►│
+  │                   │               │◄─────────────────────────────────│
+  │                   │               │                  │               │
+  │                   │               │ <span class="hljs-selector-tag">POST</span> /<span class="hljs-selector-tag">mcp</span>/<span class="hljs-selector-tag">log_interaction</span> (async) │
+  │                   │               │─────────────────►│               │
+  │                   │               │ (fire-and-forget) │               │
+  │                   │               │                  │               │
+  │                   │◄──────────────│ <span class="hljs-selector-tag">final</span> <span class="hljs-selector-tag">state</span>       │               │
+  │                   │ <span class="hljs-selector-tag">build</span> <span class="hljs-selector-tag">response</span>│                  │               │
+  │◄──────────────────│               │                  │               │
+  │ { <span class="hljs-selector-tag">response</span>, <span class="hljs-selector-tag">trace</span> }               │                  │               │
+</code></pre><h3 id="thread-safety-model">Thread Safety Model</h3>
+<pre><code> Port 8000 (FastAPI)          Port 8001 (MCP Server)
+       │                              │
+       │  Both processes share        │
+       └──────────────┬───────────────┘
+                      │
+              banking_support.db
+              (SQLite, WAL mode)
+
+ WAL (Write-Ahead Log) mode allows:
+ - Multiple concurrent READERS
+ - One WRITER at a time
+ - Readers don't block the writer
+ - busy_timeout = 5000ms prevents deadlocks
+
+ <span class="hljs-keyword">PRAGMA</span> journal_mode = WAL;   ← <span class="hljs-keyword">set</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">connection</span> <span class="hljs-keyword">time</span> <span class="hljs-keyword">in</span> db/database.py
+ <span class="hljs-keyword">PRAGMA</span> busy_timeout = <span class="hljs-number">5000</span>;  ← 5s timeout before "database locked" error
+
+ FastAPI + MCP Server each <span class="hljs-keyword">use</span> scoped_session per request thread.
+ <span class="hljs-keyword">Connection</span> returned <span class="hljs-keyword">to</span> pool <span class="hljs-keyword">after</span> <span class="hljs-keyword">each</span> request — <span class="hljs-keyword">no</span> <span class="hljs-keyword">cross</span>-process leaks.
+</code></pre><h3 id="module-dependency-graph">Module Dependency Graph</h3>
+<pre><code>main<span class="hljs-selector-class">.py</span>
+  └── routers/query<span class="hljs-selector-class">.py</span>
+        └── agents/orchestrator<span class="hljs-selector-class">.py</span>  ← compiled LangGraph DAG
+              ├── agents/classifier_agent<span class="hljs-selector-class">.py</span>
+              │     └── agents/llm_client<span class="hljs-selector-class">.py</span>
+              ├── agents/feedback_agent<span class="hljs-selector-class">.py</span>
+              │     ├── agents/llm_client<span class="hljs-selector-class">.py</span>
+              │     └── httpx → MCP :<span class="hljs-number">8001</span>
+              ├── agents/query_router_agent<span class="hljs-selector-class">.py</span>
+              │     └── agents/llm_client<span class="hljs-selector-class">.py</span>
+              ├── agents/rag_agent<span class="hljs-selector-class">.py</span>
+              │     ├── rag/retriever<span class="hljs-selector-class">.py</span>
+              │     │     └── rag/faiss_index/ (disk)
+              │     ├── agents/llm_client<span class="hljs-selector-class">.py</span>
+              │     └── httpx → MCP :<span class="hljs-number">8001</span>
+              ├── agents/ticket_agent<span class="hljs-selector-class">.py</span>
+              │     ├── agents/llm_client<span class="hljs-selector-class">.py</span>
+              │     └── httpx → MCP :<span class="hljs-number">8001</span>
+              └── (log_node inline <span class="hljs-keyword">in</span> orchestrator.py)
+                    └── httpx → MCP :<span class="hljs-number">8001</span>
+
+mcp/server<span class="hljs-selector-class">.py</span> (mcp_app)
+  └── mcp/tools<span class="hljs-selector-class">.py</span>
+        └── db/crud<span class="hljs-selector-class">.py</span>
+              └── db/models<span class="hljs-selector-class">.py</span>
+                    └── db/database<span class="hljs-selector-class">.py</span> (SQLite engine)
+
+rag/ingest<span class="hljs-selector-class">.py</span> (one-<span class="hljs-selector-tag">time</span> script)
+  └── rag/documents<span class="hljs-comment">/*.txt
+  └── LangChain loaders + splitter
+  └── sentence-transformers (HuggingFaceEmbeddings)
+  └── FAISS → rag/faiss_index/ (disk)</span>
+</code></pre><hr>
+<h2 id="architecture-diagram">Architecture Diagram</h2>
+<h3 id="high-level-architecture">High-Level Architecture</h3>
+<pre><code>╔═══════════════════════════════════════════════════════════════════════════╗
+║                         SECUREBANK AI PLATFORM                           ║
+║                                                                           ║
+║  ┌─────────────────────────────────────────────────────────────────────┐ ║
+║  │                    PRESENTATION LAYER                                │ ║
+║  │                                                                      │ ║
+║  │   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────────────┐  │ ║
+║  │   │   Chat   │   │ Tickets  │   │   Logs   │   │  Evaluation   │  │ ║
+║  │   │   Page   │   │   Page   │   │   Page   │   │   Dashboard   │  │ ║
+║  │   └────┬─────┘   └─────┬────┘   └────┬─────┘   └──────┬────────┘  │ ║
+║  │        └───────────────┴─────────────┴─────────────────┘           │ ║
+║  │                              Axios + Zustand                        │ ║
+║  └──────────────────────────────────┬───────────────────────────────────┘ ║
+║                                     │ REST/JSON                          ║
+║  ┌──────────────────────────────────▼───────────────────────────────────┐ ║
+║  │                       API GATEWAY LAYER                              │ ║
+║  │                    FastAPI  :<span class="hljs-number">8000</span>                                    │ ║
+║  │   POST /api/query  │  GET /api/tickets  │  GET /api/logs             │ ║
+║  └──────────────────────────────────┬───────────────────────────────────┘ ║
+║                                     │                                     ║
+║  ┌──────────────────────────────────▼───────────────────────────────────┐ ║
+║  │                    ORCHESTRATION LAYER                               │ ║
+║  │                 LangGraph StateGraph                                 │ ║
+║  │                                                                      │ ║
+║  │  ┌─────────────┐                                                    │ ║
+║  │  │  CLASSIFIER │─── positive ──►┌──────────────────────┐           │ ║
+║  │  │    <span class="hljs-keyword">NODE</span>     <span class="hljs-title">│─── negative</span> ──►│ POSITIVE FEEDBACK    │           │ ║
+║  │  │  (Claude)   │                │ <span class="hljs-keyword">NODE</span> <span class="hljs-title">(Claude</span>)        │           │ ║
+║  │  └──────┬──────┘                └──────────────────────┘           │ ║
+║  │         │ query                                                      │ ║
+║  │         │                       ┌──────────────────────┐           │ ║
+║  │         ▼                       │ NEGATIVE FEEDBACK    │           │ ║
+║  │  ┌─────────────┐                │ <span class="hljs-keyword">NODE</span> <span class="hljs-title">(Claude</span> + MCP)  │           │ ║
+║  │  │   QUERY     │── close+num ──►└──────────────────────┘           │ ║
+║  │  │   ROUTER    │                ┌──────────────────────┐           │ ║
+║  │  │   <span class="hljs-keyword">NODE</span>      <span class="hljs-title">│── num</span> only ───►│  CLOSE TICKET <span class="hljs-keyword">NODE</span>   <span class="hljs-title">│           │ ║
+║  │  │  (Claude</span>)   │── no <span class="hljs-keyword">number</span> ──►│  (Claude + MCP)      │           │ ║
+║  │  └─────────────┘                ├──────────────────────┤           │ ║
+║  │                                 │  TICKET LOOKUP <span class="hljs-keyword">NODE</span>  <span class="hljs-title">│           │ ║
+║  │                                 │  (Claude</span> + MCP)      │           │ ║
+║  │                                 └──────────────────────┘           │ ║
+║  │                                                                      │ ║
+║  │                           ┌──────────────────────┐                 │ ║
+║  │                           │    RAG <span class="hljs-keyword">NODE</span>          <span class="hljs-title">│──conf</span>≥<span class="hljs-number">0.55</span>──►  │ ║
+║  │                           │  (FAISS + Claude)    │                 │ ║
+║  │                           └──────────┬───────────┘                 │ ║
+║  │                                      │ conf<span class="hljs-tag">&lt;0.55                   │ ║
+║  │                                      ▼                             │ ║
+║  │                           ┌──────────────────────┐                 │ ║
+║  │                           │  FALLBACK TICKET     │                 │ ║
+║  │                           │  NODE (Claude + MCP) │                 │ ║
+║  │                           └──────────────────────┘                 │ ║
+║  │                                      │ all paths                   │ ║
+║  │                                      ▼                             │ ║
+║  │                           ┌──────────────────────┐                 │ ║
+║  │                           │     LOG NODE         │──────► END      │ ║
+║  │                           │  (MCP async)         │                 │ ║
+║  │                           └──────────────────────┘                 │ ║
+║  └───────────────────────────────────────┬───────────────────────────-┘ ║
+║                  ┌────────────────────────┤                              ║
+║                  │                        │                              ║
+║  ┌───────────────▼───────┐  ┌─────────────▼──────────────────────────┐  ║
+║  │   KNOWLEDGE LAYER     │  │       TOOL LAYER (MCP :8001)           │  ║
+║  │                       │  │                                         │  ║
+║  │  FAISS Vector Index   │  │  generate_ticket_number                 │  ║
+║  │  all-MiniLM-L6-v2     │  │  create_support_ticket                  │  ║
+║  │  384-dim embeddings   │  │  get_ticket_status                      │  ║
+║  │                       │  │  update_ticket_status                   │  ║
+║  │  5 policy documents:  │  │  get_customer_profile                   │  ║
+║  │  · debit_card_policy  │  │  log_interaction                        │  ║
+║  │  · kyc_guidelines     │  │                                         │  ║
+║  │  · dispute_resolution │  │  Business Rules:                        │  ║
+║  │  · net_banking_reset  │  │  · Ownership validation                 │  ║
+║  │  · sla_commitments    │  │  · SLA breach detection                 │  ║
+║  │                       │  │  · Email masking (PII)                  │  ║
+║  └───────────────────────┘  │  · Ticket deduplication                 │  ║
+║                             └──────────────────────┬────────────────-─┘  ║
+║                                                    │ SQLAlchemy ORM      ║
+║                             ┌──────────────────────▼────────────────────┐ ║
+║                             │           PERSISTENCE LAYER               │ ║
+║                             │          SQLite (WAL mode)                │ ║
+║                             │  customers │ support_tickets │ logs       │ ║
+║                             └────────────────────────────────────────────┘ ║
+║                                                                           ║
+║  ┌────────────────────────────────────────────────────────────────────┐  ║
+║  │                      EXTERNAL SERVICES                              │  ║
+║  │              Anthropic API (claude-sonnet-4-5)                      │  ║
+║  │              Called by: classifier, feedback, rag, ticket agents    │  ║
+║  └────────────────────────────────────────────────────────────────────┘  ║
+╚═══════════════════════════════════════════════════════════════════════════╝</span>
+</code></pre><h3 id="data-layer-architecture">Data Layer Architecture</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────────────────┐
+│                        <span class="hljs-selector-tag">DATA</span> <span class="hljs-selector-tag">ARCHITECTURE</span>                                 │
+│                                                                          │
+│  <span class="hljs-selector-tag">STRUCTURED</span> <span class="hljs-selector-tag">DATA</span> (SQLite)          <span class="hljs-selector-tag">VECTOR</span> <span class="hljs-selector-tag">DATA</span> (FAISS on disk)          │
+│  ─────────────────────             ─────────────────────────────        │
+│                                                                          │
+│  <span class="hljs-selector-tag">customers</span>                         <span class="hljs-selector-tag">rag</span>/<span class="hljs-selector-tag">faiss_index</span>/                     │
+│  ┌──────────────────────┐         ┌─────────────────────────────┐      │
+│  │ <span class="hljs-selector-tag">customer_id</span> (PK)     │         │  <span class="hljs-selector-tag">index</span><span class="hljs-selector-class">.faiss</span>                │      │
+│  │ <span class="hljs-selector-tag">customer_name</span>        │         │  (FAISS FlatL2 index)       │      │
+│  │ <span class="hljs-selector-tag">segment</span>              │         │  ~<span class="hljs-selector-tag">100</span> <span class="hljs-selector-tag">384-dim</span> <span class="hljs-selector-tag">float</span> <span class="hljs-selector-tag">vectors</span>  │      │
+│  │ <span class="hljs-selector-tag">email</span> (maskable)     │         └─────────────────────────────┘      │
+│  │ <span class="hljs-selector-tag">account_since</span>        │                                               │
+│  │ <span class="hljs-selector-tag">preferred_lang</span>       │         ┌─────────────────────────────┐      │
+│  │ <span class="hljs-selector-tag">created_at</span>           │         │  <span class="hljs-selector-tag">index</span><span class="hljs-selector-class">.pkl</span>                  │      │
+│  └──────────┬───────────┘         │  (LangChain FAISS wrapper)  │      │
+│             │ <span class="hljs-selector-tag">1</span><span class="hljs-selector-pseudo">:N</span>                 │  <span class="hljs-selector-tag">doc</span> <span class="hljs-selector-tag">metadata</span> + <span class="hljs-selector-tag">content</span>     │      │
+│  <span class="hljs-selector-tag">support_tickets</span>                  └─────────────────────────────┘      │
+│  ┌──────────────────────┐                                               │
+│  │ <span class="hljs-selector-tag">ticket_id</span> (PK)       │         <span class="hljs-selector-tag">SOURCE</span> <span class="hljs-selector-tag">DOCUMENTS</span>                     │
+│  │ <span class="hljs-selector-tag">customer_id</span> (FK)     │         <span class="hljs-selector-tag">5</span> × <span class="hljs-selector-class">.txt</span> <span class="hljs-selector-tag">policy</span> <span class="hljs-selector-tag">files</span> (~<span class="hljs-number">31</span> KB)       │
+│  │ <span class="hljs-selector-tag">issue_text</span>           │         <span class="hljs-selector-tag">Chunked</span>: ~<span class="hljs-selector-tag">100</span> × <span class="hljs-selector-tag">512-char</span> <span class="hljs-selector-tag">pieces</span>      │
+│  │ <span class="hljs-selector-tag">status</span>               │         <span class="hljs-selector-tag">Embedded</span> <span class="hljs-selector-tag">once</span>, <span class="hljs-selector-tag">stored</span> <span class="hljs-selector-tag">in</span> <span class="hljs-selector-tag">FAISS</span>       │
+│  │ <span class="hljs-selector-tag">sla_breached</span>         │                                               │
+│  │ <span class="hljs-selector-tag">created_at</span>           │                                               │
+│  │ <span class="hljs-selector-tag">updated_at</span>           │                                               │
+│  └──────────┬───────────┘                                               │
+│             │ <span class="hljs-selector-tag">1</span><span class="hljs-selector-pseudo">:N</span> (nullable)                                            │
+│  <span class="hljs-selector-tag">interaction_logs</span>                                                        │
+│  ┌──────────────────────┐                                               │
+│  │ <span class="hljs-selector-tag">id</span> (PK auto)         │                                               │
+│  │ <span class="hljs-selector-tag">customer_id</span> (FK)     │                                               │
+│  │ <span class="hljs-selector-tag">message</span>              │                                               │
+│  │ <span class="hljs-selector-tag">classification</span>       │                                               │
+│  │ <span class="hljs-selector-tag">route_taken</span>          │                                               │
+│  │ <span class="hljs-selector-tag">response_text</span>        │                                               │
+│  │ <span class="hljs-selector-tag">tool_called</span>          │                                               │
+│  │ <span class="hljs-selector-tag">rag_confidence</span>       │                                               │
+│  │ <span class="hljs-selector-tag">ticket_id</span> (FK null)  │                                               │
+│  │ <span class="hljs-selector-tag">created_at</span>           │                                               │
+│  └──────────────────────┘                                               │
+└─────────────────────────────────────────────────────────────────────────┘
+</code></pre><hr>
+<h2 id="rag-pipeline-deep-dive">RAG Pipeline — Deep Dive</h2>
+<h3 id="the-two-phases">The Two Phases</h3>
+<p>RAG has two completely separate phases. Ingestion happens once. Retrieval happens on every query.</p>
+<pre><code> ┌─────────────────────────────────────────────────────────────────────┐
+ │  PHASE <span class="hljs-number">1</span> — INGESTION                                                │
+ │  Run once: python -m rag.ingest                                     │
+ │                                                                     │
+ │   Policy documents (.txt)                                           │
+ │         │                                                           │
+ │         ▼  Split <span class="hljs-keyword">into</span> chunks                                        │
+ │         │  RecursiveCharacterTextSplitter                           │
+ │         │  chunk_size = <span class="hljs-number">512</span> <span class="hljs-keyword">chars</span> · overlap = <span class="hljs-number">128</span> <span class="hljs-keyword">chars</span>             │
+ │         │                                                           │
+ │         ▼  ~<span class="hljs-number">100</span> overlapping <span class="hljs-keyword">text</span> chunks                             │
+ │         │                                                           │
+ │         ▼  Convert <span class="hljs-keyword">each</span> chunk <span class="hljs-built_in">to</span> <span class="hljs-keyword">a</span> vector                           │
+ │         │  HuggingFaceEmbeddings (all-MiniLM-L6-v2)                │
+ │         │  → <span class="hljs-number">384</span> floating-point numbers per chunk                   │
+ │         │                                                           │
+ │         ▼  Build <span class="hljs-keyword">the</span> FAISS index                                    │
+ │         │  FAISS.from_documents(chunks, embeddings)                 │
+ │         │                                                           │
+ │         └──▶  Saved <span class="hljs-built_in">to</span> disk                                         │
+ │               rag/faiss_index/index.faiss                           │
+ │               rag/faiss_index/index.pkl                             │
+ └─────────────────────────────────────────────────────────────────────┘
+
+ ┌─────────────────────────────────────────────────────────────────────┐
+ │  PHASE <span class="hljs-number">2</span> — RETRIEVAL                                                │
+ │  Runs <span class="hljs-keyword">on</span> <span class="hljs-title">every</span> <span class="hljs-title">customer</span> <span class="hljs-title">query</span>                                       │
+ │                                                                     │
+ │   Customer question: <span class="hljs-string">"What documents do I need for KYC?"</span>           │
+ │         │                                                           │
+ │         ▼  Embed <span class="hljs-keyword">the</span> question <span class="hljs-keyword">with</span> <span class="hljs-keyword">the</span> same model                  │
+ │         │  all-MiniLM-L6-v2 → [<span class="hljs-number">0.21</span>, <span class="hljs-number">-0.44</span>, <span class="hljs-number">0.87</span>, ...]            │
+ │         │                                                           │
+ │         ▼  Search <span class="hljs-keyword">the</span> FAISS index                                   │
+ │         │  similarity_search_with_score(query_vector, k=<span class="hljs-number">4</span>)         │
+ │         │  → returns top <span class="hljs-number">4</span> closest chunks + their L2 distances     │
+ │         │                                                           │
+ │         ▼  Convert distances → similarity scores                   │
+ │         │  score = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + L2_distance)  →  range (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]         │
+ │         │                                                           │
+ │         ▼  Compute confidence                                       │
+ │         │  conf = <span class="hljs-number">0.7</span> × top1_score + <span class="hljs-number">0.3</span> × <span class="hljs-built_in">avg</span>(top3_scores)       │
+ │         │                                                           │
+ │         ├── conf ≥ <span class="hljs-number">0.55</span>  ──▶  Send chunks <span class="hljs-built_in">to</span> Claude → answer      │
+ │         │                                                           │
+ │         └── conf &lt; <span class="hljs-number">0.55</span>  ──▶  Fallback ticket created              │
+ └─────────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="how-embeddings-work">How Embeddings Work</h3>
+<p>An embedding model converts text into a list of numbers (a vector) that captures the <strong>meaning</strong> of the text. Texts with similar meaning produce numerically similar vectors.</p>
+<pre><code> Text                                   Vector (<span class="hljs-number">384</span> numbers)
+ ─────────────────────────────────────────────────────────────────────
+ <span class="hljs-string">"What documents for KYC?"</span>          →  [<span class="hljs-number">0.21</span>, <span class="hljs-number">-0.44</span>,  <span class="hljs-number">0.87</span>,  <span class="hljs-number">0.13</span>, ...]
+ <span class="hljs-string">"KYC requires Aadhaar or PAN..."</span>   →  [<span class="hljs-number">0.23</span>, <span class="hljs-number">-0.41</span>,  <span class="hljs-number">0.85</span>,  <span class="hljs-number">0.15</span>, ...]
+                                         ↑ very similar numbers = same topic ✅
+
+ <span class="hljs-string">"Cards dispatched via post..."</span>     →  [<span class="hljs-number">-0.31</span>, <span class="hljs-number">0.72</span>, <span class="hljs-number">-0.12</span>, <span class="hljs-number">-0.55</span>, ...]
+                                         ↑ very different numbers = different topic ❌
+</code></pre><p>FAISS finds the KYC chunk as the closest match because its vector is numerically close to the query vector. This is pure math — no LLM involved at this step.</p>
+<h3 id="why-we-chunk-documents">Why We Chunk Documents</h3>
+<pre><code> Full document (150 lines) — too large
+ ┌───────────────────────────────────────────────────────────────┐
+ │  Debit Card Policy                                            │
+ │  Section 1: Issuance...                                       │ ← <span class="hljs-keyword">about</span> issuance
+ │  Section 2: Replacement...                                    │ ← <span class="hljs-keyword">about</span> replacement
+ │  Section 3: Blocking...                                       │ ← <span class="hljs-keyword">about</span> blocking
+ └───────────────────────────────────────────────────────────────┘
+  <span class="hljs-keyword">One</span> vector <span class="hljs-keyword">for</span> all topics → weak signal <span class="hljs-keyword">for</span> any specific question
+
+ After chunking (512 chars each, 128 overlap)
+ ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+ │  Chunk 1        │  │  Chunk 2        │  │  Chunk 3        │
+ │  (Issuance)     │  │  (Replacement)  │  │  (Blocking)     │
+ └─────────────────┘  └─────────────────┘  └─────────────────┘
+  → high <span class="hljs-keyword">score</span> <span class="hljs-keyword">for</span>      → high <span class="hljs-keyword">score</span> <span class="hljs-keyword">for</span>      → high <span class="hljs-keyword">score</span> <span class="hljs-keyword">for</span>
+    issuance <span class="hljs-keyword">query</span>        replacement <span class="hljs-keyword">query</span>     blocking <span class="hljs-keyword">query</span>
+</code></pre><p><strong>Why overlap of 128 characters?</strong> Sentences that span a chunk boundary are not lost. The last 128 characters of each chunk are repeated as the first 128 of the next, preserving context continuity.</p>
+<h3 id="confidence-scoring-the-formula">Confidence Scoring — The Formula</h3>
+<pre><code>Step <span class="hljs-number">1</span>: Convert L2 distance to similarity score
+        <span class="hljs-attr">similarity</span> = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + L2_distance)
+        <span class="hljs-attr">L2_distance</span> = <span class="hljs-number">0</span>   → <span class="hljs-attr">similarity</span> = <span class="hljs-number">1.0</span>  (identical)
+        <span class="hljs-attr">L2_distance</span> = <span class="hljs-number">1</span>   → <span class="hljs-attr">similarity</span> = <span class="hljs-number">0.5</span>
+        <span class="hljs-attr">L2_distance</span> = ∞   → <span class="hljs-attr">similarity</span> = <span class="hljs-number">0.0</span>  (completely different)
+
+Step <span class="hljs-number">2</span>: Compute weighted confidence
+        <span class="hljs-attr">confidence</span> = <span class="hljs-number">0.7</span> × top1_similarity
+                   + <span class="hljs-number">0.3</span> × average(top1, top2, top3 similarities)
+</code></pre><p>Using only <code>top1</code> can be misleading — if one chunk scores 0.70 but chunks 2, 3, 4 all score 0.30, the question may be only partially covered. Blending with <code>avg_top3</code> (30% weight) penalises poor broader coverage.</p>
+<h3 id="threshold-calibration">Threshold Calibration</h3>
+<pre><code> <span class="hljs-selector-tag">Score</span> <span class="hljs-selector-tag">distribution</span> <span class="hljs-selector-tag">for</span> <span class="hljs-selector-tag">this</span> <span class="hljs-selector-tag">corpus</span> (<span class="hljs-selector-tag">all-MiniLM-L6-v2</span>):
+
+  0<span class="hljs-selector-class">.40</span>          0<span class="hljs-selector-class">.50</span>    0<span class="hljs-selector-class">.55</span>    0<span class="hljs-selector-class">.60</span>          0<span class="hljs-selector-class">.70</span>
+   │             │       │       │             │
+ ──┼─────────────┼───────┼───────┼─────────────┼──
+   │  <span class="hljs-selector-tag">off-topic</span>  │  <span class="hljs-selector-tag">gap</span>  │       │  <span class="hljs-selector-tag">on-topic</span>   │
+   │  <span class="hljs-selector-tag">queries</span>    │       │  <span class="hljs-selector-tag">THRESHOLD</span>          │
+                                 ↑
+                               0<span class="hljs-selector-class">.55</span>
+</code></pre><table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Confidence</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debit card replacement procedures</td>
+<td>0.69</td>
+<td>Answered by RAG</td>
+</tr>
+<tr>
+<td>Net banking password reset</td>
+<td>0.67</td>
+<td>Answered by RAG</td>
+</tr>
+<tr>
+<td>KYC document requirements</td>
+<td>0.64</td>
+<td>Answered by RAG</td>
+</tr>
+<tr>
+<td>SLA response time commitments</td>
+<td>0.61</td>
+<td>Answered by RAG</td>
+</tr>
+<tr>
+<td>Forex card blocked internationally</td>
+<td>0.52</td>
+<td>Fallback ticket created</td>
+</tr>
+<tr>
+<td>Completely off-topic question</td>
+<td>0.40</td>
+<td>Fallback ticket created</td>
+</tr>
+</tbody>
+</table>
+<p>The original threshold of 0.65 was too high — KYC queries scored 0.635 and were incorrectly sent to fallback. After empirical testing, 0.55 was the natural split for this corpus.</p>
+<h3 id="what-claude-actually-receives">What Claude Actually Receives</h3>
+<p>Claude never reads the raw <code>.txt</code> files. It only sees the retrieved chunks:</p>
+<pre><code>System:
+  "Base your answer strictly on the <span class="hljs-keyword">provided</span> context.
+   Do NOT use external knowledge <span class="hljs-keyword">or</span> make assumptions.
+   If the context does <span class="hljs-keyword">not</span> contain enough information, say exactly:
+   'I don't have enough information <span class="hljs-keyword">in</span> our knowledge base to answer this.'"
+
+User:
+  CONTEXT DOCUMENTS:
+
+  [Document 1 — Source: kyc guidelines]
+  To apply <span class="hljs-keyword">for</span> KYC, customers must submit a valid government-issued
+  photo ID <span class="hljs-keyword">such</span> <span class="hljs-keyword">as</span> Aadhaar, PAN, <span class="hljs-keyword">or</span> Passport. Address <span class="hljs-keyword">proof</span> must <span class="hljs-keyword">be</span>
+  less than 3 months old...
+
+  [Document 2 — Source: kyc guidelines]
+  Digital KYC <span class="hljs-keyword">is</span> available via the SecureBank mobile app <span class="hljs-keyword">for</span>
+  Aadhaar-linked accounts...
+
+  ────────────────────────────────────────────────────────────
+
+  CUSTOMER QUESTION:
+  What documents do I need <span class="hljs-keyword">for</span> KYC?
+
+  Answer using ONLY the context above.
+</code></pre><p>This <strong>grounding constraint</strong> is what prevents hallucination. Claude cannot say &quot;you need a utility bill&quot; unless that is in the retrieved chunks.</p>
+<hr>
+<h2 id="mcp-deep-dive">MCP — Deep Dive</h2>
+<h3 id="architecture-three-layers">Architecture: Three Layers</h3>
+<pre><code> ┌──────────────────────────────────────────────────────────────────────┐
+ │  AGENT LAYER  (orchestrator.py · ticket_agent.py · rag_agent.py)    │
+ │                                                                      │
+ │  Agents know:  tool <span class="hljs-built_in">name</span> + JSON input shape                          │
+ │  Agents do:    httpx.post(<span class="hljs-string">"http://localhost:8001/mcp/tool_name"</span>)     │
+ │  Agents don't: know SQL, ORM models, <span class="hljs-keyword">or</span> business rules               │
+ └──────────────────────────────┬───────────────────────────────────────┘
+                                │  HTTP / JSON  (:<span class="hljs-number">8001</span>)
+ ┌──────────────────────────────▼───────────────────────────────────────┐
+ │  MCP SERVER LAYER  (mcp/server.py)                                   │
+ │                                                                      │
+ │  Receives HTTP requests, validates <span class="hljs-keyword">with</span> Pydantic                     │
+ │  Calls tool functions <span class="hljs-keyword">in</span> mcp/tools.py                                │
+ │  Returns typed JSON responses                                        │
+ │  Handles HTTP errors (<span class="hljs-number">404</span> ticket <span class="hljs-keyword">not</span> found, <span class="hljs-number">403</span> ownership <span class="hljs-keyword">error</span>)     │
+ └──────────────────────────────┬───────────────────────────────────────┘
+                                │  Python function calls
+ ┌──────────────────────────────▼───────────────────────────────────────┐
+ │  TOOL LOGIC LAYER  (mcp/tools.py · db/crud.py)                      │
+ │                                                                      │
+ │  All business rules live here:                                       │
+ │    - Ownership checks <span class="hljs-keyword">before</span> ticket updates                          │
+ │    - SLA breach calculation (OPEN &gt; <span class="hljs-number">3</span> days)                          │
+ │    - Email masking <span class="hljs-keyword">before</span> <span class="hljs-keyword">returning</span> customer profile                 │
+ │    - Ticket ID deduplication <span class="hljs-keyword">on</span> creation                             │
+ │    - Auto-create anonymous customer <span class="hljs-keyword">for</span> demo flows                   │
+ └──────────────────────────────┬───────────────────────────────────────┘
+                                │  SQLAlchemy ORM
+ ┌──────────────────────────────▼───────────────────────────────────────┐
+ │  DATABASE LAYER  (SQLite)                                            │
+ └──────────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="the-6-mcp-tools-full-specification">The 6 MCP Tools — Full Specification</h3>
+<p><strong>Tool 1: <code>generate_ticket_number</code></strong></p>
+<pre><code>POST <span class="hljs-meta-keyword">/mcp/</span>generate_ticket_number
+<span class="hljs-symbol">Input:</span>   none
+<span class="hljs-symbol">Output:</span>  { <span class="hljs-string">"ticket_number"</span>: <span class="hljs-string">"TKT042"</span> }
+<span class="hljs-symbol">Logic:</span>   <span class="hljs-number">3</span> random uppercase letters + <span class="hljs-number">3</span> random digits
+         <span class="hljs-number">26</span>³ × <span class="hljs-number">10</span>³ = <span class="hljs-number">17</span>,<span class="hljs-number">576</span>,<span class="hljs-number">000</span> possible combinations
+</code></pre><p><strong>Tool 2: <code>create_support_ticket</code></strong></p>
+<pre><code>POST <span class="hljs-meta-keyword">/mcp/</span>create_support_ticket
+<span class="hljs-symbol">Input:</span>   { <span class="hljs-string">"customer_id"</span>: <span class="hljs-string">"CUST001"</span>, <span class="hljs-string">"issue_text"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"ticket_id"</span>: <span class="hljs-string">"TKT042"</span> }
+<span class="hljs-symbol">Output:</span>  { <span class="hljs-string">"ticket_id"</span>: <span class="hljs-string">"TKT042"</span>, <span class="hljs-string">"status"</span>: <span class="hljs-string">"OPEN"</span>, <span class="hljs-string">"created_at"</span>: <span class="hljs-string">"..."</span> }
+<span class="hljs-symbol">Logic:</span>   <span class="hljs-number">1.</span> Ticket ID collision → regenerate
+         <span class="hljs-number">2.</span> Unknown customer_id → auto-create customer record
+         <span class="hljs-number">3.</span> Persist ticket with status OPEN
+</code></pre><p><strong>Tool 3: <code>get_ticket_status</code></strong></p>
+<pre><code><span class="hljs-keyword">GET</span> /mcp/get_ticket_status/{ticket_id}
+Output:  { <span class="hljs-string">"status"</span>: <span class="hljs-string">"IN_PROGRESS"</span>, <span class="hljs-string">"days_open"</span>: <span class="hljs-number">3</span>, <span class="hljs-string">"sla_breached"</span>: <span class="hljs-literal">false</span>, ... }
+Logic:   days_open = (<span class="hljs-built_in">now</span> - created_at).days
+         sla_breached = status == OPEN <span class="hljs-keyword">AND</span> days_open &gt; <span class="hljs-number">3</span>
+         Returns <span class="hljs-number">404</span> <span class="hljs-keyword">if</span> ticket <span class="hljs-keyword">not</span> found
+</code></pre><p><strong>Tool 4: <code>update_ticket_status</code></strong></p>
+<pre><code>POST <span class="hljs-meta-keyword">/mcp/</span>update_ticket_status
+<span class="hljs-symbol">Input:</span>   { <span class="hljs-string">"ticket_id"</span>: <span class="hljs-string">"TKT042"</span>, <span class="hljs-string">"customer_id"</span>: <span class="hljs-string">"CUST001"</span>, <span class="hljs-string">"new_status"</span>: <span class="hljs-string">"CLOSED"</span> }
+<span class="hljs-symbol">Output:</span>  { <span class="hljs-string">"old_status"</span>: <span class="hljs-string">"OPEN"</span>, <span class="hljs-string">"new_status"</span>: <span class="hljs-string">"CLOSED"</span>, <span class="hljs-string">"updated_at"</span>: <span class="hljs-string">"..."</span> }
+<span class="hljs-symbol">Errors:</span>  <span class="hljs-number">404</span> TICKET_NOT_FOUND | <span class="hljs-number">403</span> TICKET_OWNERSHIP_ERROR
+</code></pre><p><strong>Tool 5: <code>get_customer_profile</code></strong></p>
+<pre><code>GET <span class="hljs-regexp">/mcp/</span>get_customer_profile/{customer_id}
+<span class="hljs-string">Output:</span>  { <span class="hljs-string">"customer_name"</span>: <span class="hljs-string">"Priya Sharma"</span>, <span class="hljs-string">"segment"</span>: <span class="hljs-string">"PREMIUM"</span>,
+           <span class="hljs-string">"email"</span>: <span class="hljs-string">"p***@gmail.com"</span> }    ← masked <span class="hljs-keyword">for</span> PII
+<span class="hljs-string">Logic:</span>   Never fails — returns <span class="hljs-string">"Valued Customer"</span> / <span class="hljs-string">"RETAIL"</span> <span class="hljs-keyword">if</span> unknown
+</code></pre><p><strong>Tool 6: <code>log_interaction</code></strong></p>
+<pre><code>POST /mcp/log_interaction
+<span class="hljs-symbol">Input:</span>   { customer_id, message, classification, route_taken,
+           response_text, tool_called, rag_confidence, ticket_id }
+<span class="hljs-symbol">Output:</span>  { <span class="hljs-string">"log_id"</span>: <span class="hljs-number">47</span>, <span class="hljs-string">"status"</span>: <span class="hljs-string">"LOGGED"</span> }
+<span class="hljs-symbol">Design:</span>  Fire-<span class="hljs-keyword">and</span>-forget — failure silently swallowed, never blocks user response
+</code></pre><h3 id="end-to-end-how-an-agent-calls-mcp">End-to-End: How an Agent Calls MCP</h3>
+<p>Here is the full journey for <code>&quot;Please close ticket TKT042&quot;</code>:</p>
+<pre><code> <span class="hljs-number">1</span>. AGENT CODE (close_ticket_node in ticket_agent.<span class="hljs-keyword">py</span>)
+    result = httpx.post(
+        <span class="hljs-string">"http://localhost:8001/mcp/update_ticket_status"</span>,
+        json={<span class="hljs-string">"ticket_id"</span>: <span class="hljs-string">"TKT042"</span>, <span class="hljs-string">"customer_id"</span>: <span class="hljs-string">"CUST001"</span>, <span class="hljs-string">"new_status"</span>: <span class="hljs-string">"CLOSED"</span>},
+        timeout=<span class="hljs-number">10.0</span>
+    )
+
+ <span class="hljs-number">2</span>. MCP SERVER (mcp/server.<span class="hljs-keyword">py</span>)
+    @mcp_app.post(<span class="hljs-string">"/mcp/update_ticket_status"</span>)
+    def update_ticket_status(dat<span class="hljs-variable">a:</span> UpdateTicketStatusInput, d<span class="hljs-variable">b:</span> Session):
+        <span class="hljs-keyword">try</span>:
+            <span class="hljs-keyword">return</span> _update_ticket_status(db, data)
+        except ValueError <span class="hljs-keyword">as</span> <span class="hljs-keyword">e</span>:
+            <span class="hljs-keyword">if</span> <span class="hljs-string">"TICKET_NOT_FOUND"</span> in str(<span class="hljs-keyword">e</span>):   raise HTTPException(<span class="hljs-number">404</span>, ...)
+            <span class="hljs-keyword">if</span> <span class="hljs-string">"TICKET_OWNERSHIP_ERROR"</span> in str(<span class="hljs-keyword">e</span>): raise HTTPException(<span class="hljs-number">403</span>, ...)
+
+ <span class="hljs-number">3</span>. TOOL LOGIC (mcp/tools.<span class="hljs-keyword">py</span>)
+    ticket = get_ticket(db, <span class="hljs-string">"TKT042"</span>)
+    <span class="hljs-keyword">if</span> ticket.customer_id != <span class="hljs-string">"CUST001"</span>:
+        raise ValueError(<span class="hljs-string">"TICKET_OWNERSHIP_ERROR:TKT042"</span>)
+    updated = db_update_ticket_status(db, <span class="hljs-string">"TKT042"</span>, TicketStatus.CLOSED)
+    <span class="hljs-keyword">return</span> UpdateTicketStatusOutput(old_status=<span class="hljs-string">"OPEN"</span>, new_status=<span class="hljs-string">"CLOSED"</span>, ...)
+
+ <span class="hljs-number">4</span>. BACK IN THE AGENT
+    → Claude <span class="hljs-keyword">cal</span><span class="hljs-variable">l:</span> <span class="hljs-string">"Confirm closure of TKT042 for Priya..."</span>
+    ← <span class="hljs-string">"Dear Priya, your ticket TKT042 has been successfully closed..."</span>
+
+ <span class="hljs-number">5</span>. USER SEES
+    <span class="hljs-comment">"Dear Priya, your ticket TKT042 has been successfully closed.</span>
+     Thank you <span class="hljs-keyword">for</span> banking with SecureBank.<span class="hljs-comment">"</span>
+</code></pre><hr>
+<h2 id="database-design">Database Design</h2>
+<h3 id="schema">Schema</h3>
+<pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> customers (
+    customer_id    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)   PRIMARY <span class="hljs-keyword">KEY</span>,
+    customer_name  <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>)  <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">segment</span>        <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>)   <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'RETAIL'</span>
+                   <span class="hljs-keyword">CHECK</span> (<span class="hljs-keyword">segment</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">'RETAIL'</span>, <span class="hljs-string">'PREMIUM'</span>, <span class="hljs-string">'CORPORATE'</span>, <span class="hljs-string">'STUDENT'</span>)),
+    email          <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">150</span>),
+    account_since  DATETIME,
+    preferred_lang <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>)   <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'en'</span>,
+    created_at     DATETIME      <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> support_tickets (
+    ticket_id    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">6</span>)    PRIMARY <span class="hljs-keyword">KEY</span>,
+    customer_id  <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)   <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+                 <span class="hljs-keyword">REFERENCES</span> customers(customer_id) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> RESTRICT,
+    issue_text   <span class="hljs-built_in">TEXT</span>          <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">status</span>       <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>)   <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'OPEN'</span>
+                 <span class="hljs-keyword">CHECK</span> (<span class="hljs-keyword">status</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">'OPEN'</span>, <span class="hljs-string">'IN_PROGRESS'</span>, <span class="hljs-string">'RESOLVED'</span>, <span class="hljs-string">'CLOSED'</span>)),
+    sla_breached <span class="hljs-built_in">BOOLEAN</span>       <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    created_at   DATETIME      <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at   DATETIME      <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> interaction_logs (
+    <span class="hljs-keyword">id</span>             <span class="hljs-built_in">INTEGER</span>       PRIMARY <span class="hljs-keyword">KEY</span> AUTOINCREMENT,
+    customer_id    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)   <span class="hljs-keyword">REFERENCES</span> customers(customer_id),
+    message        <span class="hljs-built_in">TEXT</span>          <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    classification <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">30</span>)   <span class="hljs-keyword">CHECK</span> (classification <span class="hljs-keyword">IN</span>
+                     (<span class="hljs-string">'positive_feedback'</span>, <span class="hljs-string">'negative_feedback'</span>, <span class="hljs-string">'query'</span>, <span class="hljs-string">'unknown'</span>)),
+    route_taken    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">300</span>),
+    response_text  <span class="hljs-built_in">TEXT</span>,
+    tool_called    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    rag_confidence <span class="hljs-built_in">FLOAT</span>         <span class="hljs-keyword">CHECK</span> (rag_confidence <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">OR</span>
+                                        (rag_confidence &gt;= <span class="hljs-number">0.0</span> <span class="hljs-keyword">AND</span> rag_confidence &lt;= <span class="hljs-number">1.0</span>)),
+    ticket_id      <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">6</span>)    <span class="hljs-keyword">REFERENCES</span> support_tickets(ticket_id),
+    created_at     DATETIME      <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>
+);
+</code></pre>
+<h3 id="sla-breach-logic-why-it-s-computed-not-stored">SLA Breach Logic — Why It&#39;s Computed, Not Stored</h3>
+<p><code>sla_breached</code> is never written as a derived value from a batch job. It&#39;s computed at query time:</p>
+<pre><code class="lang-python"><span class="hljs-comment"># In mcp/tools.py — get_ticket_status</span>
+<span class="hljs-attr">days_open</span>    = (datetime.now() - ticket.created_at).days
+<span class="hljs-attr">sla_breached</span> = ticket.status == TicketStatus.OPEN and days_open &gt; <span class="hljs-number">3</span>
+</code></pre>
+<p>If stored, it would be stale the moment a ticket ages past day 3. Computed at query time from <code>created_at</code>, it is always accurate with zero maintenance.</p>
+<h3 id="wal-mode-why-two-processes-need-it">WAL Mode — Why Two Processes Need It</h3>
+<pre><code> Standard SQLite:   Writer locks entire file → readers BLOCKED during write
+                    FastAPI + MCP Server sharing the file = intermittent <span class="hljs-keyword">lock</span> <span class="hljs-keyword">errors</span>
+
+ WAL <span class="hljs-keyword">Mode</span>:          Writer appends <span class="hljs-keyword">to</span> .wal <span class="hljs-keyword">file</span>
+                    Readers see <span class="hljs-keyword">last</span> committed <span class="hljs-keyword">snapshot</span>
+                    Reader <span class="hljs-keyword">and</span> writer proceed simultaneously
+                    → <span class="hljs-keyword">No</span> <span class="hljs-keyword">lock</span> contention <span class="hljs-keyword">between</span> the two services
+
+ <span class="hljs-keyword">PRAGMA</span> journal_mode = WAL;   ← <span class="hljs-keyword">set</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">connection</span> <span class="hljs-keyword">time</span>
+ <span class="hljs-keyword">PRAGMA</span> busy_timeout = <span class="hljs-number">5000</span>;  ← 5s before "database locked" error
+</code></pre><hr>
+<h2 id="six-complete-data-flows">Six Complete Data Flows</h2>
+<h3 id="path-1-positive-feedback">Path 1: Positive Feedback</h3>
+<pre><code><span class="hljs-attribute">Input</span>: <span class="hljs-string">"Thanks for sorting out my account issue so quickly!"</span>
+
+classifier_node   → <span class="hljs-string">"positive_feedback"</span>
+positive_feedback → <span class="hljs-attribute">MCP</span>: get_customer_profile/CUST001
+                  → <span class="hljs-attribute">Claude</span>: warm reply using <span class="hljs-string">"Priya Sharma"</span>
+log_node          → <span class="hljs-attribute">MCP</span>: log_interaction (async)
+
+<span class="hljs-attribute">Latency</span>: ~<span class="hljs-number">2s</span>  |  Side <span class="hljs-attribute">effects</span>: none (read-only)
+</code></pre><h3 id="path-2-negative-feedback-auto-ticket">Path 2: Negative Feedback + Auto-Ticket</h3>
+<pre><code><span class="hljs-string">Input:</span> <span class="hljs-string">"My debit card replacement still hasn't arrived after 3 weeks!"</span>
+
+classifier_node    → <span class="hljs-string">"negative_feedback"</span>
+negative_feedback  → <span class="hljs-string">MCP:</span> generate_ticket_number()          → <span class="hljs-string">"TKT042"</span>
+                   → <span class="hljs-string">MCP:</span> create_support_ticket(...)         → OPEN ticket
+                   → <span class="hljs-string">MCP:</span> get_customer_profile/CUST001       → <span class="hljs-string">"Priya Sharma"</span>
+                   → <span class="hljs-string">Claude:</span> empathy reply with TKT042
+log_node           → <span class="hljs-string">MCP:</span> log_interaction (async)
+<span class="hljs-symbol">
+Latency:</span> ~<span class="hljs-number">3</span>s  |  Side <span class="hljs-string">effects:</span> <span class="hljs-keyword">new</span> row <span class="hljs-keyword">in</span> support_tickets
+</code></pre><h3 id="path-3-rag-query-high-confidence">Path 3: RAG Query — High Confidence</h3>
+<pre><code><span class="hljs-string">Input:</span> <span class="hljs-string">"What documents do I need for KYC at SecureBank?"</span>
+
+classifier_node    → <span class="hljs-string">"query"</span>
+query_router_node  → { <span class="hljs-string">has_ticket_number:</span> <span class="hljs-literal">false</span>, <span class="hljs-string">close_intent:</span> <span class="hljs-literal">false</span> }
+rag_node           → FAISS search, <span class="hljs-string">scores:</span> [<span class="hljs-number">0.69</span>, <span class="hljs-number">0.64</span>, <span class="hljs-number">0.61</span>, <span class="hljs-number">0.48</span>]
+                     confidence = <span class="hljs-number">0.7</span>×<span class="hljs-number">0.69</span> + <span class="hljs-number">0.3</span>×avg(<span class="hljs-number">0.69</span>, <span class="hljs-number">0.64</span>, <span class="hljs-number">0.61</span>) = <span class="hljs-number">0.677</span> ✅
+                   → <span class="hljs-string">Claude:</span> grounded answer from kyc_guidelines chunks
+log_node           → <span class="hljs-string">MCP:</span> log_interaction(rag_confidence=<span class="hljs-number">0.677</span>)
+<span class="hljs-symbol">
+Latency:</span> ~<span class="hljs-number">3</span><span class="hljs-number">-4</span>s  |  Side <span class="hljs-string">effects:</span> none
+</code></pre><h3 id="path-4-rag-fallback-low-confidence">Path 4: RAG Fallback — Low Confidence</h3>
+<pre><code><span class="hljs-string">Input:</span> <span class="hljs-string">"Why was my forex card declined in Singapore?"</span>
+
+classifier_node    → <span class="hljs-string">"query"</span>
+query_router_node  → { <span class="hljs-string">has_ticket_number:</span> <span class="hljs-literal">false</span> }
+rag_node           → FAISS <span class="hljs-string">scores:</span> [<span class="hljs-number">0.53</span>, <span class="hljs-number">0.47</span>, <span class="hljs-number">0.41</span>, <span class="hljs-number">0.38</span>]
+                     confidence = <span class="hljs-number">0.512</span> &lt; <span class="hljs-number">0.55</span> ❌ → fallback
+fallback_ticket    → <span class="hljs-string">MCP:</span> generate_ticket_number()   → <span class="hljs-string">"TKT043"</span>
+                   → <span class="hljs-string">MCP:</span> create_support_ticket(...)  → OPEN ticket
+                   → <span class="hljs-string">Claude:</span> apology + specialist escalation message
+log_node           → <span class="hljs-string">MCP:</span> log_interaction(rag_confidence=<span class="hljs-number">0.512</span>)
+<span class="hljs-symbol">
+Latency:</span> ~<span class="hljs-number">4</span>s  |  Side <span class="hljs-string">effects:</span> <span class="hljs-keyword">new</span> fallback ticket <span class="hljs-keyword">for</span> specialist
+</code></pre><h3 id="path-5-ticket-status-lookup">Path 5: Ticket Status Lookup</h3>
+<pre><code><span class="hljs-string">Input:</span> <span class="hljs-string">"What is the status of ticket TKT042?"</span>
+
+classifier_node    → <span class="hljs-string">"query"</span>
+query_router_node  → { <span class="hljs-string">has_ticket_number:</span> <span class="hljs-literal">true</span>, <span class="hljs-string">ticket_number:</span> <span class="hljs-string">"TKT042"</span>, <span class="hljs-string">close_intent:</span> <span class="hljs-literal">false</span> }
+ticket_lookup_node → <span class="hljs-string">MCP:</span> get_ticket_status/TKT042
+                     ← { <span class="hljs-string">status:</span> <span class="hljs-string">"IN_PROGRESS"</span>, <span class="hljs-string">days_open:</span> <span class="hljs-number">2</span>, <span class="hljs-string">sla_breached:</span> <span class="hljs-literal">false</span> }
+                   → <span class="hljs-string">Claude:</span> formats status reply
+log_node           → <span class="hljs-string">MCP:</span> log_interaction
+<span class="hljs-symbol">
+Latency:</span> ~<span class="hljs-number">2</span>s  |  Side <span class="hljs-string">effects:</span> none (read-only)
+</code></pre><h3 id="path-6-ticket-closure-ownership-validated-">Path 6: Ticket Closure (Ownership-Validated)</h3>
+<pre><code><span class="hljs-attribute">Input</span>: "Please close my ticket TKT042"
+
+<span class="monkey">classifier_node  → <span class="hljs-string">"query"</span>
+query_router_node → { has_ticket_number: <span class="hljs-literal">true</span>, ticket_number: <span class="hljs-string">"TKT042"</span>, close_intent: <span class="hljs-literal">true</span> }
+close_ticket_node → MCP: update_ticket_status(TKT042, CUST001, CLOSED)
+                    Ownership check: ticket.customer_id == <span class="hljs-string">"CUST001"</span> ✅
+                    ← { old_status: <span class="hljs-string">"OPEN"</span>, new_status: <span class="hljs-string">"CLOSED"</span> }
+                  → Claude: confirmation reply
+log_node          → MCP: log_interaction
+
+Failure: CUST002 tries <span class="hljs-keyword">to</span> close CUST001<span class="hljs-comment">'s ticket → HTTP 403 → "You can only close your own tickets."</span>
+
+Latency: ~<span class="hljs-number">2</span>s  |  Side effects: ticket status updated <span class="hljs-keyword">to</span> CLOSED</span>
+</code></pre><hr>
+<h2 id="the-dashboard">The Dashboard</h2>
+<p>The React frontend has four pages:</p>
+<p><strong>Chat</strong> — A standard chat interface where you can switch between customer IDs and see the agent trace panel on every response. The RAG confidence bar is colour-coded: green if the system answered from the knowledge base, orange if it created a fallback ticket.</p>
+<p><strong>Tickets</strong> — A filterable list of all support tickets with status badges, days open, and SLA indicators.</p>
+<p><strong>Logs</strong> — A paginated table of every interaction: who sent what, how the system classified it, what route it took, what tool it called, and the final response.</p>
+<p><strong>Evaluation</strong> — Aggregated metrics over the last N days: classification breakdown, RAG answer rate vs fallback rate, average confidence score, ticket counts by status.</p>
+<hr>
+<h2 id="evaluation-how-do-you-know-if-it-works-">Evaluation: How Do You Know If It Works?</h2>
+<p>For the LLMOps component of the capstone, the system is evaluated across four dimensions:</p>
+<p><strong>1. Classification accuracy</strong> — Hold-out set of 30 labelled messages (10 per class). Target: ≥ 90% F1 on all three labels. Ambiguous messages default to <code>query</code>, which routes to the safest path.</p>
+<p><strong>2. RAG answer quality</strong> — 5 in-domain questions (one per policy document) + 5 deliberately out-of-scope questions. In-domain queries should score ≥ 0.55; out-of-domain should fall below the threshold.</p>
+<p><strong>3. Agent routing accuracy</strong> — 25 test messages (5 per route). Because routing is deterministic after classification, routing errors are always traceable to classification errors.</p>
+<p><strong>4. Response quality</strong> — For negative feedback: does the reply acknowledge the issue? Is there an apology? Is the ticket number included? Is the tone professional? All verifiable from the logs table.</p>
+<h3 id="metrics-collected">Metrics Collected</h3>
+<p>Every interaction logged to <code>interaction_logs</code> enables:</p>
+<pre><code><span class="hljs-symbol">Classification:</span>  total_interactions, count per label, % breakdown
+<span class="hljs-symbol">RAG:</span>             rag_queries_total, rag_answered, rag_fallback,
+                 avg_rag_confidence, rag_answer_rate
+<span class="hljs-symbol">Tickets:</span>         tickets_created, tickets_by_status, sla_breached_count
+<span class="hljs-symbol">Routing:</span>         route_distribution, tool_usage counts
+</code></pre><h3 id="logs-and-debugging-view">Logs and Debugging View</h3>
+<pre><code>Per Interaction:
+  customer_id     →  who sent the message
+  classification  →  label assigned by classifier
+  route_taken     →  <span class="hljs-string">"classifier→query_router→rag(conf=0.68)"</span>
+  tool_called     →  last MCP tool used
+  rag_confidence  → <span class="hljs-built_in"> float </span>or null
+  ticket_id       →  created<span class="hljs-built_in"> or </span>referenced ticket
+
+Debug use cases:
+  Classification wrong?  →<span class="hljs-built_in"> check </span>'classification', note which messages misclassify
+  RAG<span class="hljs-built_in"> not </span>answering?     → filter by route containing 'rag',<span class="hljs-built_in"> check </span>rag_confidence
+  Ticket<span class="hljs-built_in"> not </span>created?    → filter classification = 'negative_feedback',<span class="hljs-built_in"> check </span>tool_called
+  Routing error?         → compare route_taken to expected path for message type
+</code></pre><hr>
+<h2 id="non-functional-properties">Non-Functional Properties</h2>
+<h3 id="latency-budget">Latency Budget</h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Breakdown</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Positive feedback</td>
+<td>1×Claude + 1×MCP</td>
+<td>~1.5s</td>
+</tr>
+<tr>
+<td>Negative feedback + ticket</td>
+<td>1×Claude + 3×MCP</td>
+<td>~2.5s</td>
+</tr>
+<tr>
+<td>RAG query (high confidence)</td>
+<td>2×Claude + FAISS(5ms)</td>
+<td>~3–4s</td>
+</tr>
+<tr>
+<td>RAG fallback + ticket</td>
+<td>2×Claude + FAISS + 2×MCP</td>
+<td>~4–5s</td>
+</tr>
+<tr>
+<td>Ticket lookup</td>
+<td>1×Claude + 1×MCP</td>
+<td>~2s</td>
+</tr>
+<tr>
+<td>Ticket closure</td>
+<td>1×Claude + 1×MCP</td>
+<td>~2s</td>
+</tr>
+</tbody>
+</table>
+<p>Bottleneck: Claude API (1–2s per call). FAISS: ~5ms. MCP: ~5–10ms.</p>
+<h3 id="scalability-path">Scalability Path</h3>
+<pre><code>Step 1: SQLite → PostgreSQL    — <span class="hljs-keyword">change</span> DATABASE_URL <span class="hljs-keyword">in</span> .env <span class="hljs-keyword">only</span>
+Step <span class="hljs-number">2</span>: FAISS → Pinecone       — <span class="hljs-keyword">change</span> rag/retriever.py <span class="hljs-keyword">only</span> (LangChain <span class="hljs-keyword">interface</span>)
+Step <span class="hljs-number">3</span>: MCP <span class="hljs-keyword">Server</span> → separate  — <span class="hljs-keyword">change</span> MCP_SERVER_URL <span class="hljs-keyword">in</span> .env <span class="hljs-keyword">only</span>
+Step <span class="hljs-number">4</span>: FastAPI → multi-worker — uvicorn <span class="hljs-comment">--workers 4 (graph compiled at import, stateless)</span>
+</code></pre><h3 id="security-properties">Security Properties</h3>
+<pre><code><span class="hljs-selector-tag">PII</span> <span class="hljs-selector-tag">Protection</span>:      <span class="hljs-selector-tag">email</span> <span class="hljs-selector-tag">masked</span> <span class="hljs-selector-tag">in</span> <span class="hljs-selector-tag">get_customer_profile</span> (p***<span class="hljs-variable">@gmail</span>.com)
+<span class="hljs-selector-tag">Ownership</span> <span class="hljs-selector-tag">checks</span>:    <span class="hljs-selector-tag">ticket</span> <span class="hljs-selector-tag">updates</span> <span class="hljs-selector-tag">require</span> <span class="hljs-selector-tag">customer_id</span> <span class="hljs-selector-tag">to</span> <span class="hljs-selector-tag">match</span> <span class="hljs-selector-tag">ticket</span> <span class="hljs-selector-tag">owner</span>
+                     <span class="hljs-selector-tag">HTTP</span> <span class="hljs-selector-tag">403</span> <span class="hljs-selector-tag">on</span> <span class="hljs-selector-tag">mismatch</span>
+<span class="hljs-selector-tag">Input</span> <span class="hljs-selector-tag">validation</span>:    <span class="hljs-selector-tag">Pydantic</span> <span class="hljs-selector-tag">on</span> <span class="hljs-keyword">all</span> <span class="hljs-selector-tag">MCP</span> <span class="hljs-selector-tag">inputs</span>; <span class="hljs-selector-tag">SQLAlchemy</span> <span class="hljs-selector-tag">parameterised</span> <span class="hljs-selector-tag">queries</span>
+<span class="hljs-selector-tag">Missing</span> (production): <span class="hljs-selector-tag">JWT</span> <span class="hljs-selector-tag">auth</span>, <span class="hljs-selector-tag">rate</span> <span class="hljs-selector-tag">limiting</span> <span class="hljs-selector-tag">per</span> <span class="hljs-selector-tag">customer_id</span>,
+                      <span class="hljs-selector-tag">audit</span> <span class="hljs-selector-tag">log</span> <span class="hljs-selector-tag">immutability</span>, <span class="hljs-selector-tag">encryption</span> <span class="hljs-selector-tag">at</span> <span class="hljs-selector-tag">rest</span>
+</code></pre><hr>
+<h2 id="tech-stack-at-a-glance">Tech Stack at a Glance</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM</td>
+<td>Claude claude-sonnet-4-5</td>
+<td>Reliable JSON output, strong instruction following</td>
+</tr>
+<tr>
+<td>Agent graph</td>
+<td>LangGraph</td>
+<td>Explicit routing, typed state, full auditability</td>
+</tr>
+<tr>
+<td>Tool layer</td>
+<td>MCP (FastAPI :8001)</td>
+<td>Decoupled business logic, one place for rules</td>
+</tr>
+<tr>
+<td>Vector search</td>
+<td>FAISS + all-MiniLM-L6-v2</td>
+<td>Zero infra, ~5ms local search, swappable</td>
+</tr>
+<tr>
+<td>API</td>
+<td>FastAPI</td>
+<td>Auto docs, Pydantic v2, async-ready</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>SQLite (WAL mode)</td>
+<td>Zero infra, two-process safe, Postgres-migratable</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>React + Zustand + Tailwind</td>
+<td>Minimal boilerplate, clean state management</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="extension-points">Extension Points</h2>
+<h3 id="adding-a-new-agent-example-escalation-">Adding a New Agent (Example: Escalation)</h3>
+<pre><code>Step <span class="hljs-number">1</span>: Add <span class="hljs-keyword">label</span> <span class="hljs-keyword">to</span> classifier_agent.py
+  labels = [<span class="hljs-string">"positive_feedback"</span>, <span class="hljs-string">"negative_feedback"</span>, <span class="hljs-string">"query"</span>, <span class="hljs-string">"escalation"</span>]
+
+Step <span class="hljs-number">2</span>: Create escalation_agent.py
+  def escalation_node(<span class="hljs-keyword">state</span>: AgentState) -&gt; AgentState:
+      <span class="hljs-comment"># MCP: notify supervisor system</span>
+      <span class="hljs-comment"># Claude: generate handoff message</span>
+      return { ...<span class="hljs-keyword">state</span>, <span class="hljs-string">"final_response"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"route_taken"</span>: <span class="hljs-string">"...→escalation"</span> }
+
+Step <span class="hljs-number">3</span>: Add <span class="hljs-keyword">to</span> orchestrator.py
+  g.add_node(<span class="hljs-string">"escalation_node"</span>, escalation_node)
+  g.add_edge(<span class="hljs-string">"escalation_node"</span>, <span class="hljs-string">"log_node"</span>)
+  <span class="hljs-comment"># update route_after_classification to include "escalation"</span>
+
+Step <span class="hljs-number">4</span>: Add MCP tool if needed
+  POST /mcp/notify_supervisor <span class="hljs-keyword">in</span> mcp/server.py + mcp/tools.py
+
+No other files change.
+</code></pre><h3 id="adding-a-new-rag-document">Adding a New RAG Document</h3>
+<pre><code><span class="hljs-keyword">Step</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">Add</span> .txt file <span class="hljs-keyword">to</span> backend/rag/documents/
+<span class="hljs-keyword">Step</span> <span class="hljs-number">2</span>: python -m rag.ingest   (rebuilds the FAISS <span class="hljs-keyword">index</span>)
+<span class="hljs-keyword">Step</span> <span class="hljs-number">3</span>: Restart backend
+
+No code changes needed.
+</code></pre><h3 id="upgrading-to-streaming-responses">Upgrading to Streaming Responses</h3>
+<pre><code class="lang-python"><span class="hljs-meta">@router.post("/api/query/stream")</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">stream_query</span><span class="hljs-params">(request: QueryRequest)</span>:</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate</span><span class="hljs-params">()</span>:</span>
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> claude.stream_tokens(state):
+            <span class="hljs-keyword">yield</span> f<span class="hljs-string">"data: {token}\n\n"</span>
+    <span class="hljs-keyword">return</span> StreamingResponse(generate(), media_type=<span class="hljs-string">"text/event-stream"</span>)
+</code></pre>
+<h3 id="upgrading-to-native-claude-tool-use">Upgrading to Native Claude Tool Use</h3>
+<pre><code class="lang-python">response = client.messages.create(
+    model=<span class="hljs-string">"claude-sonnet-4-5"</span>,
+    messages=[{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: customer_message}],
+    tools=[
+        {<span class="hljs-string">"name"</span>: <span class="hljs-string">"create_support_ticket"</span>, <span class="hljs-string">"description"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"input_schema"</span>: <span class="hljs-meta">{...}</span>},
+        {<span class="hljs-string">"name"</span>: <span class="hljs-string">"get_ticket_status"</span>,     <span class="hljs-string">"description"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"input_schema"</span>: <span class="hljs-meta">{...}</span>},
+        {<span class="hljs-string">"name"</span>: <span class="hljs-string">"update_ticket_status"</span>,  <span class="hljs-string">"description"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"input_schema"</span>: <span class="hljs-meta">{...}</span>},
+        {<span class="hljs-string">"name"</span>: <span class="hljs-string">"search_knowledge_base"</span>, <span class="hljs-string">"description"</span>: <span class="hljs-string">"..."</span>, <span class="hljs-string">"input_schema"</span>: <span class="hljs-meta">{...}</span>},
+    ]
+)
+<span class="hljs-comment"># Claude decides which tool to call</span>
+<span class="hljs-comment"># Tool execution calls the same MCP HTTP endpoints — MCP Server unchanged</span>
+</code></pre>
+<hr>
+<h2 id="the-bigger-lesson">The Bigger Lesson</h2>
+<p>The most important thing I learned from this project is that <strong>architecture matters more than model quality</strong> for production AI systems.</p>
+<p>A single GPT-4 call with a perfect prompt would answer most of these customer messages correctly most of the time. But &quot;most of the time&quot; isn&#39;t acceptable in banking. When it fails — and it will fail — you need to know exactly where and why.</p>
+<p>The multi-agent architecture with explicit graph routing, MCP tool abstraction, RAG confidence gating, and async audit logging isn&#39;t over-engineering. Each piece solves a specific, concrete failure mode:</p>
+<ul>
+<li><strong>LangGraph</strong> solves the &quot;I don&#39;t know what the system did&quot; problem</li>
+<li><strong>MCP</strong> solves the &quot;business logic is scattered across agents&quot; problem</li>
+<li><strong>RAG + confidence gate</strong> solves the &quot;LLM hallucinating bank policies&quot; problem</li>
+<li><strong>Async logging</strong> solves the &quot;adding observability slows down responses&quot; problem</li>
+</ul>
+<p>Build the simplest thing that works. Then identify the failure modes. Then add exactly the architecture you need to prevent them. That&#39;s the process this project followed — and it&#39;s the process I&#39;ll carry into every AI system I build after this.</p>
+<hr>
+<h2 id="what-i-would-do-differently">What I Would Do Differently</h2>
+<p><strong>Streaming responses.</strong> The current system waits for the full Claude response before sending anything to the browser. For a 4-second response, that&#39;s a blank screen for 4 seconds. FastAPI supports SSE; LangGraph supports streaming nodes. This is the highest-impact UX improvement.</p>
+<p><strong>Native Claude tool use.</strong> Right now, routing decisions are made by explicit Python conditionals. The more scalable approach is to pass all MCP tools to Claude directly and let the model decide which tool to call. The MCP server stays completely unchanged — only the orchestration logic moves from Python to Claude&#39;s reasoning. For 6 tools, explicit routing is cleaner. At 50 tools, native tool use becomes necessary.</p>
+<p><strong>PostgreSQL for production.</strong> SQLite with WAL mode handles this demo well. At real banking scale — concurrent agents, millions of tickets, audit requirements — you&#39;d migrate to PostgreSQL. The only change is <code>DATABASE_URL</code> in the environment config; SQLAlchemy handles the rest.</p>
+<p><strong>Authentication layer.</strong> Right now, any client can call <code>POST /api/query</code> with any <code>customer_id</code>. A production deployment needs JWT authentication and per-customer authorisation before any agent runs.</p>
+<hr>
+<h2 id="try-it-yourself">Try It Yourself</h2>
+<pre><code class="lang-bash"><span class="hljs-comment"># 1. Set your Anthropic API key</span>
+cp .<span class="hljs-keyword">env</span>.example .<span class="hljs-keyword">env</span>
+<span class="hljs-comment"># Add ANTHROPIC_API_KEY to .env</span>
+
+<span class="hljs-comment"># 2. Install and build</span>
+cd backend &amp;&amp; pip install -r requirements.txt
+python -m rag.ingest      <span class="hljs-comment"># Build the FAISS index from policy docs</span>
+python seed_data.py        <span class="hljs-comment"># Seed demo customers and tickets</span>
+
+<span class="hljs-comment"># 3. Start three processes</span>
+uvicorn mcp.server:mcp_app --port <span class="hljs-number">8001</span>   <span class="hljs-comment"># Tool layer</span>
+uvicorn main:app --port <span class="hljs-number">8000</span>              <span class="hljs-comment"># API + agents</span>
+cd ../ui &amp;&amp; npm install &amp;&amp; npm <span class="hljs-keyword">run</span><span class="bash"> dev    <span class="hljs-comment"># React UI at localhost:5173</span></span>
+</code></pre>
+<p>Then open <code>localhost:5173</code>, pick a customer ID, and try:</p>
+<ul>
+<li><em>&quot;Thanks for sorting out my net banking issue!&quot;</em> — positive feedback path</li>
+<li><em>&quot;My debit card hasn&#39;t arrived in 3 weeks&quot;</em> — auto-ticket path</li>
+<li><em>&quot;What documents do I need for KYC?&quot;</em> — RAG path</li>
+<li><em>&quot;What is the status of ticket TKT042?&quot;</em> — live lookup path</li>
+<li><em>&quot;Why was my forex card blocked abroad?&quot;</em> — RAG confidence gate → fallback path</li>
+</ul>
+<p>Each message shows a different agent path, different tools called, and different confidence scores in the trace panel.</p>
+<hr>
+<p><em>Built as the Applied Generative AI Specialisation Capstone.<br>Stack: Anthropic Claude · LangGraph · FAISS · MCP · FastAPI · React · SQLite.</em></p>

@@ -54,6 +54,25 @@ summary: "Data Science & ML projects <br>"
 
 
 <div class='card-section'>
+  <a class='noDeco' href="/securebank-ai">
+    <div class='post'>
+      <div class="card-section-text">
+        <div class="card-section-text-title">
+          SecureBank AI: Multi-Agent Customer Support System with Claude, LangGraph, RAG &amp; MCP
+        </div>
+        <div class='card-section-text-description'>
+          When a bank customer fires off "My debit card hasn't arrived in three weeks!", something deceptively complex needs to happen — the system must classify the complaint, empathise, generate a unique ticket, persist it to a database, and respond warmly, all in under four seconds with no human in the loop. SecureBank AI is a production-grade multi-agent customer support system built as an Applied Generative AI capstone that does exactly this.
+          The system is a directed graph of eight specialised AI agents orchestrated by LangGraph, each owning exactly one job — classification, feedback, RAG policy Q&amp;A, ticket lookup, ticket closure, and fallback escalation. Every routing decision is an explicit Python conditional, not an LLM inference, making the system fully auditable — critical for a regulated banking domain. A FAISS-backed RAG pipeline with confidence gating prevents policy hallucination, while a Model Context Protocol (MCP) tool layer centralises all business logic — ownership validation, SLA breach detection, and PII masking — in a single place every agent shares.
+          This post walks through every architectural decision in detail: why LangGraph over CrewAI or AutoGen, why MCP over direct DB access, why RAG with a confidence gate over prompt-stuffing, and the six complete data flows that handle every customer scenario from positive feedback to ownership-validated ticket closure.
+          <a class='noDeco' href="/securebank-ai"><i>Click here for detailed post.</i></a>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+<div class='card-section'>
     <a class='noDeco' href="/google-5day-intensive">
         <div class='post'>
             <div class="card-section-text">
