@@ -373,13 +373,13 @@
 ════════════════════════════════════════════════════════════════ -->
 <nav id="sb-toc">
     <div class="sb-toc-logo">
-        <span>SecureBank AI</span>
+        <span>AI Customer Support</span>
         <small>Multi-Agent Banking Support</small>
     </div>
 
     <div class="sb-toc-section-label">Blog Post</div>
     <a href="#the-problem-with-just-use-an-llm-">The Problem With 'Just Use an LLM'</a>
-    <a href="#what-i-built-securebank-ai">What I Built: SecureBank AI</a>
+    <a href="#what-i-built-securebank-ai">What I Built: AI Customer Support</a>
     <a href="#2-tech-stack-full-rationale">2. Tech Stack</a>
 
     <hr class="sb-toc-divider" />
@@ -433,7 +433,7 @@
 
     <!-- Page Header -->
     <div class="sb-page-header">
-        <h1>SecureBank AI</h1>
+        <h1>AI Customer Support</h1>
         <p>Multi-Agent AI System for Banking Customer Support — Capstone Project Write-Up &amp; Technical Deep Dive</p>
         <div class="sb-badge-row">
             <span class="sb-badge">Claude claude-sonnet-4-5</span>
@@ -469,8 +469,8 @@ check the database <span class="hljs-keyword">if</span> needed, create tickets <
 <p><strong>3. No knowledge of your bank.</strong> Claude was trained on public internet data. It has zero knowledge of your bank&#39;s KYC document requirements, SLA commitments, or card replacement procedures. Ask it, and it will confidently make something up.</p>
 <p>The solution is a <strong>multi-agent architecture</strong> with three key technologies: <strong>LangGraph</strong> for orchestration, <strong>RAG</strong> for grounded knowledge, and <strong>MCP</strong> for tool abstraction. Let me explain each.</p>
 <hr>
-<h2 id="what-i-built-securebank-ai">What I Built: SecureBank AI</h2>
-<p>SecureBank AI handles six real customer scenarios with distinct agent paths:</p>
+<h2 id="what-i-built-securebank-ai">What I Built: AI Customer Support</h2>
+<p>AI Customer Support handles six real customer scenarios with distinct agent paths:</p>
 <table>
 <thead>
 <tr>
@@ -1046,7 +1046,7 @@ rag/ingest<span class="hljs-selector-class">.py</span> (one-<span class="hljs-se
 <h2 id="architecture-diagram">Architecture Diagram</h2>
 <h3 id="high-level-architecture">High-Level Architecture</h3>
 <pre><code>╔═══════════════════════════════════════════════════════════════════════════╗
-║                         SECUREBANK AI PLATFORM                           ║
+║                         AI Customer Support PLATFORM                           ║
 ║                                                                           ║
 ║  ┌─────────────────────────────────────────────────────────────────────┐ ║
 ║  │                    PRESENTATION LAYER                                │ ║
@@ -1818,7 +1818,7 @@ cd ../ui &amp;&amp; npm install &amp;&amp; npm <span class="hljs-keyword">run</s
     <!-- Live Demo -->
     <div id="sb-demo" style="margin-bottom:48px;scroll-margin-top:70px;">
         <h2 style="font-size:1.4em;font-weight:700;color:#222222;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #dddddd;font-family:Avenir,sans-serif;">Live Demo</h2>
-        <p style="margin-bottom:14px;color:#222222;">The video below walks through SecureBank AI end-to-end — sending customer messages, watching the agent graph route in real time, seeing tickets created automatically, and observing the RAG confidence score on policy queries.</p>
+        <p style="margin-bottom:14px;color:#222222;">The video below walks through AI Customer Support end-to-end — sending customer messages, watching the agent graph route in real time, seeing tickets created automatically, and observing the RAG confidence score on policy queries.</p>
         <div class="sb-demo-wrap">
             <video controls playsinline preload="metadata">
                 <source src="/assets/videos/demoforbanking.mov" type="video/mp4">
@@ -1834,7 +1834,7 @@ cd ../ui &amp;&amp; npm install &amp;&amp; npm <span class="hljs-keyword">run</s
         </svg>
         <div>
             <strong>Source Code</strong>
-            <p>The full source code for SecureBank AI is available on GitHub. Refer to the repository for implementation details, setup instructions, and the complete codebase.</p>
+            <p>The full source code for AI Customer Support is available on GitHub. Refer to the repository for implementation details, setup instructions, and the complete codebase.</p>
             <a href="https://github.com/nselvar/AICustomerSupport" target="_blank" rel="noopener noreferrer">
                 github.com/nselvar/AICustomerSupport
             </a>
@@ -1842,7 +1842,7 @@ cd ../ui &amp;&amp; npm install &amp;&amp; npm <span class="hljs-keyword">run</s
     </div>
 
     <div class="sb-doc-footer">
-        <span>SecureBank AI — Capstone Project Write-Up</span>
+        <span>AI Customer Support — Capstone Project Write-Up</span>
         <span>April 2026</span>
     </div>
 
