@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35ae15b5-55a1-4b65-b5fc-2847f5b44cb1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/banktelemarketing.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/banktelemarketing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/blackfriday.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/blackfriday.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/customer_analytics.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/customer_analytics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/google-3day-intensive.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/google-3day-intensive.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/interviewquestions.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/interviewquestions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/marketing_analytics.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/marketing_analytics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/newsgenie.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/newsgenie.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/stockprice.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/stockprice.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_includes/studenthelper.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/studenthelper.html" afterDir="false" />
-    </list>
+    <list default="true" id="35ae15b5-55a1-4b65-b5fc-2847f5b44cb1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -17,7 +17,7 @@ active: about
 }
 .about-hero-img {
     flex-shrink: 0;
-    width: 200px;
+    width: 250px;
 }
 .about-hero-img img {
     width: 100%;

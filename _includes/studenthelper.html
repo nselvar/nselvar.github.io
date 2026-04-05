@@ -17,6 +17,10 @@
     letter-spacing: .08em; text-transform: uppercase; color: #03425c;
     font-family: Avenir, sans-serif;
 }
+.sh-toc-label {
+    padding: 8px 14px 3px; font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: #999;
+}
 #sh-toc a {
     display: block; padding: 4px 14px;
     font-size: 12px; color: #555; text-decoration: none;
@@ -24,37 +28,41 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-family: Avenir, sans-serif;
 }
-#sh-toc a.indent { padding-left: 26px; }
 #sh-toc a:hover, #sh-toc a.active {
     color: #03425c; border-left-color: #03425c;
     background: rgba(3,66,92,.05); text-decoration: none;
 }
 #sh-toc hr { margin: 8px 14px; border: none; border-top: 1px solid #e0e0e0; }
 #sh-content { margin-left: 220px; flex: 1; min-width: 0; }
-@media (max-width: 768px) { #sh-toc { display: none; } #sh-content { margin-left: 0; } }
+@media (max-width: 768px) {
+    #sh-toc { display: none; }
+    #sh-content { margin-left: 0; }
+}
 </style>
 <div class="sh-wrap">
-<nav id="sh-toc" aria-label="Table of Contents">
-  <div class="sh-toc-title">Contents</div>
-  <a href="#sh-title">AI Student Helper</a>
-  <a href="#sh-introduction">Introduction</a>
-  <a href="#sh-system-architecture">System Architecture</a>
-  <a href="#sh-high-level-diagram">High Level Diagram</a>
-  <a href="#sh-technologies-used">Technologies Used</a>
-  <a href="#sh-workflow-execution">Workflow Execution</a>
-  <a href="#sh-request-handling" class="indent">5.1 Request Handling</a>
-  <a href="#sh-graph-execution" class="indent">5.2 Graph Execution</a>
-  <a href="#sh-key-components">Key Components</a>
-  <a href="#sh-workflow-execution-2">6. Workflow Execution</a>
-  <a href="#sh-deployment">Deployment</a>
-  <a href="#sh-demo-videos">Demo Videos</a>
+<nav id="sh-toc">
+    <div class="sh-toc-title">AI Student Helper</div>
+    <a href="#sh-intro">Introduction</a>
+    <a href="#sh-architecture">System Architecture</a>
+    <a href="#sh-diagram">High Level Diagram</a>
+    <a href="#sh-tech">Technologies Used</a>
+    <hr>
+    <div class="sh-toc-label">Workflow</div>
+    <a href="#sh-workflow">Workflow Execution</a>
+    <a href="#sh-request-flow">Request Handling</a>
+    <a href="#sh-langgraph">LangGraph Execution</a>
+    <a href="#sh-components">Key Components</a>
+    <hr>
+    <div class="sh-toc-label">More</div>
+    <a href="#sh-deployment">Deployment</a>
+    <a href="#sh-demo">Demo Videos</a>
 </nav>
 <div id="sh-content">
 <div class="project-container">
     <div class="content-box">
         <div class="project-content">
-            <h2 id="sh-title" class="text-center">AI Student Helper</h2>
-    <h4 id="sh-introduction">🚀 Introduction</h4>
+            <h2 class="text-center">AI Student Helper</h2>
+    <h4 id="sh-intro" data-toc-sh>🚀 Introduction</h4>
     <p>AI Student Helper is a <strong>multi-agent automation system</strong> built with <strong>LangGraph</strong> to
         assist students and professionals in automating academic and career-related tasks. It follows a <strong>graph-based
             workflow execution model</strong>, ensuring efficient <strong>task routing and execution</strong>.
@@ -65,11 +73,11 @@
         <li><strong>Specialized Agents</strong> execute specific tasks based on <strong>user input</strong>.</li>
         <li>A <strong>graph-based workflow</strong> dynamically determines <strong>execution paths</strong>.</li>
     </ul>
-    <h4 id="sh-system-architecture">🚀 System Architecture</h4>
+    <h4 id="sh-architecture" data-toc-sh>🚀 System Architecture</h4>
     <img src="../../assets/images/image.png" width="1000" alt="Architecture Diagram" title="Architecture Diagram/">
-    <h4 id="sh-high-level-diagram">🚀 High Level Diagram</h4>
+    <h4 id="sh-diagram" data-toc-sh>🚀 High Level Diagram</h4>
     <img src="../../assets/images/block.png" width="1000" alt="Architecture Diagram" title="Architecture Diagram/">
-    <h4 id="sh-technologies-used">🚀 Technologies Used</h4>
+    <h4 id="sh-tech" data-toc-sh>🚀 Technologies Used</h4>
         <div class="container">
             <table>
                 <tr>
@@ -108,10 +116,10 @@
         </div>
 
     <div class="container">
-        <h4 id="sh-workflow-execution">🚀 5. Workflow Execution</h4>
+        <h4 id="sh-workflow" data-toc-sh>🚀 5. Workflow Execution</h4>
 
         <div class="workflow-step">
-            <h4 id="sh-request-handling">📌 5.1 Request Handling Flow</h4>
+            <h4 id="sh-request-flow" data-toc-sh>📌 5.1 Request Handling Flow</h4>
             <ul>
                 <li><strong>User enters a request</strong> (e.g., "summarize a PDF").</li>
                 <li><strong>Supervisor Agent extracts intent</strong>.</li>
@@ -122,7 +130,7 @@
         </div>
 
         <div class="workflow-step">
-            <h4 id="sh-graph-execution">📌 5.2 Graph Execution with LangGraph</h4>
+            <h4 id="sh-langgraph" data-toc-sh>📌 5.2 Graph Execution with LangGraph</h4>
             <ul>
                 <li>Each <strong>node in the graph</strong> represents an <strong>agent</strong>.</li>
                 <li>The <strong>edges define execution logic</strong> based on user input.</li>
@@ -133,7 +141,7 @@
     </div>
 
 
-    <h4 id="sh-key-components">🚀 Key Components</h4>
+    <h4 id="sh-components" data-toc-sh>🚀 Key Components</h4>
     <h5>📌 Supervisor Agent</h5>
     <ul>
     <li>Routes user requests to the correct specialized agent, analyzes user input using an LLM, triggers corresponding
@@ -607,7 +615,7 @@ st.markdown("""
 
 
 
-    <h4 id="sh-deployment">🚀 Deployment</h4>
+    <h4 id="sh-deployment" data-toc-sh>🚀 Deployment</h4>
     <p>To install and run:</p>
     <pre>
         git clone https://github.com/your-repo/ai-student-helper.git
@@ -615,7 +623,7 @@ st.markdown("""
         pip install -r requirements.txt
         python3 SupervisorLangGraph.py
         </pre>
-    <h4 id="sh-demo-videos">🚀 Demo Videos</h4>
+    <h4 id="sh-demo" data-toc-sh>🚀 Demo Videos</h4>
     <div class="video-container">
 
         <figure>
@@ -651,12 +659,14 @@ st.markdown("""
         </figure>
 
     </div>
+        </div>
+    </div>
 </div>
-</div><!-- /sh-content -->
-</div><!-- /sh-wrap -->
+</div><!-- #sh-content -->
+</div><!-- .sh-wrap -->
 <script>
 (function(){
-    var sections = document.querySelectorAll('#sh-content [id]');
+    var sections = document.querySelectorAll('[data-toc-sh]');
     var links = document.querySelectorAll('#sh-toc a');
     if(!sections.length || !links.length) return;
     var obs = new IntersectionObserver(function(entries){
