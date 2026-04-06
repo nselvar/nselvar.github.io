@@ -25,7 +25,7 @@ summary: "Data Science & ML projects <br>"
           Most businesses generate mountains of data — sales records, regional performance, customer demographics — but lack the tools or expertise to extract meaningful insights from it. InsightForge was built to change that: a conversational Business Intelligence Assistant that lets any user query their data in plain English and receive structured, actionable insights in seconds.
           Built on LangChain and LangGraph, InsightForge combines Retrieval-Augmented Generation (RAG) with OpenAI GPT-4 to ground every response in real business data rather than hallucinated answers. A three-way query router intercepts each request before any LLM call — directing chart requests to a ChartEngine, aggregation queries to DuckDB SQL, and open-ended reasoning to the full RAG pipeline. This dramatically reduces latency and API costs while maintaining response quality.
           The system also features a dual-layer memory architecture for coherent multi-turn conversations, semantic chunking by business domain for precise retrieval, and a QAEvalChain evaluator that scores every response across accuracy, completeness, relevance, and business value. The frontend is built with Next.js 13 and Nivo Charts, backed by a FastAPI REST API and PostgreSQL with pgvector for semantic search.
-          <i>Click here for detailed post.</i>
+          <a class='noDeco' href="/insightforge"><i>Click here for detailed post.</i></a>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ summary: "Data Science & ML projects <br>"
           When a bank customer fires off "My debit card hasn't arrived in three weeks!", something deceptively complex needs to happen — the system must classify the complaint, empathise, generate a unique ticket, persist it to a database, and respond warmly, all in under four seconds with no human in the loop. Customer Support AI is a production-grade multi-agent customer support system built as an Applied Generative AI capstone that does exactly this.
           The system is a directed graph of eight specialised AI agents orchestrated by LangGraph, each owning exactly one job — classification, feedback, RAG policy Q&amp;A, ticket lookup, ticket closure, and fallback escalation. Every routing decision is an explicit Python conditional, not an LLM inference, making the system fully auditable — critical for a regulated banking domain. A FAISS-backed RAG pipeline with confidence gating prevents policy hallucination, while a Model Context Protocol (MCP) tool layer centralises all business logic — ownership validation, SLA breach detection, and PII masking — in a single place every agent shares.
           This post walks through every architectural decision in detail: why LangGraph over CrewAI or AutoGen, why MCP over direct DB access, why RAG with a confidence gate over prompt-stuffing, and the six complete data flows that handle every customer scenario from positive feedback to ownership-validated ticket closure.
-          <i>Click here for detailed post.</i>
+          <a class='noDeco' href="/securebank-ai"><i>Click here for detailed post.</i></a>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ summary: "Data Science & ML projects <br>"
           Instead of relying on a single monolithic model, NewsGenie takes a different approach — a coordinated team of specialised agents, each responsible for a specific task such as intent classification, news retrieval, validation, and response composition. Orchestrated using LangGraph, this architecture brings structure, reliability, and scalability to AI systems that need to reason and act in real time.
           The system integrates multiple data sources like the GNews API for live headlines and DuckDuckGo as a fallback, ensuring graceful degradation when external services fail. It also incorporates session memory for conversational continuity, a two-pass classification system for accurate intent detection, and credibility validation for every news article surfaced to the user.
           In this post, I walk through the complete technical design of NewsGenie — from high-level architecture and agent workflows to real-time data integration and error handling. It's a deep dive into how modern AI systems can move beyond simple text generation and evolve into structured, reliable, and production-ready applications.
-          <i>Click here for detailed post.</i>
+          <a class='noDeco' href="/newsgenie-ai-chatbot"><i>Click here for detailed post.</i></a>
         </div>
       </div>
     </div>
