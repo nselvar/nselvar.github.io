@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:www.linkedin.com)",
       "WebFetch(domain:nselvar.github.io)",
-      "Bash(ls /Users/nselvarajan/nselvar/*.md)"
+      "Bash(ls /Users/nselvarajan/nselvar/*.md)",
+      "Bash(python3:*)"
     ]
   }
 }

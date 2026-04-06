@@ -281,7 +281,8 @@ article a.btn {
   padding-left: 6px;
 }
 .noDeco {
-  text-decoration: initial;
+  text-decoration: none;
+  color: inherit;
 }
 .borderAppears:hover {
   background-color: rgba(90, 117, 167, .05);
